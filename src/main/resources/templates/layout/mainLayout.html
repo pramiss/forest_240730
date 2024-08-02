@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>FOREST : 책의 숲</title>
+	
+	<!-- bootstrap, jQuery -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+	
+	<!-- 사용자 스타일시트 -->
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+	<div id="wrap">
+		<div class="sub-banner bg-success">서브배너</div>
+		
+		<header class="bg-warning">
+			<!-- 로고 -->
+			<h1>
+				<a href="/">Forest</a>
+			</h1>
+			
+			<!-- 검색창 -->
+			<div class="search-bar">
+				<select>
+					<option>전체</option>
+					<option>제목</option>
+					<option>저자</option>
+					<option>출판사</option>
+				</select>
+				<input type="text" class="form-control" placeholder="검색어를 입력해주세요.">
+				<div class="y-center">
+					<img alt="검색하기" src="/img/search-icon.png" class="search-icon">
+				</div>
+			</div>
+			
+			<!-- 사용자 정보 -->
+			<div>
+				<div class="dropdown">
+					<a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+					  사용자 이름
+					</a>
+					
+					<div class="dropdown-menu">
+						<a class="dropdown-item" href="#">회원정보수정</a>
+						<a class="dropdown-item" href="#">좋아요</a>
+						<a class="dropdown-item" href="#">장바구니</a>
+						<a class="dropdown-item" href="#">주문내역</a>
+						<a class="dropdown-item" href="#">로그아웃</a>
+					</div>
+				</div>
+			</div>
+		</header>
+		<nav class="bg-danger">
+			<ul class="nav nav-fill">
+				<li class="nav-item">
+					<a class="nav-link" href="#">베스트셀러</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">신간</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">중고도서</a>
+				</li>
+			</ul>
+		</nav>
+		
+		<section class="top-content"></section>
+		
+		<section class="sub-content"></section>
+		
+		<footer class="bg-secondary">
+			<div>(주)포레스트컴퍼니</div>
+			<div>
+				<span>대표이사 배진하</span>
+				<span>고객정보보호 책임자 배진하</span>
+				<span>사업자등록 001-00-00000</span>
+			</div>
+			<div>
+				<span>이메일 privacy@forest.co.kr</span>
+				<span>호스팅 제공자 포레스트컴프니</span>
+				<span>(본사) 서울시 중구 서소문로 89-31</span>
+			</div>
+			<div>ⓒ Forest Company. All Rights Reserved.</div>
+		</footer>
+	</div>
+</body>
+</html>

@@ -1,0 +1,50 @@
+@charset "UTF-8";
+
+/* 기본설정 */
+a, a:hover {
+	text-decoration: none;
+}
+
+/* 공용 */
+.a-center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.x-center {
+	display: flex;
+	justify-content: center;
+}
+.y-center {
+	display: flex;
+	align-items: center;
+}
+
+/* 레이아웃 */
+#wrap {}
+.sub-banner {
+	height: 25px;
+	text-align: center;
+}
+footer {
+	padding: 0 20px;
+	height: 100px;
+}
+
+/* 헤더 */
+header {
+	height: 100px;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+.search-bar {
+	display: flex;
+	width: 50%
+}
+.search-icon {
+	width: 23px;
+	height: 23px;
+}
+
+/* 내용 */
