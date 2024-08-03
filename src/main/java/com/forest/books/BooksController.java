@@ -8,6 +8,11 @@ public class BooksController {
 
 	@GetMapping("/")
 	public String mainPage() {
-		return "/layout/mainLayout";
+		return "books/main";
+	}
+	
+	@GetMapping("/books/bestseller")
+	public String bestseller() {
+		return "books/bestseller";
 	}
 }

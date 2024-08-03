@@ -22,29 +22,45 @@ a, a:hover {
 
 /* 레이아웃 */
 #wrap {}
+.contents {
+	margin: 0 auto;
+}
+
+/* 헤더 */
+header {}
 .sub-banner {
 	height: 25px;
 	text-align: center;
 }
-footer {
-	padding: 0 20px;
-	height: 100px;
-}
-
-/* 헤더 */
-header {
+.main-banner {
 	height: 100px;
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
 }
-.search-bar {
-	display: flex;
-	width: 50%
-}
 .search-icon {
 	width: 23px;
 	height: 23px;
 }
+.search-checkbox {
+	margin-top: 5px;
+	margin-left: 80px;
+	font-size: 14px;
+}
 
-/* 내용 */
+/* 하단 */
+footer {
+	display: flex;
+	padding: 2rem 3rem 6rem 3rem;
+}
+
+/* main.html */
+.top-content {
+	min-height: 300px;
+}
+.bottom-content {
+	min-height: 300px;
+}
+
+/* bestseller.html */
+
