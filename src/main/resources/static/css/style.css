@@ -1,5 +1,15 @@
 @charset "UTF-8";
 
+/* 변수 설정 */
+:root {
+  --grey: #dee2e6;
+  --light-grey: #F6F8FA;
+  --forest-green: #228B22;
+  --sea-green: #1B7A1B;
+  --royal-blue: #4169E1;
+  --doge-blue: #1E90FF;
+}
+
 /* 기본설정 */
 a, a:hover {
 	text-decoration: none;
@@ -23,7 +33,9 @@ a, a:hover {
 /* 레이아웃 */
 #wrap {}
 .contents {
-	margin: 0 auto;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
 }
 
 /* 헤더 */
@@ -52,6 +64,8 @@ header {}
 footer {
 	display: flex;
 	padding: 2rem 3rem 6rem 3rem;
+	margin-top: 40px;
+	border-top: 1px solid var(--grey);
 }
 
 /* main.html */
@@ -64,3 +78,49 @@ footer {
 
 /* bestseller.html */
 
+
+/* 로그인.html, 회원가입.html, 정보수정.html */
+.login-box {
+	width: 300px;
+}
+.join-box, .info-box {
+	width: 350px;
+}
+.info-form-box {
+	padding: 1rem;
+	border: 1px solid var(--grey);
+	border-radius: 3px;
+	background: var(--light-grey);
+}
+.info-form-box input {
+	border-radius: 7px;
+	padding: .3rem .75rem;
+}
+#loginBtn {
+	width: 100%;
+	color: #fff;
+	background: var(--forest-green);
+	border-radius: 7px;
+	padding: .3rem .75rem;
+}
+#loginBtn:hover {
+	background: var(--sea-green);
+}
+#joinBtn {
+	width: 100%;
+	color: #fff;
+	background: var(--doge-blue);
+	border-radius: 7px;
+	padding: .3rem .75rem;
+}
+#joinBtn:hover {
+	background: var(--royal-blue);
+}
+.small-red-text {
+	color: red;
+	font-size: 13px;
+}
+.outline-red {
+    border-color: #ff0000;
+    box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.25);
+}

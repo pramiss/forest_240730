@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/subLayout}">
+
+<!-- subLayout : contents -->
+<section layout:fragment="contents" class="contents">
+	<div class="join-box">
+		<h2 class="text-center">Sign up to Forest</h2>
+		
+		<div class="info-form-box mt-3">
+			<form method="post" action="/user/sign-up">
+				
+				<input type="text" name="loginId" id="loginId" class="form-control" placeholder="아이디">
+				<input type="password" name="password" id="password" class="form-control mt-1" placeholder="비밀번호">
+				<input type="password" name="passwordConfirm" id="passwordConfirm" class="form-control mt-1" placeholder="비밀번호 확인">
+				<div id="checkPasswordConfrim" class="d-none small-red-text">
+					비밀번호가 일치하지 않습니다.
+				</div>
+
+				<input type="text" name="name" id="name" class="form-control mt-4" placeholder="이름">
+				<input type="text" name="phoneNumber" id="phoneNumber" class="form-control mt-1" placeholder="휴대폰 번호 (숫자만 입력)">
+				<div id="checkPhoneNumberConfrim" class="d-none small-red-text">
+					휴대전화 11자리를 입력해주세요.
+				</div>
+				<input type="text" name="email" id="email" class="form-control mt-1" placeholder="이메일 (선택)">				
+
+				<div class="x-center mt-4">
+					<button type="submit" id="joinBtn" class="btn">회원가입</button>
+				</div>
+			</form>
+		</div>
+		
+	</div> <!-- 회원가입 박스 -->
+</section>
+
+<!-- subLayout : script -->
+<script layout:fragment="script">
+	$(document).ready(function() {
+
+		// input 체크
+		function checkInput(inputSelector, errorClass) {
+		    $(inputSelector).on('input', function() {
+		        // 에러 클래스 제거
+		        $(this).removeClass(errorClass);
+		        
+		        // 입력 값 확인
+		        let value = $(this).val().trim();
+		        
+		        // 입력 값이 없으면 에러 클래스 추가
+		        if (!value) {
+		            $(this).addClass(errorClass);
+		        }
+		    });
+		} //-- input 체크
+		
+		checkInput('#loginId', 'outline-red');
+		checkInput('#password', 'outline-red');
+		checkInput('#passwordConfirm', 'outline-red');
+		checkInput('#name', 'outline-red');
+		checkInput('#phoneNumber', 'outline-red');
+		
+		// 회원가입
+		$('form').on('submit', function(e) {
+			e.preventDefault();
+			
+			$('#loginId').removeClass('outline-red');
+			$('#password').removeClass('outline-red');
+			$('#passwordConfirm').removeClass('outline-red');
+			$('#name').removeClass('outline-red');
+			$('#phoneNumber').removeClass('outline-red');
+			$('#checkPasswordConfrim').addClass('d-none');
+			$('#checkPhoneNumberConfrim').addClass('d-none');
+			
+			let loginId = $('#loginId').val().trim();
+			let password = $('#password').val();
+			let passwordConfirm = $('#passwordConfirm').val();
+			let name = $('#name').val().trim();
+			let phoneNumber = $('#phoneNumber').val().trim();
+			let email = $('#email').val().trim();
+			
+			// validation
+			let checkOk = true;
+			
+			if (!loginId) {
+				$('#loginId').addClass('outline-red');
+				checkOk = false;
+			}
+			if (!password) {
+				$('#password').addClass('outline-red');
+				checkOk = false;
+			}
+			if (!passwordConfirm) {
+				$('#passwordConfirm').addClass('outline-red');
+				checkOk = false;
+			}
+			if (!name) {
+				$('#name').addClass('outline-red');
+				checkOk = false;
+			}
+			if (!phoneNumber) {
+				$('#phoneNumber').addClass('outline-red');
+				checkOk = false;
+			}
+			if (password != passwordConfirm) {
+				$('#password').addClass('outline-red');
+				$('#passwordConfirm').addClass('outline-red');
+				$('#checkPasswordConfrim').removeClass('d-none');
+				checkOk = false;
+			}
+			if (phoneNumber.length != 11) {
+				$('#phoneNumber').addClass('outline-red');
+				$('#checkPhoneNumberConfrim').removeClass('d-none');
+				checkOk = false;
+			}
+			if (checkOk == false) {
+				console.log('x');
+				return false;
+			}
+			
+			// AJAX
+			let url = $(this).attr('action');
+			let params = $(this).serialize();
+
+			$.post(url, params)
+			.done(function(data) {
+				
+			})
+			.fail(function(e) {
+				alert("AJAX ERROR : 회원가입 실패");
+			}) //-- ajax
+			
+		}) //-- 회원가입
+		
+	}) //-- ready
+</script>
+
+
+</html>

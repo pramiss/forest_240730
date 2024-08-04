@@ -10,19 +10,17 @@
 <body>
 	<div id="wrap">
 		
-		<!-- header -->
-		<header th:replace="fragments/header :: headerFragment"></header>
-		
 		<!-- contents -->
 		<section layout:fragment="contents"></section>
 		
 		<!-- footer -->
 		<footer th:replace="fragments/footer :: footerFragment"></footer>
-
+		
 	</div>
 	
 	<!-- script -->
 	<script layout:fragment="script"></script>
+	
 </body>
 
 </html>
