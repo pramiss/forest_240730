@@ -1,4 +1,12 @@
 @charset "UTF-8";
+@import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
+@font-face {
+    font-family: 'GowunBatang-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/GowunBatang-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 
 /* 변수 설정 */
 :root {
@@ -11,11 +19,18 @@
 }
 
 /* 기본설정 */
+body {
+	font-family: 'nanumsquare';
+}
+
 a, a:hover {
 	text-decoration: none;
 }
 
 /* 공용 */
+.ff-gr {
+	font-family: 'GowunBatang-Regular';
+}
 .a-center {
 	display: flex;
 	justify-content: center;
@@ -58,6 +73,9 @@ header {}
 	margin-top: 5px;
 	margin-left: 80px;
 	font-size: 14px;
+}
+nav {
+	font-size: 18px;
 }
 
 /* 하단 */

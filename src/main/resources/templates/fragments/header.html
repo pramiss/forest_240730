@@ -40,27 +40,28 @@
 	
 		<!-- 사용자 정보 -->
 		<!-- 로그인O -->
-		<!-- <div class="dropdown">
-			<a class="btn btn-info dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+		<div th:if="${session.userId != null}" class="dropdown">
+			<a class="btn btn-info dropdown-toggle ff-gr" href="#" role="button" data-toggle="dropdown" th:text="|${session.userName} |">
 			  사용자 이름
 			</a>
 			
 			<div class="dropdown-menu">
-				<a class="dropdown-item" href="#">회원정보수정</a>
+				<a class="dropdown-item" href="/user/info">회원정보수정</a>
 				<a class="dropdown-item" href="#">좋아요</a>
 				<a class="dropdown-item" href="#">장바구니</a>
 				<a class="dropdown-item" href="#">주문내역</a>
-				<a class="dropdown-item" href="#">로그아웃</a>
+				<a class="dropdown-item" href="/user/sign-out">로그아웃</a>
 			</div>
-		</div> -->
+		</div>
+		
 		<!-- 로그인X -->
-		<div>
-			<a href="/user/login" id="signInBtn" class="btn btn-dark">시작하기</a>
+		<div th:unless="${session.userId != null}">
+			<a href="/user/login" id="signInBtn" class="btn btn-dark ff-gr">시작하기</a>
 		</div>
 	</div>
 	
 	<!-- 메뉴 -->
-	<nav class="border-bottom">
+	<nav class="border-bottom ff-gr">
 		<ul class="nav nav-fill font-weight-bold">
 			<li class="nav-item">
 				<a class="nav-link" href="/books/bestseller">베스트셀러</a>

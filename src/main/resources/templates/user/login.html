@@ -73,9 +73,13 @@
 			let url = $(this).attr('action');
 			let params = $(this).serialize();
 			
-			$.post(url, parmas)
+			$.post(url, params)
 			.done(function(data) {
-				// TODO: 로그인 구현
+				if (data.code == 200) {
+					location.href = "/";				
+				} else if (data.code == 401) {
+					alert(data.error_message);
+				}
 			})
 			.fail(function(error) {
 				alert("AJAX ERROR : 로그인 실패");
