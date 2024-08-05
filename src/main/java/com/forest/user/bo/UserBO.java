@@ -18,6 +18,10 @@ public class UserBO {
 	}
 
 	// User 가져오기
+	public User getUserById(int id) {
+		return userMapper.selectUserById(id);
+	}
+	
 	public User getUserByLoginIdAndPassword(String loginId, String password) {
 		return userMapper.selectUserByLoginIdAndPassword(loginId, password);
 	}

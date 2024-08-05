@@ -4,6 +4,22 @@
 
 
 <mapper namespace="com.forest.user.mapper.UserMapper">
+	<select id="selectUserById" parameterType="int" resultType="com.forest.user.domain.User">
+		SELECT
+			`id`
+			, `loginId`
+			, `password`
+			, `name`
+			, `phoneNumber`
+			, `email`
+			, `address`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`user`
+		WHERE
+			`id` = #{id}
+	</select>
 	<select id="selectUserByLoginIdAndPassword" parameterType="map" resultType="com.forest.user.domain.User">
 		SELECT
 			`id`

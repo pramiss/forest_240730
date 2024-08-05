@@ -11,6 +11,7 @@ import com.forest.user.domain.User;
 public interface UserMapper {
 
 	// SELECT
+	public User selectUserById(int id);
 	public User selectUserByLoginIdAndPassword(
 			@Param("loginId") String loginId, 
 			@Param("password") String password);

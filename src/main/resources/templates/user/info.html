@@ -10,19 +10,25 @@
 		<div class="info-form-box mt-3">
 			<form method="post" action="/user/sign-up">
 				
-				<input type="text" name="loginId" id="loginId" class="form-control" placeholder="아이디">
-				<input type="password" name="password" id="password" class="form-control mt-1" placeholder="비밀번호">
+				<input type="text" name="loginId" id="loginId" class="form-control" th:value="${user.loginId}" disabled>
+				<input type="password" name="currentPassword" id="currentPassword" class="form-control mt-1" placeholder="현재 비밀번호">
+				<div id="checkPassword" class="small-red-text ml-1 d-none">
+					현재 비밀번호를 입력해주세요.
+				</div>
+				
+				<input type="password" name="newPassword" id="newPassword" class="form-control mt-3" placeholder="새 비밀번호">
 				<input type="password" name="passwordConfirm" id="passwordConfirm" class="form-control mt-1" placeholder="비밀번호 확인">
-				<div id="checkPasswordConfrim" class="d-none small-red-text">
+				<div id="checkPasswordConfrim" class="small-red-text ml-1 d-none">
 					비밀번호가 일치하지 않습니다.
 				</div>
 
-				<input type="text" name="name" id="name" class="form-control mt-4" placeholder="이름">
-				<input type="text" name="phoneNumber" id="phoneNumber" class="form-control mt-1" placeholder="휴대폰 번호 (숫자만 입력)">
-				<div id="checkPhoneNumberConfrim" class="d-none small-red-text">
+				<input type="text" name="name" id="name" class="form-control mt-4" placeholder="이름" th:value="${user.name}">
+				<input type="text" name="phoneNumber" id="phoneNumber" class="form-control mt-1" placeholder="휴대폰 번호 (숫자만 입력)" th:value="${user.phoneNumber}">
+				<div id="checkPhoneNumberConfrim" class="small-red-text ml-1 d-none">
 					휴대전화 11자리를 입력해주세요.
 				</div>
-				<input type="text" name="email" id="email" class="form-control mt-1" placeholder="이메일 (선택)">				
+				<input type="text" name="email" id="email" class="form-control mt-1" placeholder="이메일 (선택)" th:value="${user.email}">
+				<input type="text" name="address" id="address" class="form-control mt-1" placeholder="주소 (선택)" th:value="${user.address}">				
 
 				<div class="x-center mt-4">
 					<button type="submit" id="joinBtn" class="btn">회원가입</button>
