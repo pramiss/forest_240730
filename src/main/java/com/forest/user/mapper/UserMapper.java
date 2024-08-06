@@ -24,5 +24,14 @@ public interface UserMapper {
 			@Param("phoneNumber") String phoneNumber,
 			@Param("email") String email);
 	
+	// UPDATE
+	public void updateUserById(
+			@Param("id") int id, 
+			@Param("password") String password, 
+			@Param("name") String name, 
+			@Param("phoneNumber") String phoneNumber, 
+			@Param("email") String email, 
+			@Param("address") String address);
+	
 	public List<User> selectUserListTest();
 }

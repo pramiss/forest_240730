@@ -61,6 +61,25 @@
 		);
 	</insert>
 
+	<update id="updateUserById" parameterType="map">
+		UPDATE
+			`user`
+		SET
+			`id`
+			, `loginId`
+			, `password`
+			, `name`
+			, `phoneNumber`
+			, `email`
+			, `address`
+			, `createdAt`
+			, `updatedAt`
+		WHERE
+			`id` = #{id}
+	</update>
+
+
+
 	<select id="selectUserListTest" resultType="com.forest.user.domain.User">
 		SELECT
 			`id`

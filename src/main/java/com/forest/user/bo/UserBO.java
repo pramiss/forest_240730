@@ -32,7 +32,10 @@ public class UserBO {
 		userMapper.insertUser(loginId, password, name, phoneNumber, email);
 	}
 	
-	
+	// User 업데이트
+	public void updateUserById(int id, String password, String name, String phoneNumber, String email, String address) {
+		userMapper
+	}
 	
 	
 	public List<User> getUserListTest() {

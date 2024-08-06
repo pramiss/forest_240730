@@ -100,9 +100,11 @@ footer {
 /* 로그인.html, 회원가입.html, 정보수정.html */
 .login-box {
 	width: 300px;
+	margin: 40px 0;
 }
 .join-box, .info-box {
 	width: 350px;
+	margin: 40px 0;
 }
 .info-form-box {
 	padding: 1rem;
@@ -124,14 +126,14 @@ footer {
 #loginBtn:hover {
 	background: var(--sea-green);
 }
-#joinBtn {
+#joinBtn, #changeBtn {
 	width: 100%;
 	color: #fff;
 	background: var(--doge-blue);
 	border-radius: 7px;
 	padding: .3rem .75rem;
 }
-#joinBtn:hover {
+#joinBtn:hover, #changeBtn:hover {
 	background: var(--royal-blue);
 }
 .small-red-text {

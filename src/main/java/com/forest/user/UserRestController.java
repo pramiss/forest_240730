@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,7 +32,7 @@ public class UserRestController {
 	 * @return
 	 * @throws NoSuchAlgorithmException
 	 */
-	@PostMapping("/user/sign-in")
+	@PostMapping("/auth/sign-in")
 	public Map<String, Object> signIn(
 			@RequestParam("loginId") String loginId,
 			@RequestParam("password") String password,
@@ -71,7 +72,7 @@ public class UserRestController {
 	 * @return
 	 * @throws NoSuchAlgorithmException
 	 */
-	@PostMapping("/user/sign-up")
+	@PostMapping("/auth/sign-up")
 	public Map<String, Object> signUp(
 			@RequestParam("loginId") String loginId,
 			@RequestParam("password") String password,
@@ -87,5 +88,40 @@ public class UserRestController {
 		result.put("code", 200);
 		result.put("result", "성공");
 		return result;
-	} //-- 로그아웃 API
+	} //-- 회원가입 API
+	
+	// 회원정보수정 API
+	@PutMapping("/user/update")
+	public Map<String, Object> update(
+			@RequestParam("currentPassword") String currentPassword,
+			@RequestParam("newPassword") String newPassword,
+			@RequestParam("name") String name,
+			@RequestParam("phoneNumber") String phoneNumber,
+			@RequestParam("email") String email,
+			@RequestParam("address") String address,
+			HttpSession session) throws NoSuchAlgorithmException {
+
+		// 현재 session 정보
+		int userId = (int)session.getAttribute("userId");
+		String userLoginId = (String)session.getAttribute("userLoginId");
+		
+		// 현재 비밀번호 일치 확인
+		String hashedPassword = EncryptUtils.sha256(currentPassword);
+		User user = userBO.getUserByLoginIdAndPassword(userLoginId, hashedPassword);
+		
+		Map<String, Object> result = new HashMap<>();
+		if (user == null) {
+			result.put("code", 401);
+			result.put("error_message", "비밀번호가 일치하지 않습니다.");
+			return result;
+		}
+		
+		// 업데이트
+		
+		
+		// 리턴
+		result.put("code", 200);
+		result.put("result", "성공");
+		return result;
+	}
 }

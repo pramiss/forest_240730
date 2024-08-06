@@ -10,7 +10,6 @@ import com.forest.user.domain.User;
 
 import jakarta.servlet.http.HttpSession;
 
-@RequestMapping("/user")
 @Controller
 public class UserController {
 
@@ -25,14 +24,8 @@ public class UserController {
 	 * 로그인 페이지
 	 * @return
 	 */
-	@GetMapping("/login")
+	@GetMapping("/auth/login")
 	public String userLogin(HttpSession session) {
-		
-		// 이미 로그인 된 경우 홈으로.
-		if (session.getAttribute("userId") != null) {
-			return "redirect:/";
-		}
-		
 		return "user/login";
 	} //-- 로그인 페이지
 	
@@ -40,26 +33,15 @@ public class UserController {
 	 * 회원가입 페이지
 	 * @return
 	 */
-	@GetMapping("/join")
+	@GetMapping("/auth/join")
 	public String userJoin(HttpSession session) {
-
-		// 이미 로그인 된 경우 홈으로.
-		if (session.getAttribute("userId") != null) {
-			return "redirect:/";
-		}
-		
 		return "user/join";
 	} //-- 회원가입 페이지
 	
-	@GetMapping("/info")
+	@GetMapping("/user/info")
 	public String userInfo(HttpSession session, Model model) {
 		Integer userId = (Integer)session.getAttribute("userId");
-		
-		// 로그인 안된 경우 로그인 페이지로.
-		if (userId == null) {
-			return "redirect:/user/login";
-		}
-		
+
 		// 유저 아이디로 user를 가져온 후 model에 담기
 		User user = userBO.getUserById(userId);
 		model.addAttribute("user", user);
@@ -72,8 +54,9 @@ public class UserController {
 	 * @param session
 	 * @return
 	 */
-	@GetMapping("/sign-out")
+	@GetMapping("/user/sign-out")
 	public String signOut(HttpSession session) {
+		
 		// 로그아웃
 		session.removeAttribute("userId");
 		session.removeAttribute("userLoginId");
