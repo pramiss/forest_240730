@@ -1,10 +1,37 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
 
-</body>
+<header th:fragment="headerFragment">
+	
+	<!-- 메인배너 -->
+	<div class="main-banner-easy border-bottom">
+		<!-- 로고 -->
+		<h1>
+			<a href="/">Forest</a>
+		</h1>
+		
+		<!-- 사용자 정보 -->
+		<!-- 로그인O -->
+		<div th:if="${session.userId != null}" class="dropdown">
+			<a class="btn btn-info dropdown-toggle" href="#" role="button" data-toggle="dropdown" th:text="|${session.userName} |">
+			  사용자 이름
+			</a>
+			
+			<div class="dropdown-menu">
+				<a class="dropdown-item" href="/user/info">회원정보수정</a>
+				<a class="dropdown-item" href="#">좋아요</a>
+				<a class="dropdown-item" href="#">장바구니</a>
+				<a class="dropdown-item" href="#">주문내역</a>
+				<a class="dropdown-item" href="/user/sign-out">로그아웃</a>
+			</div>
+		</div>
+		
+		<!-- 로그인X -->
+		<div th:unless="${session.userId != null}">
+			<a href="/auth/login" id="signInBtn" class="btn btn-dark ff-gr">시작하기</a>
+		</div>
+	</div>
+	
+</header>
+
 </html>

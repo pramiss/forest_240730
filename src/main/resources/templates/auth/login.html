@@ -22,6 +22,10 @@
 					<input type="password" name="password" id="password" class="form-control">
 					<div id="checkPassword" class="small-red-text ml-1 d-none">비밀번호를 입력해주세요.</div>
 				</div>
+				
+				<div id="checkLogin" class="small-red-text text-center d-none">
+					아이디 혹은 비밀번호가 일치하지 않습니다.
+				</div>
 
 				<div class="x-center mt-3">
 					<button type="submit" id="loginBtn" class="btn">로그인</button>
@@ -50,6 +54,7 @@
 			
 			$('#checkLoginId').addClass('d-none');
 			$('#checkPassword').addClass('d-none');
+			$('#checkLogin').addClass('d-none');
 			
 			let loginId = $('#loginId').val().trim();
 			let password = $('#password').val();
@@ -78,7 +83,7 @@
 				if (data.code == 200) {
 					location.href = "/";				
 				} else if (data.code == 401) {
-					alert(data.error_message);
+					$('#checkLogin').removeClass('d-none');
 				}
 			})
 			.fail(function(error) {

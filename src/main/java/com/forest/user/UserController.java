@@ -10,6 +10,7 @@ import com.forest.user.domain.User;
 
 import jakarta.servlet.http.HttpSession;
 
+@RequestMapping("/user")
 @Controller
 public class UserController {
 
@@ -19,26 +20,13 @@ public class UserController {
 	    this.userBO = userBO;
 	} 
 	
-	
 	/**
-	 * 로그인 페이지
+	 * 회원정보상세 API
+	 * @param session
+	 * @param model
 	 * @return
 	 */
-	@GetMapping("/auth/login")
-	public String userLogin(HttpSession session) {
-		return "user/login";
-	} //-- 로그인 페이지
-	
-	/**
-	 * 회원가입 페이지
-	 * @return
-	 */
-	@GetMapping("/auth/join")
-	public String userJoin(HttpSession session) {
-		return "user/join";
-	} //-- 회원가입 페이지
-	
-	@GetMapping("/user/info")
+	@GetMapping("/info")
 	public String userInfo(HttpSession session, Model model) {
 		Integer userId = (Integer)session.getAttribute("userId");
 
@@ -54,7 +42,7 @@ public class UserController {
 	 * @param session
 	 * @return
 	 */
-	@GetMapping("/user/sign-out")
+	@GetMapping("/sign-out")
 	public String signOut(HttpSession session) {
 		
 		// 로그아웃

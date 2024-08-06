@@ -2,7 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-
 <mapper namespace="com.forest.user.mapper.UserMapper">
 	<select id="selectUserById" parameterType="int" resultType="com.forest.user.domain.User">
 		SELECT
@@ -19,6 +18,22 @@
 			`user`
 		WHERE
 			`id` = #{id}
+	</select>
+	<select id="selectUserByLoginId" parameterType="String" resultType="com.forest.user.domain.User">
+		SELECT
+			`id`
+			, `loginId`
+			, `password`
+			, `name`
+			, `phoneNumber`
+			, `email`
+			, `address`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`user`
+		WHERE
+			`loginId` = #{loginId}
 	</select>
 	<select id="selectUserByLoginIdAndPassword" parameterType="map" resultType="com.forest.user.domain.User">
 		SELECT
@@ -65,15 +80,12 @@
 		UPDATE
 			`user`
 		SET
-			`id`
-			, `loginId`
-			, `password`
-			, `name`
-			, `phoneNumber`
-			, `email`
-			, `address`
-			, `createdAt`
-			, `updatedAt`
+			`password` = #{password}
+			, `name` = #{name}
+			, `phoneNumber` = #{phoneNumber}
+			, `email` = #{email}
+			, `address` = #{address}
+			, `updatedAt` = NOW()
 		WHERE
 			`id` = #{id}
 	</update>

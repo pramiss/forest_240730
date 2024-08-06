@@ -12,10 +12,15 @@
 :root {
   --grey: #dee2e6;
   --light-grey: #F6F8FA;
+  
   --forest-green: #228B22;
   --sea-green: #1B7A1B;
   --royal-blue: #4169E1;
   --doge-blue: #1E90FF;
+  
+  --green: #28a745;
+  --yellow: #ffc107;
+  --red: #dc3545;
 }
 
 /* 기본설정 */
@@ -28,6 +33,9 @@ a, a:hover {
 }
 
 /* 공용 */
+.flex-0 {
+	flex-shrink: 0;
+}
 .ff-gr {
 	font-family: 'GowunBatang-Regular';
 }
@@ -64,6 +72,13 @@ header {}
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
+}
+.main-banner-easy {
+	height: 80px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0 40px;
 }
 .search-icon {
 	width: 23px;
@@ -137,10 +152,14 @@ footer {
 	background: var(--royal-blue);
 }
 .small-red-text {
-	color: red;
+	color: var(--red);
 	font-size: 13px;
 }
-.outline-red {
-    border-color: #ff0000;
-    box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.25);
+.small-green-text {
+	color: var(--green);
+	font-size: 13px;
+}
+.small-yellow-text {
+	color: var(--yellow);
+	font-size: 13px;
 }

@@ -21,7 +21,9 @@ public class UserBO {
 	public User getUserById(int id) {
 		return userMapper.selectUserById(id);
 	}
-	
+	public User getUserByLoginId(String loginId) {
+		return userMapper.selectUserByLoginId(loginId);
+	}
 	public User getUserByLoginIdAndPassword(String loginId, String password) {
 		return userMapper.selectUserByLoginIdAndPassword(loginId, password);
 	}
@@ -34,7 +36,7 @@ public class UserBO {
 	
 	// User 업데이트
 	public void updateUserById(int id, String password, String name, String phoneNumber, String email, String address) {
-		userMapper
+		userMapper.updateUserById(id, password, name, phoneNumber, email, address);
 	}
 	
 	

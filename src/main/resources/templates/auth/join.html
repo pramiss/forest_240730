@@ -12,18 +12,43 @@
 		<div class="info-form-box mt-3">
 			<form method="post" action="/auth/sign-up">
 				
-				<input type="text" name="loginId" id="loginId" class="form-control" placeholder="아이디">
+				<div class="d-flex">
+					<input type="text" name="loginId" id="loginId" class="form-control" placeholder="아이디">
+					<button type="button" id="isDuplicated" class="btn btn-success rounded-pill flex-0">중복확인</button>
+				</div>
+				<div id="checkLoginId" class="small-red-text ml-1 d-none">
+					아이디를 입력해주세요.
+				</div>
+				<div id="checkDuplicatedId" class="small-red-text ml-1 d-none">
+					이미 사용 중인 아이디입니다.
+				</div>
+				<div id="checkIdOk" class="small-green-text ml-1 d-none">
+					사용가능한 아이디입니다.
+				</div>
+				<div id="checkIdNeed" class="small-yellow-text ml-1 d-none">
+					중복확인을 해주세요.
+				</div>
+				
 				<input type="password" name="password" id="password" class="form-control mt-1" placeholder="비밀번호">
+				<div id="checkPassword" class="small-red-text ml-1 d-none">
+					비밀번호를 입력해주세요.
+				</div>
+				
 				<input type="password" name="passwordConfirm" id="passwordConfirm" class="form-control mt-1" placeholder="비밀번호 확인">
-				<div id="checkPasswordConfrim" class="d-none small-red-text">
+				<div id="checkPasswordConfrim" class="small-red-text ml-1 d-none">
 					비밀번호가 일치하지 않습니다.
 				</div>
 
 				<input type="text" name="name" id="name" class="form-control mt-4" placeholder="이름">
+				<div id="checkName" class="small-red-text ml-1 d-none">
+					이름을 입력해주세요.
+				</div>
+				
 				<input type="text" name="phoneNumber" id="phoneNumber" class="form-control mt-1" placeholder="휴대폰 번호 (숫자만 입력)">
-				<div id="checkPhoneNumberConfrim" class="d-none small-red-text">
+				<div id="checkPhoneNumberConfrim" class="d-none ml-1 small-red-text">
 					휴대전화 11자리를 입력해주세요.
 				</div>
+				
 				<input type="text" name="email" id="email" class="form-control mt-1" placeholder="이메일 (선택)">				
 
 				<div class="x-center mt-4">
@@ -38,39 +63,15 @@
 <!-- subLayout : script -->
 <script layout:fragment="script">
 	$(document).ready(function() {
-
-		// input 체크
-		function checkInput(inputSelector, errorClass) {
-		    $(inputSelector).on('input', function() {
-		        // 에러 클래스 제거
-		        $(this).removeClass(errorClass);
-		        
-		        // 입력 값 확인
-		        let value = $(this).val().trim();
-		        
-		        // 입력 값이 없으면 에러 클래스 추가
-		        if (!value) {
-		            $(this).addClass(errorClass);
-		        }
-		    });
-		} //-- input 체크
-		
-		checkInput('#loginId', 'outline-red');
-		checkInput('#password', 'outline-red');
-		checkInput('#passwordConfirm', 'outline-red');
-		checkInput('#name', 'outline-red');
-		checkInput('#phoneNumber', 'outline-red');
 		
 		// 회원가입
 		$('form').on('submit', function(e) {
 			e.preventDefault();
 			
-			$('#loginId').removeClass('outline-red');
-			$('#password').removeClass('outline-red');
-			$('#passwordConfirm').removeClass('outline-red');
-			$('#name').removeClass('outline-red');
-			$('#phoneNumber').removeClass('outline-red');
+			$('#checkLoginId').addClass('d-none');
+			$('#checkPassword').addClass('d-none');
 			$('#checkPasswordConfrim').addClass('d-none');
+			$('#checkName').addClass('d-none');
 			$('#checkPhoneNumberConfrim').addClass('d-none');
 			
 			let loginId = $('#loginId').val().trim();
@@ -80,41 +81,39 @@
 			let phoneNumber = $('#phoneNumber').val().trim();
 			let email = $('#email').val().trim();
 			
-			// validation
+			// validation - 입력
 			let checkOk = true;
 			
 			if (!loginId) {
-				$('#loginId').addClass('outline-red');
+				$('#checkLoginId').removeClass('d-none');
 				checkOk = false;
 			}
 			if (!password) {
-				$('#password').addClass('outline-red');
-				checkOk = false;
-			}
-			if (!passwordConfirm) {
-				$('#passwordConfirm').addClass('outline-red');
+				$('#checkPassword').removeClass('d-none');
 				checkOk = false;
 			}
 			if (!name) {
-				$('#name').addClass('outline-red');
-				checkOk = false;
-			}
-			if (!phoneNumber) {
-				$('#phoneNumber').addClass('outline-red');
+				$('#checkName').removeClass('d-none');
 				checkOk = false;
 			}
 			if (password != passwordConfirm) {
-				$('#password').addClass('outline-red');
-				$('#passwordConfirm').addClass('outline-red');
 				$('#checkPasswordConfrim').removeClass('d-none');
 				checkOk = false;
 			}
 			if (phoneNumber.length != 11) {
-				$('#phoneNumber').addClass('outline-red');
 				$('#checkPhoneNumberConfrim').removeClass('d-none');
 				checkOk = false;
 			}
 			if (checkOk == false) {
+				return false;
+			}
+			
+			// validation - 아이디 중복
+			if (!$('#checkDuplicatedId').hasClass('d-none')) { // 이미 중복인 경우
+				return false;
+			}
+			if ($('#checkIdOk').hasClass('d-none')) { // 중복검사를 안한 경우
+				$('#checkIdNeed').removeClass('d-none');
 				return false;
 			}
 			
@@ -136,6 +135,50 @@
 			}) //-- ajax
 			
 		}) //-- 회원가입
+		
+		// 아이디 중복확인
+		$('#isDuplicated').on('click', function(e) {
+			
+			$('#checkLoginId').addClass('d-none');
+			$('#checkIdOk').addClass('d-none');
+			$('#checkDuplicatedId').addClass('d-none');
+			$('#checkIdNeed').addClass('d-none');
+			
+			let loginId = $(this).prev('#loginId').val();
+
+			if (!loginId) {
+				$('#checkLoginId').removeClass('d-none');
+				return;
+			}
+			
+			$.ajax({
+				type:"get"
+				, url:"/auth/is-duplicated-id"
+				, data:{"loginId":loginId}
+				, success:function(data) {
+					if (data.code == 200) {
+						$('#checkIdOk').removeClass('d-none');
+					}
+					else if (data.code == 202) {
+						$('#checkDuplicatedId').removeClass('d-none');
+					}
+				}
+				, fail:function(e) {
+					alert("AJAX ERROR : 중복확인 실패");
+				}
+				
+			}); //-- ajax
+			
+		}); //-- 아이디 중복확인
+		
+		// loginId input
+		$('#loginId').on('input', function(e) {
+			$('#checkLoginId').addClass('d-none');
+			$('#checkIdOk').addClass('d-none');
+			$('#checkDuplicatedId').addClass('d-none');
+			$('#checkIdNeed').addClass('d-none');
+		}) //-- loginId input
+		
 		
 	}) //-- ready
 </script>
