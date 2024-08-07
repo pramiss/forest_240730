@@ -12,6 +12,7 @@
 :root {
   --grey: #dee2e6;
   --light-grey: #F6F8FA;
+  --dark-grey: #767676;
   
   --forest-green: #228B22;
   --sea-green: #1B7A1B;
@@ -165,7 +166,16 @@ footer {
 .books-list {
 	width: 970px;
 }
-.book-item {
-	margin-top: 80px;
+.item-box {
+	margin-top: 60px;
+	padding-bottom: 20px;
 	display: flex;
+	border-bottom: 1px solid var(--grey);
+}
+.item-content {
+	margin-left: 40px;
+}
+.price-standard {
+	color: var(--dark-grey);
+	text-decoration: line-through;
 }

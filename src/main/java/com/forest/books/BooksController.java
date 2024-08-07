@@ -1,5 +1,7 @@
 package com.forest.books;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
@@ -7,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.forest.books.bo.BooksBO;
+import com.forest.books.domain.ItemView;
 
 @Controller
 public class BooksController {
@@ -25,9 +28,9 @@ public class BooksController {
 	@GetMapping("/books/bestseller")
 	public String bestseller(Model model) {
 		
-		Map<String, Object> bestseller = booksBO.getBestseller();
+		List<ItemView> itemViewList = booksBO.getBestseller();
 		
-		model.addAttribute("bestseller", bestseller);
+		model.addAttribute("bestseller", itemViewList);
 		
 		return "books/bestseller";
 	}
