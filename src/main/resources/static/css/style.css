@@ -97,7 +97,7 @@ nav {
 footer {
 	display: flex;
 	padding: 2rem 3rem 6rem 3rem;
-	margin-top: 40px;
+	margin-top: 80px;
 	border-top: 1px solid var(--grey);
 }
 
@@ -108,9 +108,6 @@ footer {
 .bottom-content {
 	min-height: 300px;
 }
-
-/* bestseller.html */
-
 
 /* 로그인.html, 회원가입.html, 정보수정.html */
 .login-box {
@@ -162,4 +159,13 @@ footer {
 .small-yellow-text {
 	color: var(--yellow);
 	font-size: 13px;
+}
+
+/* bestseller.html */
+.books-list {
+	width: 970px;
+}
+.book-item {
+	margin-top: 80px;
+	display: flex;
 }
