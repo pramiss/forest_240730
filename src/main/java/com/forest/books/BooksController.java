@@ -30,7 +30,7 @@ public class BooksController {
 		
 		List<ItemView> itemViewList = booksBO.getBestseller();
 		
-		model.addAttribute("bestseller", itemViewList);
+		model.addAttribute("itemList", itemViewList);
 		
 		return "books/bestseller";
 	}
