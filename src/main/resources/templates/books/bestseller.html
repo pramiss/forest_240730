@@ -18,21 +18,60 @@
 					<img alt="책 이미지" th:src="${item.cover}">
 				</div>
 				<div class="item-content">
-					<small th:text="${item.categoryName}"></small>
+					<!-- 카테고리, 제목, 저자/출판사 -->
+					<div th:text="${item.categoryName}" class="item-category-name"></div>
 					<h4 th:text="${item.title}" class="font-weight-bold mt-3 ff-gr">책제목</h4>
-					<small th:text="|${item.author} · ${item.publisher}|" class="mt-3"></small>
-					<div class="y-center mt-4">
-						<h5 class="mb-0 mr-2">신품도서:</h5>
+					<div class="mt-2">
+						<small th:text="|${item.author} · ${item.publisher}|"></small>
+					</div>
+					
+					<!-- 유저 레이팅 -->
+					<div class="item-rating mt-2">
+						<!-- 별점이 있는 경우 -->
+						<div th:if="${item.customerReviewRank > 0}" class="d-flex">
+							<div th:each="num : ${#numbers.sequence(1, item.customerReviewRank)}">
+								<img alt="full-star" src="/img/star-full-icon.png" class="rating-icon">
+							</div>
+							<div th:if="${2 * item.customerReviewRank % 2} == 1">
+								<img alt="half-star" src="/img/star-half-icon.png" class="rating-icon">
+							</div>
+							<div th:if="${5 - item.customerReviewRank > 0.5}">
+								<div th:each="num : ${#numbers.sequence(1, 5 - item.customerReviewRank)}">
+									<img alt="full-star" src="/img/star-empty-icon.png" class="rating-icon">
+								</div>
+							</div>
+						</div>
+						<!-- 별점이 없는 경우 -->
+						<div th:unless="${item.customerReviewRank > 0}" class="d-flex">
+							<div th:each="num : ${#numbers.sequence(1, 5)}">
+								<img alt="empty-star" src="/img/star-empty-icon.png" class="rating-icon">
+							</div>
+						</div>
+					</div><!-- 유저 레이팅 -->
+					
+					<!-- 요약 설명 -->
+					<div th:text="${item.description}" class="item-description mt-3"></div>
+				</div> <!-- item content -->
+				
+				<div class="flex-grow-1"></div>
+				
+				<div class="item-purchase col-4">
+					<div>좋아요</div>
+					<div>장바구니</div>
+					<!-- 가격 -->
+					<div class="y-center mt-3">
+						<div class="flex-grow-1"></div>
+						<h6 class="mb-0 mr-2">신품도서:</h6>
 						<span th:text="|${item.priceStandard}원|" class="price-standard"></span>
 						<span class="mx-1">&#8594;</span>
-						<a th:href="${item.link}" target="_blank" class="btn btn-secondary rounded-sm">
-							<span th:text="|${item.priceSales}원|"></span>
+						<a th:href="${item.link}" target="_blank">
+							<span th:text="|${item.priceSales}원|" class="font-weight-bold ff-gr"></span>
 						</a>
 					</div>
 					<div class="y-center mt-2">
-						<h5 class="mb-0 mr-2">중고도서:</h5>
-						
-					</div>
+						<div class="flex-grow-1"></div>
+						<h6 class="mb-0 mr-2">중고도서:</h6>
+					</div> <!-- 가격 -->
 				</div>
 			</div>
 		</div>

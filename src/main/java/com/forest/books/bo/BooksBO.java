@@ -34,6 +34,25 @@ public class BooksBO {
 		// aladinView의 item의 각각 요소들 -> itemViewList에 매핑
 		List<ItemView> itemViewList = modelMapper.map(aladinView.getItem(), new TypeToken<List<ItemView>>() {}.getType());
 
+		// itemViewList 가공
+		for (ItemView item : itemViewList) {
+			// 1. title 가공
+			String title = item.getTitle();
+			title = title.split("-")[0];
+			item.setTitle(title);
+			
+			// 2. author 가공
+			String author = item.getAuthor();
+			author = author.split("\\(")[0];
+			item.setAuthor(author);
+			
+			// 3. customerReviewRank 가공
+			double customerReviewRank = item.getCustomerReviewRank();
+			customerReviewRank /= 2;
+			item.setCustomerReviewRank(customerReviewRank);
+		}
+		
+		
         return itemViewList;
 		
 	} //-- Bestseller

@@ -34,8 +34,8 @@ a, a:hover {
 }
 
 /* 공용 */
-.flex-0 {
-	flex-shrink: 0;
+.text-dark-grey { /* TODO: 삭제예정*/
+	color: var(--dark-grey);
 }
 .ff-gr {
 	font-family: 'GowunBatang-Regular';
@@ -161,6 +161,11 @@ footer {
 	color: var(--yellow);
 	font-size: 13px;
 }
+#isDuplicated {
+	font-size: 14px;
+	padding: .3rem .6rem;
+	height: fit-content;
+}
 
 /* bestseller.html */
 .books-list {
@@ -178,4 +183,21 @@ footer {
 .price-standard {
 	color: var(--dark-grey);
 	text-decoration: line-through;
+}
+.rating-icon {
+	width: 22px;
+	margin-right: 1px;
+}
+.item-description {
+	color: var(--dark-grey);
+	font-size: 13px;
+}
+.item-category-name {
+	color: var(--dark-grey);
+	font-size: 13px;
+}
+.item-purchase {
+	display: flex;
+	flex-direction: column;
+	text-align: right;
 }
