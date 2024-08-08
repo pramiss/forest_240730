@@ -43,11 +43,11 @@ public class UserRestController {
 	@PutMapping("/update")
 	public Map<String, Object> update(
 			@RequestParam("currentPassword") String currentPassword,
-			@RequestParam("newPassword") String newPassword,
+			@RequestParam(value = "newPassword", required = false) String newPassword,
 			@RequestParam("name") String name,
 			@RequestParam("phoneNumber") String phoneNumber,
-			@RequestParam("email") String email,
-			@RequestParam("address") String address,
+			@RequestParam(value = "email", required = false) String email,
+			@RequestParam(value = "address", required = false) String address,
 			HttpSession session) throws NoSuchAlgorithmException {
 
 		// 현재 session 정보

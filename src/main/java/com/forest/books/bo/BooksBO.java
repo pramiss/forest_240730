@@ -22,11 +22,13 @@ public class BooksBO {
 	}
 	
 	// 알라딘 OpenAPI : Bestseller
-	public List<ItemView> getBestseller() {
+	public List<ItemView> getBestseller(String page) {
+		// requestUri : bestseller ItemNewSpecial
+		String requestUri = "https://www.aladin.co.kr/ttb/api/ItemList.aspx?ttbkey=ttbkkang565081035001&QueryType=bestseller&MaxResults=20&start=" + page + "&SearchTarget=Book&output=js&Version=20131101&cover=MidBig";
 		
-		// 알라딘 api로 베스트셀러 결과(key="item"만)를 받아옴
+		// 알라딘 api로 베스트셀러 결과(key="item"만)를 받아옴 (AladinView에 존재하는 field만 자동매핑)
 		AladinView aladinView = webClient.get()
-				.uri("https://www.aladin.co.kr/ttb/api/ItemList.aspx?ttbkey=ttbkkang565081035001&QueryType=Bestseller&MaxResults=20&start=1&SearchTarget=Book&output=js&Version=20131101&cover=MidBig")
+				.uri(requestUri)
 				.retrieve()
 				.bodyToMono(AladinView.class)
 				.block();
@@ -36,6 +38,8 @@ public class BooksBO {
 
 		// itemViewList 가공
 		for (ItemView item : itemViewList) {
+			item.setStartIndex(aladinView.getStartIndex());
+			
 			// 1. title 가공
 			String title = item.getTitle();
 			title = title.split("-")[0];

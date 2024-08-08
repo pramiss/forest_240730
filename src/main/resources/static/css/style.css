@@ -10,6 +10,8 @@
 
 /* 변수 설정 */
 :root {
+
+  --dark: #212529;
   --grey: #dee2e6;
   --light-grey: #F6F8FA;
   --dark-grey: #767676;
@@ -185,7 +187,7 @@ footer {
 	text-decoration: line-through;
 }
 .rating-icon {
-	width: 22px;
+	width: 21px;
 	margin-right: 1px;
 }
 .item-description {
@@ -200,4 +202,46 @@ footer {
 	display: flex;
 	flex-direction: column;
 	text-align: right;
+}
+.bestseller-page-btn {
+	display: inline-block;
+	margin: 0 10px;
+	color: var(--dark);
+	background: white;
+	border: 1px solid var(--grey);
+	border-radius: 50%;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+.bestseller-page-btn:hover {
+	color: white;
+	background: var(--dark-grey);
+	border: 1px solid var(--grey);
+}
+.bestseller-page-btn-focus {
+	display: inline-block;
+	margin: 0 10px;
+	color: var(--dark);
+	background: var(--grey);
+	border: 1px solid var(--grey);
+	border-radius: 50%;
+    font-weight: 600;
+    text-align: center;
+    vertical-align: middle;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+.best-rank {
+	display: inline-block;
+	color: var(--dark-grey);
+	font-weight: bold;
+	font-size: 15px;
+	border-bottom: 3px solid var(--grey);
+	padding-right: 1px;
 }

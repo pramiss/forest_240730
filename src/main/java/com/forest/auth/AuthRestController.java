@@ -80,7 +80,7 @@ public class AuthRestController {
 			@RequestParam("password") String password,
 			@RequestParam("name") String name,
 			@RequestParam("phoneNumber") String phoneNumber,
-			@RequestParam("email") String email) throws NoSuchAlgorithmException {
+			@RequestParam(value = "email", required = false) String email) throws NoSuchAlgorithmException {
 		
 		String hashedPassword = EncryptUtils.sha256(password);
 		

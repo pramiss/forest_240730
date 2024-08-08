@@ -11,12 +11,24 @@
 		<!-- 타이틀 -->
 		<h1 class="my-5 ff-gr font-weight-bold">주간 베스트셀러</h1>
 		
+		<!-- 1~5 버튼 : 상단 -->
+		<div class="x-center">
+			<div th:each="num : ${#numbers.sequence(1, 5)}">
+				<button type="button" th:text="${num}" th:data-page-num="${num}" th:data-current-page="${itemList[0].startIndex}" class="bestseller-page-btn">버튼</button>
+			</div>
+		</div>
+		
 		<!-- 책 리스트 -->
 		<div th:each="item : ${itemList}">
 			<div class="item-box">
+				<div th:if="${item.bestRank != null}" class="col-1">
+					<span th:text="|${item.bestRank}위|" class="best-rank"></span>
+				</div>
+				
 				<div>
 					<img alt="책 이미지" th:src="${item.cover}">
 				</div>
+				
 				<div class="item-content">
 					<!-- 카테고리, 제목, 저자/출판사 -->
 					<div th:text="${item.categoryName}" class="item-category-name"></div>
@@ -74,13 +86,40 @@
 					</div> <!-- 가격 -->
 				</div>
 			</div>
+		</div><!-- bookList 반복문 -->
+		
+		<!-- 1~5 버튼 : 하단 -->
+		<div class="x-center mt-5">
+			<div th:each="num : ${#numbers.sequence(1, 5)}">
+				<button type="button" th:text="${num}" th:data-page-num="${num}" th:data-current-page="${itemList[0].startIndex}" class="bestseller-page-btn">버튼</button>
+			</div>
 		</div>
-	</div>
+		
+	</div><!-- 책 리슽 컨테이너 -->
 </section>
 
 <!-- mainLayout : script -->
 <script layout:fragment="script">
-	
+	$(document).ready(function() {
+		// bestseller-page-btn-focus load
+		$('.bestseller-page-btn').each(function() {
+			let page = $(this).data('page-num');
+			let current = $(this).data('current-page');
+			if (page == current) {
+				$(this).removeClass('bestseller-page-btn');
+				$(this).addClass('bestseller-page-btn-focus');
+				$(this).attr('readonly', true);
+			}
+		});
+		
+		// 베스트셀러 페이지 버튼
+		$('.bestseller-page-btn').on('click', function(e) {
+			let page = $(this).data('page-num');
+						
+			location.href = "/books/bestseller?page=" + page;
+		}) //-- 베스트셀러 페이지 버튼 
+		
+	}); //-- ready
 </script>
 
 

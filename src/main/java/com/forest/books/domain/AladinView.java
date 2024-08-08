@@ -9,4 +9,5 @@ import lombok.ToString;
 @Data
 public class AladinView {
 	private List<ItemView> item;
+	private int startIndex;
 }
