@@ -6,10 +6,14 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.util.HtmlUtils;
 
 import com.forest.books.domain.AladinView;
 import com.forest.books.domain.ItemView;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class BooksBO {
 
@@ -21,12 +25,14 @@ public class BooksBO {
 		this.modelMapper = new ModelMapper();
 	}
 	
-	// 알라딘 OpenAPI : Bestseller
-	public List<ItemView> getBestseller(String page) {
-		// requestUri : bestseller ItemNewSpecial
-		String requestUri = "https://www.aladin.co.kr/ttb/api/ItemList.aspx?ttbkey=ttbkkang565081035001&QueryType=bestseller&MaxResults=20&start=" + page + "&SearchTarget=Book&output=js&Version=20131101&cover=MidBig";
+	// 알라딘 : 상품 리스트 API
+	public List<ItemView> getItemList(String queryType, String page) {
+		// requestUri : Bestseller ItemNewSpecial ItemNewAll
+		String requestUri = String.format(
+						"https://www.aladin.co.kr/ttb/api/ItemList.aspx?ttbkey=ttbkkang565081035001&QueryType=%s&MaxResults=20&start=%s&SearchTarget=Book&output=js&Version=20131101&cover=MidBig"
+						, queryType, page);
 		
-		// 알라딘 api로 베스트셀러 결과(key="item"만)를 받아옴 (AladinView에 존재하는 field만 자동매핑)
+		// 알라딘 api로 상품 리스트 결과(key="item", "startIndex")를 받아옴 (AladinView에 존재하는 field만 자동매핑)
 		AladinView aladinView = webClient.get()
 				.uri(requestUri)
 				.retrieve()
@@ -36,10 +42,9 @@ public class BooksBO {
 		// aladinView의 item의 각각 요소들 -> itemViewList에 매핑
 		List<ItemView> itemViewList = modelMapper.map(aladinView.getItem(), new TypeToken<List<ItemView>>() {}.getType());
 
-		// itemViewList 가공
+ 		// itemViewList 가공
 		for (ItemView item : itemViewList) {
-			item.setStartIndex(aladinView.getStartIndex());
-			
+						
 			// 1. title 가공
 			String title = item.getTitle();
 			title = title.split("-")[0];
@@ -54,10 +59,18 @@ public class BooksBO {
 			double customerReviewRank = item.getCustomerReviewRank();
 			customerReviewRank /= 2;
 			item.setCustomerReviewRank(customerReviewRank);
+			
+			// 4. description 가공
+			String description = item.getDescription();
+			description = HtmlUtils.htmlUnescape(description); // entity to String
+			if (description.length() > 130) {
+				description = description.substring(0, 100) + "...";
+			}
+			item.setDescription(description);
 		}
 		
 		
         return itemViewList;
 		
-	} //-- Bestseller
+	} //-- 상품 리스트 API
 }

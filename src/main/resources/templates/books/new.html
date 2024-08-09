@@ -1,10 +1,149 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/mainLayout}">
 
-</body>
+
+<!-- mainLayout : contents -->
+<section layout:fragment="contents" class="contents">
+	<div class="books-list">
+		<!-- 타이틀 -->
+		<div class="x-center">
+			<div>
+				<h2 class="my-5 ff-gr new-title new-title-left" data-query-type="ItemNewSpecial">화제의 신간</h2>
+			</div>
+			<div>
+				<h2 class="my-5 ff-gr new-title new-title-right" data-query-type="ItemNewAll">신간 전체 리스트</h2>
+			</div>
+		</div>
+		
+		<!-- 1~10 버튼 : 상단 -->
+		<div class="x-center pb-4">
+			<div th:each="num : ${#numbers.sequence(1, 10)}">
+				<button type="button" th:text="${num}" th:data-page-num="${num}" th:data-current-page="${pageIndex}" class="new-page-btn mx-2">버튼</button>
+			</div>
+		</div>
+		
+		<!-- 책 리스트 -->
+		<div th:each="item : ${itemList}">
+			<div class="item-box">
+				
+				<div>
+					<img alt="책 이미지" th:src="${item.cover}">
+				</div>
+				
+				<div class="item-content">
+					<!-- 카테고리, 제목, 저자/출판사 -->
+					<div th:text="${item.categoryName}" class="item-category-name"></div>
+					<h4 th:text="${item.title}" class="font-weight-bold mt-3 ff-gr">책제목</h4>
+					<div class="mt-2">
+						<small th:text="|${item.author} · ${item.publisher}|"></small>
+					</div>
+					
+					<!-- 유저 레이팅 -->
+					<div class="item-rating mt-2">
+						<!-- 별점이 있는 경우 -->
+						<div th:if="${item.customerReviewRank > 0}" class="d-flex">
+							<div th:each="num : ${#numbers.sequence(1, item.customerReviewRank)}">
+								<img alt="full-star" src="/img/star-full-icon.png" class="rating-icon">
+							</div>
+							<div th:if="${2 * item.customerReviewRank % 2} == 1">
+								<img alt="half-star" src="/img/star-half-icon.png" class="rating-icon">
+							</div>
+							<div th:if="${5 - item.customerReviewRank > 0.5}">
+								<div th:each="num : ${#numbers.sequence(1, 5 - item.customerReviewRank)}">
+									<img alt="full-star" src="/img/star-empty-icon.png" class="rating-icon">
+								</div>
+							</div>
+						</div>
+						<!-- 별점이 없는 경우 -->
+						<div th:unless="${item.customerReviewRank > 0}" class="d-flex">
+							<div th:each="num : ${#numbers.sequence(1, 5)}">
+								<img alt="empty-star" src="/img/star-empty-icon.png" class="rating-icon">
+							</div>
+						</div>
+					</div><!-- 유저 레이팅 -->
+					
+					<!-- 요약 설명 -->
+					<div th:text="${item.description}" class="item-description mt-3"></div>
+				</div> <!-- item content -->
+				
+				<div class="flex-grow-1"></div>
+				
+				<div class="item-purchase col-4">
+					<div>좋아요</div>
+					<div>장바구니</div>
+					<!-- 가격 -->
+					<div class="y-center mt-3">
+						<div class="flex-grow-1"></div>
+						<h6 class="mb-0 mr-2">신품도서:</h6>
+						<span th:text="|${item.priceStandard}원|" class="price-standard"></span>
+						<span class="mx-1">&#8594;</span>
+						<a th:href="${item.link}" target="_blank">
+							<span th:text="|${item.priceSales}원|" class="font-weight-bold ff-gr"></span>
+						</a>
+					</div>
+					<div class="y-center mt-2">
+						<div class="flex-grow-1"></div>
+						<h6 class="mb-0 mr-2">중고도서:</h6>
+					</div> <!-- 가격 -->
+				</div>
+			</div>
+		</div><!-- bookList 반복문 -->
+		
+		<!-- 1~10 버튼 : 하단 -->
+		<div class="x-center my-5">
+			<div th:each="num : ${#numbers.sequence(1, 10)}">
+				<button type="button" th:text="${num}" th:data-page-num="${num}" th:data-current-page="${pageIndex}" class="new-page-btn mx-2">버튼</button>
+			</div>
+		</div>
+
+		
+	</div><!-- 책 리슽 컨테이너 -->
+</section>
+
+<!-- mainLayout : script -->
+<script layout:fragment="script">
+	$(document).ready(function() {
+		
+		// 제목 포커스
+		$('.new-title').each(function() {
+			let queryType = $(this).data("query-type");
+			if(queryType == "[[${queryType}]]") {
+				$(this).addClass('new-title-focus');
+			} 
+		})
+		
+		// ItemNewAll - ItemNewSpecial 토글
+		$('.new-title').on('click', function() {
+			let queryType = $(this).data("query-type");
+			location.href = "/books/new?queryType=" + queryType;
+		});
+
+		
+		
+		
+		// new-page-btn-focus load
+		$('.new-page-btn').each(function() {
+			let page = $(this).data('page-num');
+			let current = $(this).data('current-page');
+			if (page == current) {
+				$(this).removeClass('new-page-btn');
+				$(this).addClass('new-page-btn-focus');
+				$(this).attr('readonly', true);
+			}
+		});
+		
+		// 신간 페이지 버튼
+		$('.new-page-btn').on('click', function(e) {
+			let queryType = "[[${queryType}]]";
+			let page = $(this).data('page-num');
+			location.href = "/books/new?queryType=" + queryType + "&page=" + page;
+		}) //-- 신간 페이지 버튼 
+		
+	}); //-- ready
+</script>
+
+
 </html>

@@ -12,8 +12,6 @@ import lombok.ToString;
 public class ItemView {
 	
 	// 알라딘 도서 상품 정보
-	private int startIndex; // 현재 페이지 인덱스
-	
 	private String isbn13;
 	private String link; // 상품링크URL(알라딘링크)
 	private String cover; // 커버(표지 이미지)

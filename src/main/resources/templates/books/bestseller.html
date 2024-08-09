@@ -9,12 +9,12 @@
 <section layout:fragment="contents" class="contents">
 	<div class="books-list">
 		<!-- 타이틀 -->
-		<h1 class="my-5 ff-gr font-weight-bold">주간 베스트셀러</h1>
+		<h1 class="my-5 mx-3 ff-gr font-weight-bold">주간 베스트셀러</h1>
 		
-		<!-- 1~5 버튼 : 상단 -->
-		<div class="x-center">
-			<div th:each="num : ${#numbers.sequence(1, 5)}">
-				<button type="button" th:text="${num}" th:data-page-num="${num}" th:data-current-page="${itemList[0].startIndex}" class="bestseller-page-btn">버튼</button>
+		<!-- 1~10 버튼 : 상단 -->
+		<div class="x-center pb-4">
+			<div th:each="num : ${#numbers.sequence(1, 10)}">
+				<button type="button" th:text="20 * ${num} - 19 + '위 ↓'" th:data-page-num="${num}" th:data-current-page="${pageIndex}" class="bestseller-page-btn mx-1">버튼</button>
 			</div>
 		</div>
 		
@@ -34,7 +34,7 @@
 					<div th:text="${item.categoryName}" class="item-category-name"></div>
 					<h4 th:text="${item.title}" class="font-weight-bold mt-3 ff-gr">책제목</h4>
 					<div class="mt-2">
-						<small th:text="|${item.author} · ${item.publisher}|"></small>
+						<small th:text="|${item.author} · ${item.publisher} · ${#temporals.format(item.pubDate, 'Y.MM.dd')}|"></small>
 					</div>
 					
 					<!-- 유저 레이팅 -->
@@ -88,12 +88,13 @@
 			</div>
 		</div><!-- bookList 반복문 -->
 		
-		<!-- 1~5 버튼 : 하단 -->
-		<div class="x-center mt-5">
-			<div th:each="num : ${#numbers.sequence(1, 5)}">
-				<button type="button" th:text="${num}" th:data-page-num="${num}" th:data-current-page="${itemList[0].startIndex}" class="bestseller-page-btn">버튼</button>
+		<!-- 1~10 버튼 : 하단 -->
+		<div class="x-center my-5">
+			<div th:each="num : ${#numbers.sequence(1, 10)}">
+				<button type="button" th:text="20 * ${num} - 19 + '위 ↓'" th:data-page-num="${num}" th:data-current-page="${pageIndex}" class="bestseller-page-btn mx-1">버튼</button>
 			</div>
 		</div>
+
 		
 	</div><!-- 책 리슽 컨테이너 -->
 </section>

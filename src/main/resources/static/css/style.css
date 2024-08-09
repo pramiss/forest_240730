@@ -205,36 +205,38 @@ footer {
 }
 .bestseller-page-btn {
 	display: inline-block;
-	margin: 0 10px;
+	width: 70px;
+	height: 31px;
 	color: var(--dark);
 	background: white;
-	border: 1px solid var(--grey);
-	border-radius: 50%;
+	border: none;
+	border-radius: 5px;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1);
     font-weight: 400;
     text-align: center;
     vertical-align: middle;
-    padding: .375rem .75rem;
-    font-size: 1rem;
+    font-size: 0.8rem;
     line-height: 1.5;
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    
 }
 .bestseller-page-btn:hover {
 	color: white;
 	background: var(--dark-grey);
-	border: 1px solid var(--grey);
 }
 .bestseller-page-btn-focus {
 	display: inline-block;
-	margin: 0 10px;
+	width: 70px;
+	height: 31px;
 	color: var(--dark);
 	background: var(--grey);
-	border: 1px solid var(--grey);
-	border-radius: 50%;
+	border: none;
+	border-radius: 5px;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1);
     font-weight: 600;
     text-align: center;
     vertical-align: middle;
-    padding: .375rem .75rem;
-    font-size: 1rem;
+    font-size: 0.8rem;
     line-height: 1.5;
 }
 .best-rank {
@@ -244,4 +246,66 @@ footer {
 	font-size: 15px;
 	border-bottom: 3px solid var(--grey);
 	padding-right: 1px;
+}
+
+/* 신간 페이지 */
+.new-page-btn {
+	display: inline-block;
+	width: 31px;
+	height: 31px;
+	color: var(--dark);
+	background: white;
+	border: none;
+	border-radius: 50%;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+.new-page-btn:hover {
+	color: white;
+	background: var(--dark-grey);
+}
+.new-page-btn-focus {
+	display: inline-block;
+	width: 31px;
+	height: 31px;
+	color: var(--dark);
+	background: var(--grey);
+	border: none;
+	border-radius: 50%;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-weight: 600;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 0.8rem;
+    line-height: 1.5;
+}
+.new-title {
+	width: 270px;
+	color: var(--dark-grey);
+	font-weight: 700;
+	text-align: center;
+	padding: 10px 0;
+	cursor: pointer;
+}
+.new-title-left {
+	border-top-left-radius: 50rem;
+	border-bottom-left-radius: 50rem;
+}
+.new-title-right {
+	border-top-right-radius: 50rem;
+	border-bottom-right-radius: 50rem;
+}
+.new-title-left:hover, .new-title-right:hover {
+	color: var(--dark);
+}
+.new-title-focus {
+	color: var(--dark);
+	background: #F2DDBC;
+	box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1);
+	cursor: default;
 }
