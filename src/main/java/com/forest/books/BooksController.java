@@ -22,6 +22,10 @@ public class BooksController {
 		this.booksBO = booksBO;
 	}
 
+	/**
+	 * 메인 페이지
+	 * @return
+	 */
 	@GetMapping("/")
 	public String mainPage() {
 		return "books/main";
@@ -70,5 +74,23 @@ public class BooksController {
 		
 		return "books/new";
 	} //-- 신간 페이지
+	
+	@GetMapping("/books/search")
+	public String searchBooks( // query: 검색어, queryType: 검색어 종류, page: 시작페이지
+			@RequestParam("query") String query,
+			@RequestParam(value = "queryType", required = false, defaultValue = "Keyword") String queryType,
+			@RequestParam(value = "page", required = false, defaultValue = "1") String page,
+			Model model) {
+		
+		List<ItemView> itemViewList = booksBO.getItemList(queryType, page);
+		
+		model.addAttribute("queryType", queryType);
+		model.addAttribute("pageIndex", page);
+		model.addAttribute("itemList", itemViewList);
+		
+		
+		return "books/search";
+	} //-- 검색 페이지
+	
 	
 }

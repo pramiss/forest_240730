@@ -3,7 +3,7 @@
 
 <header th:fragment="headerFragment">
 	<!-- 서브배너 -->
-	<div class="sub-banner bg-success">lorem.</div>
+	<div class="sub-banner bg-success">lorem</div>
 	
 	<!-- 메인배너 -->
 	<div class="main-banner">
@@ -15,17 +15,17 @@
 		<!-- 검색창 -->
 		<div class="w-50">
 			<div class="d-flex mt-3">
-				<select>
-					<option>전체</option>
-					<option>제목</option>
-					<option>저자</option>
-					<option>출판사</option>
+				<select id="queryType">
+					<option value="Keyword">전체</option>
+					<option value="Title">제목</option>
+					<option value="Author">저자</option>
+					<option value="Publisher">출판사</option>
 				</select>
-				<input type="text" class="form-control" placeholder="검색어를 입력해주세요.">
+				<input type="text" id="query" class="form-control" placeholder="검색어를 입력해주세요.">
 				<div class="y-center ml-2">
-					<a href="#">
+					<span id="itemSearchBtn">
 						<img alt="검색하기" src="/img/search-icon.png" class="search-icon">
-					</a>
+					</span>
 				</div>
 			</div>
 			
@@ -74,6 +74,28 @@
 			</li>
 		</ul>
 	</nav>
+	
+	<script>
+		$(document).ready(function() {
+
+			// 검색 버튼
+			$("#itemSearchBtn").on('click', function() {
+
+				// 검색 데이터를 받아옴(query, queryType)
+				let query = $('#query').val().trim();
+				let queryType = $('#queryType').val();
+				
+				if (!query) {
+					alert("검색어를 입력해주세요.");
+					return;
+				}
+				
+				// 검색페이지로 이동
+				location.href = "/books/search?query=" + query + "&queryType=" + queryType;
+			}); //-- 검색 버튼
+			
+		}) //-- ready
+	</script>
 </header>
 
 </html>

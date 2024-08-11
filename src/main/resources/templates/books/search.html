@@ -9,21 +9,25 @@
 <section layout:fragment="contents" class="contents">
 	<div class="books-list">
 		<!-- 타이틀 -->
-		<h1 class="my-5 mx-3 ff-gr font-weight-bold">주간 베스트셀러</h1>
+		<div class="x-center">
+			<div>
+				<h2 class="my-5 ff-gr new-title new-title-left" data-query-type="ItemNewSpecial">화제의 신간</h2>
+			</div>
+			<div>
+				<h2 class="my-5 ff-gr new-title new-title-right" data-query-type="ItemNewAll">신간 전체 리스트</h2>
+			</div>
+		</div>
 		
 		<!-- 1~10 버튼 : 상단 -->
 		<div class="x-center pb-4">
 			<div th:each="num : ${#numbers.sequence(1, 10)}">
-				<button type="button" th:text="20 * ${num} - 19 + '위 ↓'" th:data-page-num="${num}" th:data-current-page="${pageIndex}" class="bestseller-page-btn mx-1">버튼</button>
+				<button type="button" th:text="${num}" th:data-page-num="${num}" th:data-current-page="${pageIndex}" class="new-page-btn mx-2">버튼</button>
 			</div>
 		</div>
 		
 		<!-- 책 리스트 -->
 		<div th:each="item : ${itemList}">
 			<div class="item-box">
-				<div th:if="${item.bestRank != null}" class="col-1">
-					<span th:text="|${item.bestRank}위|" class="best-rank"></span>
-				</div>
 				
 				<div>
 					<img alt="책 이미지" th:src="${item.cover}">
@@ -34,7 +38,7 @@
 					<div th:text="${item.categoryName}" class="item-category-name"></div>
 					<h4 th:text="${item.title}" class="font-weight-bold mt-3 ff-gr">책제목</h4>
 					<div class="mt-2">
-						<small th:text="|${item.author} · ${item.publisher} · ${#temporals.format(item.pubDate, 'Y.MM.dd')}|"></small>
+						<small th:text="|${item.author} · ${item.publisher}|"></small>
 					</div>
 					
 					<!-- 유저 레이팅 -->
@@ -91,7 +95,7 @@
 		<!-- 1~10 버튼 : 하단 -->
 		<div class="x-center my-5">
 			<div th:each="num : ${#numbers.sequence(1, 10)}">
-				<button type="button" th:text="20 * ${num} - 19 + '위 ↓'" th:data-page-num="${num}" th:data-current-page="${pageIndex}" class="bestseller-page-btn mx-1">버튼</button>
+				<button type="button" th:text="${num}" th:data-page-num="${num}" th:data-current-page="${pageIndex}" class="new-page-btn mx-2">버튼</button>
 			</div>
 		</div>
 
@@ -102,22 +106,39 @@
 <!-- mainLayout : script -->
 <script layout:fragment="script">
 	$(document).ready(function() {
-		// bestseller-page-btn-focus load
-		$('.bestseller-page-btn').each(function() {
+		
+		// 제목 포커스
+		$('.new-title').each(function() {
+			let queryType = $(this).data("query-type");
+			if(queryType == "[[${queryType}]]") {
+				$(this).addClass('new-title-focus');
+			} 
+		})
+		
+		// ItemNewAll - ItemNewSpecial 토글
+		$('.new-title').on('click', function() {
+			let queryType = $(this).data("query-type");
+			location.href = "/books/new?queryType=" + queryType;
+		});
+
+		
+		// new-page-btn-focus load
+		$('.new-page-btn').each(function() {
 			let page = $(this).data('page-num');
 			let current = $(this).data('current-page');
 			if (page == current) {
-				$(this).removeClass('bestseller-page-btn');
-				$(this).addClass('bestseller-page-btn-focus');
+				$(this).removeClass('new-page-btn');
+				$(this).addClass('new-page-btn-focus');
 				$(this).attr('readonly', true);
 			}
 		});
 		
-		// 베스트셀러 페이지 버튼
-		$('.bestseller-page-btn').on('click', function(e) {
+		// 신간 페이지 버튼
+		$('.new-page-btn').on('click', function(e) {
+			let queryType = "[[${queryType}]]";
 			let page = $(this).data('page-num');
-			location.href = "/books/bestseller?page=" + page;
-		}) //-- 베스트셀러 페이지 버튼 
+			location.href = "/books/new?queryType=" + queryType + "&page=" + page;
+		}) //-- 신간 페이지 버튼 
 		
 	}); //-- ready
 </script>
