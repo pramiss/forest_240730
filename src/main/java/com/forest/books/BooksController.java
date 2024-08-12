@@ -84,9 +84,23 @@ public class BooksController {
 		
 		List<ItemView> itemViewList = booksBO.getItemSearch(query, queryType, page);
 		
+		// model에 담기
 		model.addAttribute("query", query);
 		model.addAttribute("queryType", queryType);
 		model.addAttribute("pageIndex", page);
+		
+		int lastBtnIndex = ItemView.getTotalResults() / 10 + 1;
+		if (lastBtnIndex > 20) { lastBtnIndex = 20; }
+		model.addAttribute("lastBtnIndex", lastBtnIndex);
+		
+		int leftBtnIndex = Integer.parseInt(page) - 3;
+		if (leftBtnIndex < 1) { leftBtnIndex = 1; }
+		model.addAttribute("leftBtnIndex", leftBtnIndex);
+
+		int rightBtnIndex = Integer.parseInt(page) + 3;
+		if (rightBtnIndex > lastBtnIndex) { rightBtnIndex = lastBtnIndex; }
+		model.addAttribute("rightBtnIndex", rightBtnIndex);
+		
 		model.addAttribute("itemList", itemViewList);
 		model.addAttribute("totalResults", ItemView.getTotalResults());
 		

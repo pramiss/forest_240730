@@ -16,8 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class PermissionInterceptor implements HandlerInterceptor {
 
-
-	
 	// PreHandler
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
@@ -44,7 +42,7 @@ public class PermissionInterceptor implements HandlerInterceptor {
 			}
 		}
 		
-		// 관리자 필수
+		// TODO 관리자 필수
 		
 		
 		// 나머지

@@ -7,35 +7,27 @@
 
 <!-- mainLayout : contents -->
 <section layout:fragment="contents" class="contents">
-	<div class="books-list">
-		<!-- 타이틀 -->
-		<div class="my-5 y-center">
-			<h4 class="ff-gr text-dark-grey">검색 결과:&nbsp;</h4> 
-			<h3 th:text="${query}"></h3>
-		</div>
-		[[${totalResults}]]
-		<!-- 1~10 버튼 : 상단 -->
-		<div class="x-center pb-4">
 
-			<button type="button" th:data-current-page="${pageIndex}" class="new-page-btn mx-2">
-				<img alt="왼쪽화살표" src="/img/left-arrow-icon.png" class="w-100">
-			</button>
-			
-			<!-- 첫번째 페이지 버튼 -->
-			<button type="button" th:text="1" th:data-page-num="1" th:data-current-page="${pageIndex}" class="new-page-btn mx-2">마지막 버튼</button>
-			<div class="mx-2 mt-1"><small>···</small></div>
-			
-			<div th:each="num : ${#numbers.sequence(1, 7)}">
-				<button type="button" th:text="${num}" th:data-page-num="${num}" th:data-current-page="${pageIndex}" class="new-page-btn mx-2">버튼</button>
+	<!--  검색 결과가 하나도 없을 경우-->
+	<div th:if="${totalResults} == 0" class="books-list x-center">
+		<!-- 타이틀 -->
+		<div class="my-5">
+			<img alt="검색결과없음" src="/img/no-search-books.jpg">
+			<h3 class="text-center">검색결과가 없습니다.</h3>
+		</div>
+	</div>
+
+	<!-- 검색 결과가 있을 경우 -->
+	<div th:unless="${totalResults} == 0" class="books-list">
+		<!-- 타이틀 -->
+		<div class="y-center my-5 pb-4">
+			<div th:switch="${queryType}" class="ff-gr text-dark-grey">
+				<h4 th:case="Keyword" th:text="|전체 검색 결과:|"></h4>
+				<h4 th:case="Title" th:text="|제목 검색 결과:|"></h4>
+				<h4 th:case="Author" th:text="|저자 검색 결과:|"></h4>
+				<h4 th:case="Publisher" th:text="|출판사 검색 결과:|"></h4> 
 			</div>
-			
-			<!-- 마지막 페이지 버튼 -->
-			<div class="mx-2 mt-1"><small>···</small></div>
-			<button type="button" th:text="${totalResults / 20 + 1}" th:data-page-num="${totalResults / 20 + 1}" th:data-current-page="${pageIndex}" class="new-page-btn mx-2">마지막 버튼</button>
-			
-			<button type="button" th:data-current-page="${pageIndex}" class="new-page-btn mx-2">
-				<img alt="오른쪽화살표" src="/img/right-arrow-icon.png" class="w-100">
-			</button>
+			<h3 th:text="${query}" class="ml-2"></h3>
 		</div>
 		
 		<!-- 책 리스트 -->
@@ -91,10 +83,10 @@
 					<div class="y-center mt-3">
 						<div class="flex-grow-1"></div>
 						<h6 class="mb-0 mr-2">신품도서:</h6>
-						<span th:text="|${item.priceStandard}원|" class="price-standard"></span>
+						<span th:text="${#numbers.formatInteger(item.priceStandard, 3, 'COMMA') + '원'}" class="price-standard"></span>
 						<span class="mx-1">&#8594;</span>
 						<a th:href="${item.link}" target="_blank">
-							<span th:text="|${item.priceSales}원|" class="font-weight-bold ff-gr"></span>
+							<span th:text="${#numbers.formatInteger(item.priceSales, 3, 'COMMA') + '원'}" class="font-weight-bold ff-gr"></span>
 						</a>
 					</div>
 					<div class="y-center mt-2">
@@ -105,14 +97,35 @@
 			</div>
 		</div><!-- bookList 반복문 -->
 		
-		<!-- 1~10 버튼 : 하단 -->
-		<div class="x-center my-5">
-			<div th:each="num : ${#numbers.sequence(1, 10)}">
-				<button type="button" th:text="${num}" th:data-page-num="${num}" th:data-current-page="${pageIndex}" class="new-page-btn mx-2">버튼</button>
+		<!-- 검색 페이지 이동 버튼 -->
+		<div class="x-center pb-4 mt-5">
+			<!-- 왼쪽 화살표 -->
+			<button type="button" id="moveLeft" class="search-arrow-btn mx-2">
+				<img alt="왼쪽화살표" src="/img/left-arrow-icon.png" class="w-100">
+			</button>
+			
+			<!-- 첫번째 페이지 버튼 -->
+			<th:block th:if="${pageIndex} > 4">
+				<button type="button" th:text="1" th:data-page-num="1" th:data-current-page="${pageIndex}" class="search-page-btn mx-2">처음 버튼</button>
+				<div th:unless="${pageIndex} == 5" class="mx-2 mt-1"><small>···</small></div>
+			</th:block>
+			
+			<!-- 중앙 버튼들 -->
+			<div th:each="num : ${#numbers.sequence(leftBtnIndex, rightBtnIndex)}">
+				<button type="button" th:text="${num}" th:data-page-num="${num}" th:data-current-page="${pageIndex}" class="search-page-btn mx-2">버튼</button>
 			</div>
-		</div>
-
-		
+			
+			<!-- 마지막 페이지 버튼 -->
+			<th:block th:if="${pageIndex} < ${lastBtnIndex} - 3">
+				<div th:unless="${pageIndex} == ${lastBtnIndex} - 4" class="mx-2 mt-1"><small>···</small></div>
+				<button type="button" th:text="${lastBtnIndex}" th:data-page-num="${lastBtnIndex}" th:data-current-page="${pageIndex}" class="search-page-btn mx-2">마지막 버튼</button>
+			</th:block>
+				
+			<!-- 오른쪽 화살표 -->
+			<button type="button" id="moveRight" class="search-arrow-btn mx-2">
+				<img alt="오른쪽화살표" src="/img/right-arrow-icon.png" class="w-100">
+			</button>
+		</div> <!-- 검색 페이지 이동 버튼 -->
 	</div><!-- 책 리스트 컨테이너 -->
 </section>
 
@@ -121,30 +134,54 @@
 <script layout:fragment="script">
 	$(document).ready(function() {
 
-		// ItemNewAll - ItemNewSpecial 토글
-		$('.new-title').on('click', function() {
-			let queryType = $(this).data("query-type");
-			location.href = "/books/new?queryType=" + queryType;
-		});
-
-		
-		// new-page-btn-focus load
-		$('.new-page-btn').each(function() {
+		// search-page-btn-focus load
+		$('.search-page-btn').each(function() {
 			let page = $(this).data('page-num');
 			let current = $(this).data('current-page');
 			if (page == current) {
-				$(this).removeClass('new-page-btn');
-				$(this).addClass('new-page-btn-focus');
+				$(this).removeClass('search-page-btn');
+				$(this).addClass('search-page-btn-focus');
 				$(this).attr('readonly', true);
 			}
 		});
 		
 		// 신간 페이지 버튼
-		$('.new-page-btn').on('click', function(e) {
+		$('.search-page-btn').on('click', function(e) {
+			let query = "[[${query}]]";
 			let queryType = "[[${queryType}]]";
 			let page = $(this).data('page-num');
-			location.href = "/books/new?queryType=" + queryType + "&page=" + page;
+			location.href = "/books/search?query=" + query + "&queryType=" + queryType + "&page=" + page;
 		}) //-- 신간 페이지 버튼 
+		
+		// 이전 버튼
+		$('#moveLeft').on('click', function(e) {
+			let prevIndex = "[[${pageIndex} - 1]]";
+
+			if (prevIndex < 1) {
+				return;
+			}
+			
+			// 페이지 이동
+			let query = "[[${query}]]";
+			let queryType = "[[${queryType}]]";
+			let page = prevIndex;
+			location.href = "/books/search?query=" + query + "&queryType=" + queryType + "&page=" + page;
+		}); //-- 이전 버튼
+		
+		// 다음 버튼
+		$('#moveRight').on('click', function(e) {
+			let nextIndex = "[[${pageIndex} + 1]]";
+
+			if (nextIndex > "[[${lastBtnIndex}]]") {
+				return;
+			}
+			
+			// 페이지 이동
+			let query = "[[${query}]]";
+			let queryType = "[[${queryType}]]";
+			let page = nextIndex;
+			location.href = "/books/search?query=" + query + "&queryType=" + queryType + "&page=" + page;
+		}); //-- 다음 버튼
 		
 	}); //-- ready
 </script>

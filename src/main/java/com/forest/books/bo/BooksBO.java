@@ -74,9 +74,9 @@ public class BooksBO {
 	
 	// 알라딘 : 상품 검색 API
 	public List<ItemView> getItemSearch(String query, String queryType, String page) {
-		// requestUri : Bestseller ItemNewSpecial ItemNewAll
+		// requestUri : 10 item 씩 가져옴
 		String requestUri = String.format(
-						"http://www.aladin.co.kr/ttb/api/ItemSearch.aspx?ttbkey=ttbkkang565081035001&Query=%s&QueryType=%s&MaxResults=20&start=%s&SearchTarget=Book&output=js&Version=20131101&cover=MidBig"
+						"http://www.aladin.co.kr/ttb/api/ItemSearch.aspx?ttbkey=ttbkkang565081035001&Query=%s&QueryType=%s&MaxResults=10&start=%s&SearchTarget=Book&output=js&Version=20131101&cover=MidBig"
 						,query, queryType, page);
 
 		log.info("****** API uri : " + requestUri);

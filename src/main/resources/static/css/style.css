@@ -312,3 +312,56 @@ footer {
 }
 
 /* search.html */
+.search-page-btn {
+	display: inline-block;
+	width: 31px;
+	height: 31px;
+	color: var(--dark);
+	background: white;
+	border: none;
+	border-radius: 50%;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+.search-page-btn:hover {
+	font-weight: 900;
+	background: var(--light-grey);
+}
+.search-page-btn-focus {
+	display: inline-block;
+	width: 31px;
+	height: 31px;
+	color: var(--dark);
+	background: var(--grey);
+	border: none;
+	border-radius: 50%;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-weight: 900;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 0.8rem;
+    line-height: 1.5;
+}
+.search-arrow-btn {
+	display: inline-block;
+	width: 31px;
+	height: 31px;
+	color: var(--dark);
+	background: white;
+	border: 1px solid var(--grey);
+	border-radius: 50%;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+.search-arrow-btn:hover {
+	font-weight: 900;
+	background: var(--light-grey);
+}

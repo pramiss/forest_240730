@@ -19,7 +19,7 @@
 		</div>
 		
 		<!-- 1~10 버튼 : 상단 -->
-		<div class="x-center pb-4">
+		<div class="x-center pt-4 pb-2">
 			<div th:each="num : ${#numbers.sequence(1, 10)}">
 				<button type="button" th:text="${num}" th:data-page-num="${num}" th:data-current-page="${pageIndex}" class="new-page-btn mx-2">버튼</button>
 			</div>
@@ -78,10 +78,10 @@
 					<div class="y-center mt-3">
 						<div class="flex-grow-1"></div>
 						<h6 class="mb-0 mr-2">신품도서:</h6>
-						<span th:text="|${item.priceStandard}원|" class="price-standard"></span>
+						<span th:text="${#numbers.formatInteger(item.priceStandard, 3, 'COMMA') + '원'}" class="price-standard"></span>
 						<span class="mx-1">&#8594;</span>
 						<a th:href="${item.link}" target="_blank">
-							<span th:text="|${item.priceSales}원|" class="font-weight-bold ff-gr"></span>
+							<span th:text="${#numbers.formatInteger(item.priceSales, 3, 'COMMA') + '원'}" class="font-weight-bold ff-gr"></span>
 						</a>
 					</div>
 					<div class="y-center mt-2">
