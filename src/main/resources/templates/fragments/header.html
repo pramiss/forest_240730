@@ -94,6 +94,13 @@
 				location.href = "/books/search?query=" + query + "&queryType=" + queryType;
 			}); //-- 검색 버튼
 			
+			// enter 키로 동작
+			$("#query").on('keydown', function(e) {
+				if (e.keyCode == 13) {
+					$('#itemSearchBtn').click();
+				}
+			}); //-- enter 키 동작
+			
 		}) //-- ready
 	</script>
 </header>

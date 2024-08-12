@@ -9,20 +9,33 @@
 <section layout:fragment="contents" class="contents">
 	<div class="books-list">
 		<!-- 타이틀 -->
-		<div class="x-center">
-			<div>
-				<h2 class="my-5 ff-gr new-title new-title-left" data-query-type="ItemNewSpecial">화제의 신간</h2>
-			</div>
-			<div>
-				<h2 class="my-5 ff-gr new-title new-title-right" data-query-type="ItemNewAll">신간 전체 리스트</h2>
-			</div>
+		<div class="my-5 y-center">
+			<h4 class="ff-gr text-dark-grey">검색 결과:&nbsp;</h4> 
+			<h3 th:text="${query}"></h3>
 		</div>
-		
+		[[${totalResults}]]
 		<!-- 1~10 버튼 : 상단 -->
 		<div class="x-center pb-4">
-			<div th:each="num : ${#numbers.sequence(1, 10)}">
+
+			<button type="button" th:data-current-page="${pageIndex}" class="new-page-btn mx-2">
+				<img alt="왼쪽화살표" src="/img/left-arrow-icon.png" class="w-100">
+			</button>
+			
+			<!-- 첫번째 페이지 버튼 -->
+			<button type="button" th:text="1" th:data-page-num="1" th:data-current-page="${pageIndex}" class="new-page-btn mx-2">마지막 버튼</button>
+			<div class="mx-2 mt-1"><small>···</small></div>
+			
+			<div th:each="num : ${#numbers.sequence(1, 7)}">
 				<button type="button" th:text="${num}" th:data-page-num="${num}" th:data-current-page="${pageIndex}" class="new-page-btn mx-2">버튼</button>
 			</div>
+			
+			<!-- 마지막 페이지 버튼 -->
+			<div class="mx-2 mt-1"><small>···</small></div>
+			<button type="button" th:text="${totalResults / 20 + 1}" th:data-page-num="${totalResults / 20 + 1}" th:data-current-page="${pageIndex}" class="new-page-btn mx-2">마지막 버튼</button>
+			
+			<button type="button" th:data-current-page="${pageIndex}" class="new-page-btn mx-2">
+				<img alt="오른쪽화살표" src="/img/right-arrow-icon.png" class="w-100">
+			</button>
 		</div>
 		
 		<!-- 책 리스트 -->
@@ -51,7 +64,7 @@
 							<div th:if="${2 * item.customerReviewRank % 2} == 1">
 								<img alt="half-star" src="/img/star-half-icon.png" class="rating-icon">
 							</div>
-							<div th:if="${5 - item.customerReviewRank > 0.5}">
+							<div th:if="${5 - item.customerReviewRank > 0.5}" class="d-flex">
 								<div th:each="num : ${#numbers.sequence(1, 5 - item.customerReviewRank)}">
 									<img alt="full-star" src="/img/star-empty-icon.png" class="rating-icon">
 								</div>
@@ -100,21 +113,14 @@
 		</div>
 
 		
-	</div><!-- 책 리슽 컨테이너 -->
+	</div><!-- 책 리스트 컨테이너 -->
 </section>
 
+<!-- 
 <!-- mainLayout : script -->
 <script layout:fragment="script">
 	$(document).ready(function() {
-		
-		// 제목 포커스
-		$('.new-title').each(function() {
-			let queryType = $(this).data("query-type");
-			if(queryType == "[[${queryType}]]") {
-				$(this).addClass('new-title-focus');
-			} 
-		})
-		
+
 		// ItemNewAll - ItemNewSpecial 토글
 		$('.new-title').on('click', function() {
 			let queryType = $(this).data("query-type");
@@ -143,5 +149,5 @@
 	}); //-- ready
 </script>
 
-
+ -->
 </html>

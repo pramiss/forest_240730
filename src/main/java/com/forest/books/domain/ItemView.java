@@ -10,6 +10,15 @@ import lombok.ToString;
 @ToString
 @Data
 public class ItemView {
+	// 총 아이템 수 - @Data가 static 변수에 대한 getter/setter는 만들어주지않음
+	private static int totalResults = 0; // 총 개수
+	
+	public static int getTotalResults() {
+		return totalResults;
+	}
+	public static void setTotalResults(int totalResults) {
+		ItemView.totalResults = totalResults;
+	}
 	
 	// 알라딘 도서 상품 정보
 	private String isbn13;

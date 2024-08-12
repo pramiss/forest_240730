@@ -82,12 +82,13 @@ public class BooksController {
 			@RequestParam(value = "page", required = false, defaultValue = "1") String page,
 			Model model) {
 		
-		List<ItemView> itemViewList = booksBO.getItemList(queryType, page);
+		List<ItemView> itemViewList = booksBO.getItemSearch(query, queryType, page);
 		
+		model.addAttribute("query", query);
 		model.addAttribute("queryType", queryType);
 		model.addAttribute("pageIndex", page);
 		model.addAttribute("itemList", itemViewList);
-		
+		model.addAttribute("totalResults", ItemView.getTotalResults());
 		
 		return "books/search";
 	} //-- 검색 페이지

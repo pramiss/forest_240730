@@ -36,7 +36,7 @@ a, a:hover {
 }
 
 /* 공용 */
-.text-dark-grey { /* TODO: 삭제예정*/
+.text-dark-grey {
 	color: var(--dark-grey);
 }
 .ff-gr {
