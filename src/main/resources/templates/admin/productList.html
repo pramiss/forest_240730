@@ -6,16 +6,59 @@
 
 <!-- subLayout : contents -->
 <section layout:fragment="contents" class="contents">
-	<div class="my-5">
-		<h2 class="text-center">관리자 페이지</h2>
-		
-		
+	<div class="d-flex my-2">
+		<div class="mx-3">
+			<a href="/admin/product-list">중고도서 목록</a>
+		</div>
+		<div class="mx-3">
+			<a href="/admin/upload-product">중고도서 등록</a>
+		</div>
+		<div class="mx-3">
+			<a href="/admin/order-list">유저 주문 내역</a>
+		</div>
+	</div>
+	
+	<div class="admin-page">
+		<h2 class="text-center">중고도서 목록</h2>
+		<table class="table">
+  			<thead>
+			    <tr>
+					<th>책 이미지</th>
+					<th>중고도서 id</th>
+					<th>isbn13</th>
+					<th>중고가격</th>
+					<th>판매상태</th>
+					<th>삭제</th>
+			    </tr>
+  			</thead>
+  			<tbody>
+  				<!-- 반복 -->
+				<tr>
+					<th scope="row">
+						<img alt="책이미지" src="">
+					</th>
+					<td>Mark</td>
+					<td>Otto</td>
+					<td>@mdo</td>
+					<td>
+						<select>
+							<option>판매중</option>
+							<option>판매완료</option>
+						</select>
+					</td>
+					<td>
+						<input type="checkbox">
+					</td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 </section>
 
 <!-- subLayout : script -->
 <script layout:fragment="script">
 	$(document).ready(function() {
+
 		
 			
 	}) //-- ready

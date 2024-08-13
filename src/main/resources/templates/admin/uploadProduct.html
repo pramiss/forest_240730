@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/subLayout}">
+
+<!-- subLayout : contents -->
+<section layout:fragment="contents" class="contents">
+	<div class="d-flex my-2">
+		<div class="mx-3">
+			<a href="/admin/product-list">중고도서 목록</a>
+		</div>
+		<div class="mx-3">
+			<a href="/admin/upload-product">중고도서 등록</a>
+		</div>
+		<div class="mx-3">
+			<a href="/admin/order-list">유저 주문 내역</a>
+		</div>
+	</div>
+
+	<div class="admin-page">
+
+		<h2 class="text-center">중고도서 추가하기</h2>
+
+		<div class="d-flex justify-content-between">
+			<!-- 책 정보 불러오기 -->
+			<div>
+				<h3>도서 조회</h3>
+			
+				<!-- 상품 조회 -->
+				<div class="d-flex justify-content-end">
+					<label for="isbn13">ISBN13(ISBN)</label>
+					<input type="text" id="isbn13" name="isbn13" class="ml-2">
+					<button type="button" id="isbn13Btn">조회</button>
+				</div>
+			</div>
+
+			<!-- Book DB에 저장할 내용 -->
+			<div class="col-4">
+				<h3>도서 정보</h3>
+	
+				<div class="book-detail-admin">
+					<div class="form-group">
+						<label>책 제목</label> <input type="text" class="w-75" disabled="disabled">
+					</div>
+		
+					<div class="form-group">
+						<label>글쓴이</label> <input type="text" class="w-75" disabled="disabled">
+					</div>
+					
+					<div class="form-group">
+						<label>출판사</label> <input type="text" class="w-75" disabled="disabled">
+					</div>
+					
+					<div class="form-group">
+						<label>출판일자</label> <input type="text" class="w-75" disabled="disabled">
+					</div>
+					
+					<div class="form-group">
+						<label>가격</label> <input type="text" class="w-75" disabled="disabled">
+					</div>
+					
+					<div class="form-group">
+						<label>할인가격</label> <input type="text" class="w-75" disabled="disabled">
+					</div>
+					
+					<div class="form-group">
+						<label>링크</label> <input type="text" class="w-75" disabled="disabled">
+					</div>
+					
+					<div class="form-group">
+						<label>카테고리</label> <input type="text" class="w-75" disabled="disabled">
+					</div>
+					
+					<div class="form-group">
+						<label>별점</label> <input type="text" class="w-75" disabled="disabled">
+					</div>
+					
+					<div class="form-group">
+						<label>설명</label> <input type="text" class="w-75" disabled="disabled">
+					</div>
+				</div>
+			</div> <!-- Book DB -->
+			
+		</div>
+	</div>
+</section>
+
+<!-- subLayout : script -->
+<script layout:fragment="script">
+	$(document).ready(function() {
+
+		// isbn13 조회
+		$('#isbn13Btn').on('click', function(e) {
+			let isbn13 = $('#isbn13').val();
+			
+			if (!isbn13) {
+				return;
+			}
+
+			$.ajax({
+				type:"get"
+				, url:"/admin/upload-product/find-item"
+				, data:{"itemId":isbn13, "itemIdType":"ISBN13"}
+				, success:function(data) {
+					if (data == "false") {
+						alert("해당하는 도서가 없습니다.");
+					} else {
+						$('.book-detail-admin').html(data);
+					}
+				}
+				, error:function(e) {
+					alert("AJAX ERROR : 조회 실패");
+				}
+			}); //-- ajax
+		}); //-- isbn13 조회
+
+	}) //-- ready
+</script>
+
+
+</html>

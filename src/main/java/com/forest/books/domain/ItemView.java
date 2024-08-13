@@ -27,7 +27,7 @@ public class ItemView {
 	private String title; // 상품명(책제목) - 길면 자르고 넣기
 	private String author; // 저자/아티스트(지은이) - 근데 다른 것도 많아서 가공하고 넣어야함
 	private String publisher; //출판사(제작사/출시사) - 문자열
-	private String categoryName;
+	private String categoryName; // 카테고리
 	private LocalDate pubDate; // 출간일(출시일)
 	private String description; // 상품설명(요약)
 	private int priceSales; // 판매가

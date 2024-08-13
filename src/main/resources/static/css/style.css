@@ -365,3 +365,9 @@ footer {
 	font-weight: 900;
 	background: var(--light-grey);
 }
+
+/* 관리자 페이지 */
+.admin-page {
+	width: 80%;
+	margin: 40px 0;
+}

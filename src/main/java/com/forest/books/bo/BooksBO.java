@@ -121,4 +121,31 @@ public class BooksBO {
 		
         return itemViewList;
 	} //-- 상품 검색 API
+	
+	// 알라딘 : 상품 조회 API, 결과: ItemView or null
+	public ItemView getItemLookUp(String itemId, String itemIdType) {
+		// requestUri : 10 item 씩 가져옴
+		String requestUri = String.format(
+						"http://www.aladin.co.kr/ttb/api/ItemLookUp.aspx?ttbkey=ttbkkang565081035001&itemIdType=%s&ItemId=%s&output=js&Version=20131101"
+						, itemIdType, itemId);
+
+		log.info("****** API uri : " + requestUri);
+		
+		// 알라딘 api로 상품 리스트 결과(key="item", "startIndex")를 받아옴 (AladinView에 존재하는 field만 자동매핑)
+		AladinView aladinView = webClient.get()
+				.uri(requestUri)
+				.retrieve()
+				.bodyToMono(AladinView.class)
+				.block();
+		
+		// 해당 상품이 없는 경우
+		if (aladinView.getItem() == null) {
+			return null;
+		}
+		
+		// aladinView의 item의 각각 요소들 -> itemViewList에 매핑
+		ItemView itemView = modelMapper.map(aladinView.getItem().get(0), ItemView.class);
+
+		return itemView;
+	} //-- 상품 조회 API
 }
