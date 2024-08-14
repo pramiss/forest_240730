@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.forest.admin.bo.AdminBO;
 import com.forest.books.bo.BooksBO;
 import com.forest.books.domain.ItemView;
 
@@ -13,10 +14,10 @@ import com.forest.books.domain.ItemView;
 @Controller
 public class AdminController {
 	
-	private BooksBO booksBO;
+	private AdminBO adminBO;
 	
-	public AdminController(BooksBO booksBO) {
-		this.booksBO = booksBO;
+	public AdminController(AdminBO adminBO) {
+		this.adminBO = adminBO;
 	}
 	
 	// 관리자 페이지 - 중고도서 리스트 (여기가 메인페이지)
@@ -40,7 +41,7 @@ public class AdminController {
 		@RequestParam("itemIdType") String itemIdType,
 		Model model) {
 		
-		ItemView itemView = booksBO.getItemLookUp(itemId, itemIdType);
+		ItemView itemView = adminBO.getItemView(itemId, itemIdType);
 		
 		if (itemView == null) {
 			// 여기서 false로 주면 안됨. false.html 찾으러 감

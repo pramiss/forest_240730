@@ -1,49 +1,53 @@
 <div class="form-group">
-	<label>책 제목</label>
-	<input type="text" th:value="${item.title}" class="w-75" disabled="disabled">
+	<label>책 제목</label> <input type="text" id="title" class="w-75" th:value="${item.title}"
+		disabled="disabled">
 </div>
 
 <div class="form-group">
-	<label>글쓴이</label> 
-	<input type="text" th:value="${item.author}" class="w-75" disabled="disabled">
+	<label>글쓴이</label> <input type="text" id="author" class="w-75" th:value="${item.author}"
+		disabled="disabled">
 </div>
 
 <div class="form-group">
-	<label>출판사</label>
-	<input type="text" th:value="${item.publisher}" class="w-75" disabled="disabled">
+	<label>출판사</label> <input type="text" id="publisher" class="w-75" th:value="${item.publisher}"
+		disabled="disabled">
 </div>
 
 <div class="form-group">
-	<label>출판일자</label> 
-	<input type="text" th:value="${item.pubDate}" class="w-75" disabled="disabled">
+	<label>출판일자</label> <input type="text" id="pubDate" class="w-75" th:value="${item.pubDate}"
+		disabled="disabled">
 </div>
 
 <div class="form-group">
-	<label>가격</label> 
-	<input type="text" th:value="${item.priceStandard}" class="w-75" disabled="disabled">
+	<label>가격</label> <input type="text" id="priceStandard" class="w-75" th:value="${item.priceStandard}"
+		disabled="disabled">
 </div>
 
 <div class="form-group">
-	<label>할인가격</label> 
-	<input type="text" th:value="${item.priceSales}" class="w-75" disabled="disabled">
+	<label>할인가격</label> <input type="text" id="priceSales" class="w-75" th:value="${item.priceSales}"
+		disabled="disabled">
 </div>
 
 <div class="form-group">
-	<label>링크</label>
-	<input type="text" th:value="${item.link}" class="w-75" disabled="disabled">
+	<label>링크</label> <input type="text" id="link" class="w-75" th:value="${item.link}"
+		disabled="disabled">
 </div>
 
 <div class="form-group">
-	<label>카테고리</label>
-	<input type="text" th:value="${item.categoryName}" class="w-75" disabled="disabled">
+	<label>카테고리</label> <input type="text" id="categoryName" class="w-75" th:value="${item.categoryName}"
+		disabled="disabled">
 </div>
 
 <div class="form-group">
-	<label>별점</label> 
-	<input type="text" th:value="${item.customerReviewRank}" class="w-75" disabled="disabled">
+	<label>별점</label> <input type="text" id="customerReviewRank" th:value="${item.customerReviewRank}"
+		class="w-75" disabled="disabled">
 </div>
 
 <div class="form-group">
-	<label>설명</label>
-	<input type="text" th:value="${item.description}" class="w-75" disabled="disabled">
+	<label>설명</label> <input type="text" id="description" class="w-75" th:value="${item.description}"
+		disabled="disabled">
+</div>
+
+<div class="form-group">
+	<label>북커버</label> <input type="text" id="cover" class="w-75" th:value="${item.cover}" disabled="disabled">
 </div>

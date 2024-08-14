@@ -18,70 +18,101 @@
 	</div>
 
 	<div class="admin-page">
-
-		<h2 class="text-center">중고도서 추가하기</h2>
+		<h2 class="text-center mb-3">중고도서 추가하기</h2>
 
 		<div class="d-flex justify-content-between">
-			<!-- 책 정보 불러오기 -->
+			<!-- 1. 책 정보 불러오기 -->
 			<div>
-				<h3>도서 조회</h3>
-			
+				<h3 class="mb-3">도서 조회</h3>
+
+				<div>ISBN13(ISBN)</div>			
 				<!-- 상품 조회 -->
-				<div class="d-flex justify-content-end">
-					<label for="isbn13">ISBN13(ISBN)</label>
-					<input type="text" id="isbn13" name="isbn13" class="ml-2">
-					<button type="button" id="isbn13Btn">조회</button>
+				<div class="d-flex">
+					<input type="text" id="isbn" name="isbn">
+					<button type="button" id="isbnBtn">조회</button>
 				</div>
 			</div>
 
-			<!-- Book DB에 저장할 내용 -->
+			<!-- 2. 중고도서 정보 -->
 			<div class="col-4">
-				<h3>도서 정보</h3>
+				<h3 class="mb-3">중고도서 정보</h3>
+				
+				<div class="product-detail-admin">
+					<div class="form-group">
+						<label>중고 가격</label><br>
+						<input type="text" id="price" class="w-100" placeholder="숫자만 입력">
+					</div>
+					
+					<div class="form-group">
+						<label class="mr-2">책 상태</label>
+						<select id="bookStatus">
+							<option value="">-- 선택 --</option>
+							<option value="최상">최상</option>
+							<option value="상급">상급</option>
+							<option value="중급">중급</option>
+							<option value="하급">하급</option>
+						</select>
+					</div>
+					
+					<div class="form-group">
+						<label>책 이미지</label><br>
+						<input type="text" id="imageUrl" class="w-100">
+					</div>
+				</div>
+			</div> <!-- product DB -->
+
+			<!-- 3. Book DB에 저장할 내용 -->
+			<div class="col-4">
+				<h3 class="mb-3">도서 정보</h3>
 	
 				<div class="book-detail-admin">
 					<div class="form-group">
-						<label>책 제목</label> <input type="text" class="w-75" disabled="disabled">
+						<label>책 제목</label> <input type="text" id="title" class="w-75" disabled="disabled">
 					</div>
 		
 					<div class="form-group">
-						<label>글쓴이</label> <input type="text" class="w-75" disabled="disabled">
+						<label>글쓴이</label> <input type="text" id="author" class="w-75" disabled="disabled">
 					</div>
 					
 					<div class="form-group">
-						<label>출판사</label> <input type="text" class="w-75" disabled="disabled">
+						<label>출판사</label> <input type="text" id="publisher" class="w-75" disabled="disabled">
 					</div>
 					
 					<div class="form-group">
-						<label>출판일자</label> <input type="text" class="w-75" disabled="disabled">
+						<label>출판일자</label> <input type="text" id="pubDate" class="w-75" disabled="disabled">
 					</div>
 					
 					<div class="form-group">
-						<label>가격</label> <input type="text" class="w-75" disabled="disabled">
+						<label>가격</label> <input type="text" id="priceStandard" class="w-75" disabled="disabled">
 					</div>
 					
 					<div class="form-group">
-						<label>할인가격</label> <input type="text" class="w-75" disabled="disabled">
+						<label>할인가격</label> <input type="text" id="priceSales" class="w-75" disabled="disabled">
 					</div>
 					
 					<div class="form-group">
-						<label>링크</label> <input type="text" class="w-75" disabled="disabled">
+						<label>링크</label> <input type="text" id="link" class="w-75" disabled="disabled">
 					</div>
 					
 					<div class="form-group">
-						<label>카테고리</label> <input type="text" class="w-75" disabled="disabled">
+						<label>카테고리</label> <input type="text" id="categoryName" class="w-75" disabled="disabled">
 					</div>
 					
 					<div class="form-group">
-						<label>별점</label> <input type="text" class="w-75" disabled="disabled">
+						<label>별점</label> <input type="text" id="customerReviewRank" class="w-75" disabled="disabled">
 					</div>
 					
 					<div class="form-group">
-						<label>설명</label> <input type="text" class="w-75" disabled="disabled">
+						<label>설명</label> <input type="text" id="description" class="w-75" disabled="disabled">
+					</div>
+					
+					<div class="form-group">
+						<label>북커버</label> <input type="text" id="cover" class="w-75" disabled="disabled">
 					</div>
 				</div>
 			</div> <!-- Book DB -->
-			
 		</div>
+		<button class="button" id="uploadBtn">추가하기</button>
 	</div>
 </section>
 
@@ -89,18 +120,18 @@
 <script layout:fragment="script">
 	$(document).ready(function() {
 
-		// isbn13 조회
-		$('#isbn13Btn').on('click', function(e) {
-			let isbn13 = $('#isbn13').val();
+		// isbn 조회
+		$('#isbnBtn').on('click', function(e) {
+			let isbn = $('#isbn').val();
 			
-			if (!isbn13) {
+			if (!isbn) {
 				return;
 			}
 
 			$.ajax({
 				type:"get"
 				, url:"/admin/upload-product/find-item"
-				, data:{"itemId":isbn13, "itemIdType":"ISBN13"}
+				, data:{"itemId":isbn, "itemIdType":"ISBN13"}
 				, success:function(data) {
 					if (data == "false") {
 						alert("해당하는 도서가 없습니다.");
@@ -112,8 +143,66 @@
 					alert("AJAX ERROR : 조회 실패");
 				}
 			}); //-- ajax
-		}); //-- isbn13 조회
+		}); //-- isbn 조회
 
+		// 업로드 버튼
+		$('#uploadBtn').on('click', function(e) {
+
+			// isbn 값
+			let isbn = $('#isbn').val();
+
+			// product 값들
+            let productObject = {};
+			
+            productObject["isbn"] = isbn;
+            productObject["saleStatus"] = "판매중";
+			
+            $('.product-detail-admin input').each(function() {
+            	productObject[$(this).attr('id')] = $(this).val();
+            }); // price, imageUrl
+            productObject[$('#bookStatus').attr('id')] = $('#bookStatus').val(); // bookStatus
+            
+            for (let key in productObject) {
+				if (productObject[key] == "") {
+					alert(key + "을(를) 입력해주세요.");
+					return;
+				}
+            } // validation
+            
+            if (isNaN(productObject["price"])) {
+				alert("가격에 숫자만 입력해주세요.");
+				return;
+            }
+
+			// book 값들
+			let bookObject = {};
+            bookObject["isbn"] = isbn;
+			
+			$('.book-detail-admin input').each(function() {
+				bookObject[$(this).attr('id')] = $(this).val();
+            });
+            
+			let productString = JSON.stringify(productObject);
+			let bookString = JSON.stringify(bookObject);
+			console.log(productString);
+			console.log(bookString);
+			
+			$.ajax({
+				type:"post"
+				, url:"/admin/upload"
+				, data:{"productString":productString, "bookString":bookString}
+				, success:function(data) {
+					alert("성공");
+				}
+				, error:function(e) {
+					alert("AJAX ERROR : 상품 업로드 실패");
+				}
+			});//ajax
+			
+			
+		}); //-- 업로드 버튼
+		
+		
 	}) //-- ready
 </script>
 
