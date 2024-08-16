@@ -1,5 +1,7 @@
 package com.forest.admin;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.forest.admin.bo.AdminBO;
-import com.forest.books.bo.BooksBO;
 import com.forest.books.domain.ItemView;
+import com.forest.product.entity.ProductEntity;
 
 @RequestMapping("/admin")
 @Controller
@@ -22,8 +24,13 @@ public class AdminController {
 	
 	// 관리자 페이지 - 중고도서 리스트 (여기가 메인페이지)
 	@GetMapping("/product-list")
-	public String productList() {
+	public String productList(Model model) {
 		
+		// product 리스트를 받아옴 + model에 추가
+		List<ProductEntity> productList = adminBO.getProductList();
+		model.addAttribute("productList", productList);
+		
+		// 페이지로.
 		return "admin/productList";
 	} //-- 중고도서 리스트
 	
@@ -44,8 +51,8 @@ public class AdminController {
 		ItemView itemView = adminBO.getItemView(itemId, itemIdType);
 		
 		if (itemView == null) {
-			// 여기서 false로 주면 안됨. false.html 찾으러 감
-			return "false";
+			// 여기서 error.html에서 error 문구 반환
+			return "error";
 		}
 		
 		model.addAttribute("item", itemView);

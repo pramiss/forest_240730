@@ -4,9 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,7 +36,8 @@ public class AdminRestController {
 	@PostMapping("/upload")
 	public Map<String, Object> upload(
 			@RequestParam("productString") String productString,
-			@RequestParam("bookString") String bookString) {
+			@RequestParam("bookString") String bookString,
+			@RequestParam("file") MultipartFile file) {
 		
 //		log.info("***** productString : " + productString);
 //		log.info("***** bookString : " + bookString);
@@ -53,10 +56,36 @@ public class AdminRestController {
 //      log.info("***** product : " + System.identityHashCode(product));
 //      log.info("***** book : " + System.identityHashCode(book));
 		
-        adminBO.addProductAndBook(product, book);
+        adminBO.addProductAndBook(product, book, file);
 		
 		Map<String, Object> result = new HashMap<>();
 		result.put("code", 200);
 		return result;
-	}
+	} //-- 도서&상품 업로드
+	
+	// 상품 업데이트
+	@PutMapping("/update")
+	public Map<String, Object> update(
+			@RequestParam("saleStatusString") String saleStatusString) {
+		
+		// 1. 받아온 변경 saleStatus 문자열 데이터를 Map으로 변경
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, String> saleStatus = null;
+		
+        try {
+        	saleStatus = objectMapper.readValue(saleStatusString, new TypeReference<Map<String, String>>() {});
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+//		log.info("***** saleStatus : " +  saleStatus);
+		
+        // 2. saleStatus 업데이트
+        adminBO.updateProduct(saleStatus);
+        
+		Map<String, Object> result = new HashMap<>();
+		result.put("code", 200);
+		return result;
+	} //-- 상품 업데이트
 }

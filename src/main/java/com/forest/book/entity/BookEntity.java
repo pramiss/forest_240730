@@ -28,7 +28,6 @@ import lombok.ToString;
 public class BookEntity {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String isbn; // isbn13 번호
 	
 	@Column(name = "categoryName")

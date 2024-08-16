@@ -56,7 +56,7 @@
 					
 					<div class="form-group">
 						<label>책 이미지</label><br>
-						<input type="text" id="imageUrl" class="w-100">
+						<input type="file" id="file" accept=".jpg, .png, .gif">
 					</div>
 				</div>
 			</div> <!-- product DB -->
@@ -133,7 +133,7 @@
 				, url:"/admin/upload-product/find-item"
 				, data:{"itemId":isbn, "itemIdType":"ISBN13"}
 				, success:function(data) {
-					if (data == "false") {
+					if (data == "error") {
 						alert("해당하는 도서가 없습니다.");
 					} else {
 						$('.book-detail-admin').html(data);
@@ -144,23 +144,20 @@
 				}
 			}); //-- ajax
 		}); //-- isbn 조회
-
+		
 		// 업로드 버튼
 		$('#uploadBtn').on('click', function(e) {
 
 			// isbn 값
 			let isbn = $('#isbn').val();
 
-			// product 값들
+			// product 값들 (file 제외)
             let productObject = {};
 			
             productObject["isbn"] = isbn;
             productObject["saleStatus"] = "판매중";
-			
-            $('.product-detail-admin input').each(function() {
-            	productObject[$(this).attr('id')] = $(this).val();
-            }); // price, imageUrl
-            productObject[$('#bookStatus').attr('id')] = $('#bookStatus').val(); // bookStatus
+            productObject["price"] = $('#price').val();
+            productObject["bookStatus"] = $('#bookStatus').val();
             
             for (let key in productObject) {
 				if (productObject[key] == "") {
@@ -169,11 +166,21 @@
 				}
             } // validation
             
+            // price 체크
             if (isNaN(productObject["price"])) {
 				alert("가격에 숫자만 입력해주세요.");
 				return;
             }
 
+            // fileName 체크 (실제 추가는 formData에서)
+			let extension = $('#file').val().split(".").pop().toLowerCase();
+			
+			if ($.inArray(extension, ["jpg", "gif", "png"]) == -1) {
+				alert("이미지 파일만 업로드 할 수 있습니다.");
+				$('#file').val(""); // 파일 비우기
+				return;
+			}
+			
 			// book 값들
 			let bookObject = {};
             bookObject["isbn"] = isbn;
@@ -184,15 +191,22 @@
             
 			let productString = JSON.stringify(productObject);
 			let bookString = JSON.stringify(bookObject);
-			console.log(productString);
-			console.log(bookString);
+			
+			// form 형식으로 작성 (image file은 따로 보내기)
+			let formData = new FormData();
+			formData.append("productString", productString);
+			formData.append("bookString", bookString);
+			formData.append("file", $("#file")[0].files[0]);
 			
 			$.ajax({
 				type:"post"
 				, url:"/admin/upload"
-				, data:{"productString":productString, "bookString":bookString}
+				, data:formData
+				, enctype:"multipart/form-data" //-- file 업로드 시 필수설정
+				, processData:false //-- file 업로드 시 필수설정
+				, contentType:false //-- file 업로드 시 필수설정
 				, success:function(data) {
-					alert("성공");
+					location.href = "/admin/product-list";
 				}
 				, error:function(e) {
 					alert("AJAX ERROR : 상품 업로드 실패");

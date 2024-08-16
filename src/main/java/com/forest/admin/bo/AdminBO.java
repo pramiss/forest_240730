@@ -1,13 +1,16 @@
 package com.forest.admin.bo;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.forest.book.bo.BookBO;
 import com.forest.books.bo.BooksBO;
 import com.forest.books.domain.ItemView;
 import com.forest.product.bo.ProductBO;
+import com.forest.product.entity.ProductEntity;
 
 @Service
 public class AdminBO {
@@ -37,12 +40,26 @@ public class AdminBO {
 	 * @param product
 	 * @param book
 	 */
-	public void addProductAndBook(Map<String, Object> product, Map<String, Object> book) {
+	public void addProductAndBook(
+			Map<String, Object> product, Map<String, Object> book, MultipartFile file) {
 		
 		// 상품 추가
-		productBO.addProduct(product); 
+		productBO.addProduct(product, file); 
 		
 		// 도서 추가
 		bookBO.addBook(book);
 	} //-- 도서&상품 추가 API
+	
+	/**
+	 * 상품 리스트 가져오기
+	 * @return
+	 */
+	public List<ProductEntity> getProductList() {
+		return productBO.getProductList();
+	} //-- 상품 리스트 가져오기
+	
+	// 상품 판매상태 업데이트
+	public void updateProduct(Map<String, String> saleStatus) {
+		productBO.updateProduct(saleStatus);
+	} //-- 상품 판매상태 업데이트
 }
