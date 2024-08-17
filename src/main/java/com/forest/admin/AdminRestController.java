@@ -1,8 +1,10 @@
 package com.forest.admin;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,13 +30,13 @@ public class AdminRestController {
 	}
 
 	/**
-	 * 도서&상품 업로드
+	 * 도서&상품 추가
 	 * @param productString
 	 * @param bookString
 	 * @return
 	 */
-	@PostMapping("/upload")
-	public Map<String, Object> upload(
+	@PostMapping("/add-product-book")
+	public Map<String, Object> addProductBook(
 			@RequestParam("productString") String productString,
 			@RequestParam("bookString") String bookString,
 			@RequestParam("file") MultipartFile file) {
@@ -64,8 +66,8 @@ public class AdminRestController {
 	} //-- 도서&상품 업로드
 	
 	// 상품 업데이트
-	@PutMapping("/update")
-	public Map<String, Object> update(
+	@PutMapping("/update-product")
+	public Map<String, Object> updateProduct(
 			@RequestParam("saleStatusString") String saleStatusString) {
 		
 		// 1. 받아온 변경 saleStatus 문자열 데이터를 Map으로 변경
@@ -88,4 +90,22 @@ public class AdminRestController {
 		result.put("code", 200);
 		return result;
 	} //-- 상품 업데이트
+	
+	// 상품 삭제 API
+	@DeleteMapping("/delete-product")
+	public Map<String, Object> deleteProduct(
+			@RequestParam("productIdList") List<String> productIdList) {
+		
+		Map<String, Object> result = new HashMap<>();
+		
+		try {
+			adminBO.deleteProduct(productIdList);
+		} catch (Exception e) {
+			result.put("code", 501);
+            result.put("error_message", e.getMessage());
+        }
+		
+		result.put("code", 200);
+		return result;
+	} //-- 상품 삭제 API
 }

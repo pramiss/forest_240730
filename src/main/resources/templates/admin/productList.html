@@ -84,15 +84,20 @@
 				}
 			});
 			
+			if (Object.keys(saleStatusObject).length < 1) {
+				return;
+			}
+			
 			// API 호출
 			let saleStatusString = JSON.stringify(saleStatusObject);
 			
 			$.ajax({
 				type:"put"
-				, url:"/admin/update"
+				, url:"/admin/update-product"
 				, data:{"saleStatusString":saleStatusString}
 				, success:function(data) {
 					if (data.code == 200) {
+						alert("수정되었습니다.");
 						location.href = "/admin/product-list";
 					}
 				}
@@ -107,13 +112,34 @@
 		$('#deleteBtn').on('click', function() {
 
 			// 삭제할 상품 리스트 가져오기
-			let productList = [];
+			let productIdList = [];
 			
 			$('.delete-checkbox:checked').each(function() {
-				productList.push($(this).data("product-id"));
+				productIdList.push($(this).data("product-id"));
 			});
 			
-			console.log(productList);
+			if (productIdList.length < 1) {
+				console.log('he');
+				return;
+			}
+			
+			// 상품 삭제 API
+			$.ajax({
+				type:"delete"
+				, url:"/admin/delete-product"
+				, data:{"productIdList":productIdList}
+				, success:function(data) {
+					if (data.code == 200) {
+						alert("삭제되었습니다.");
+						location.href = "/admin/product-list";
+					} else {
+						alert(data.error_message);
+					}
+				}
+				, error:function(e) {
+					alert("AJAX ERROR : 삭제 실패");
+				}
+			}); //-- ajax
 			
 		}); //-- 상품 삭제 버튼
 		

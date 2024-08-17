@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/mainLayout}">
+
+
+<!-- mainLayout : contents -->
+<section layout:fragment="contents" class="contents">
+	<div class="books-list">
+		<!-- 타이틀 -->
+		<h2 class="my-5 mx-3 ff-gr font-weight-bold">중고도서</h2>
+		
+		<div class="product-container">
+			<div th:each="productView : ${productViewList}" class="product-card">
+				<div class="product-img-box">
+					<img alt="상품 이미지" th:src="${productView.product.imageUrl}" class="product-img">
+				</div>
+				<div class="d-flex mt-2">
+					<span class="badge badge-grey" th:text="${productView.product.bookStatus}"></span>
+					<div class="flex-grow-1"></div>
+					<span class="badge badge-success" th:text="|장바구니|"></span>
+					<span class="badge badge-info ml-1" th:text="|좋아요|"></span>
+				</div>
+				<h5 th:text="${#strings.abbreviate(productView.book.title, 19)}" class="font-weight-bold mt-3 mb-0"></h5>
+				<div>
+					<small th:text="${#strings.substringBefore(productView.book.author, '(')}"></small>
+					<small th:text="| · ${productView.book.publisher}|"></small>
+				</div>
+				<div class="product-price mt-4 rounded">
+					중고 가격: <a th:text="${#numbers.formatInteger(productView.product.price, 3, 'COMMA') + '원'}" href="#" class="font-weight-bold"></a>
+				</div>
+			</div>
+		</div>
+	</div><!-- 책 리스트 컨테이너 -->
+</section>
+
+<!-- mainLayout : script -->
+<script layout:fragment="script">
+	$(document).ready(function() {
+ 
+		
+	}); //-- ready
+</script>
+
+
+</html>

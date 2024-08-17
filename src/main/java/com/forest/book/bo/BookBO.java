@@ -2,6 +2,7 @@ package com.forest.book.bo;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
@@ -20,6 +21,11 @@ public class BookBO {
 	public BookBO(BookRepository bookRepository) {
 		this.bookRepository = bookRepository;
 	}
+	
+	// 도서 조회
+	public List<BookEntity> getBookList() {
+		return bookRepository.findAll();
+	} //-- 도서 조회
 	
 	/**
 	 * 도서 추가
@@ -58,4 +64,9 @@ public class BookBO {
 		
 		bookRepository.save(bookEntity);
 	} //-- 도서 추가
+	
+	// 도서 삭제
+	public void deleteBookById(String isbn) {
+		bookRepository.deleteById(isbn);
+	} //-- 도서 삭제
 }

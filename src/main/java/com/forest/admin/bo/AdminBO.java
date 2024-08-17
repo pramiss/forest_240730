@@ -58,8 +58,36 @@ public class AdminBO {
 		return productBO.getProductList();
 	} //-- 상품 리스트 가져오기
 	
-	// 상품 판매상태 업데이트
+	/**
+	 * 상품 업데이트
+	 * @param saleStatus
+	 */
 	public void updateProduct(Map<String, String> saleStatus) {
 		productBO.updateProduct(saleStatus);
 	} //-- 상품 판매상태 업데이트
+	
+	// 상품(도서) 삭제
+	public void deleteProduct(List<String> productIdList) {
+		
+		// 리스트 반복
+		for (String productIdString : productIdList) {
+			int productId = Integer.parseInt(productIdString);
+			
+			// 1. 해당 상품 삭제 후 isbn 받아오기
+			String isbn = productBO.deleteProduct(productId);
+			
+			if (isbn.equals("false")) { // 삭제할 상품 없음
+				return;
+			}
+			
+			// 2. 해당 isbn 상품들이 또 있는지 조회
+			List<ProductEntity> productList = productBO.getProductListByIsbn(isbn);
+			
+			if (productList.isEmpty()) {
+				// 3. 없다면 book 삭제
+				bookBO.deleteBookById(isbn);
+			}
+		}
+	
+	} //-- 상품(도서) 삭제
 }

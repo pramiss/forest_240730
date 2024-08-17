@@ -8,5 +8,6 @@ import com.forest.product.entity.ProductEntity;
 
 public interface ProductRepository extends JpaRepository<ProductEntity, Integer>{
 
+	public List<ProductEntity> findByIsbn(String isbn);
 	public List<ProductEntity> findAllByOrderByIdDesc();
 }
