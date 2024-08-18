@@ -2,6 +2,8 @@ package com.forest.books.domain;
 
 import java.time.LocalDate;
 
+import com.forest.product.entity.ProductEntity;
+
 import lombok.Data;
 import lombok.ToString;
 
@@ -36,6 +38,7 @@ public class ItemView {
 	private Integer bestRank; // (베스트셀러인 경우만 노출) 베스트셀러 순위 정보 - 정수
 	
 	// TODO: 중고도서 정보 - 있는지 없는지, 중고가, 해당 중고도서 상세 링크
+	private ProductEntity product;
 	
 	// TODO: 좋아요
 	

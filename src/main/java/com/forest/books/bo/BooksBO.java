@@ -123,10 +123,9 @@ public class BooksBO {
 	} //-- 상품 검색 API
 	
 	// 알라딘 : 상품 조회 API, 결과: ItemView or null
-	public ItemView getItemLookUp(String itemId, String itemIdType) {
-		// requestUri : 10 item 씩 가져옴
+	public ItemView getItemLookUp(String itemId, String itemIdType) { // isbn, itemIdType=ISBN13(고정)
 		String requestUri = String.format(
-						"http://www.aladin.co.kr/ttb/api/ItemLookUp.aspx?ttbkey=ttbkkang565081035001&itemIdType=%s&ItemId=%s&output=js&Version=20131101"
+						"http://www.aladin.co.kr/ttb/api/ItemLookUp.aspx?ttbkey=ttbkkang565081035001&itemIdType=%s&ItemId=%s&output=js&Version=20131101&Cover=Big"
 						, itemIdType, itemId);
 
 		log.info("****** API uri : " + requestUri);

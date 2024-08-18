@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.forest.books.bo.BooksBO;
@@ -75,6 +76,14 @@ public class BooksController {
 		return "books/new";
 	} //-- 신간 페이지
 	
+	/**
+	 * 검색 결과 페이지
+	 * @param query
+	 * @param queryType
+	 * @param page
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/books/search")
 	public String searchBooks( // query: 검색어, queryType: 검색어 종류, page: 시작페이지
 			@RequestParam("query") String query,
@@ -107,5 +116,22 @@ public class BooksController {
 		return "books/search";
 	} //-- 검색 페이지
 	
+	// 도서 상세 페이지 (REST Api)
+	@GetMapping("/books/detail/{isbn}")
+	public String detailBooks(
+			@PathVariable(name = "isbn") String isbn,
+			Model model) {
+		
+		// 1. 알라딘 API로 도서 상세 정보를 가져옴
+		ItemView itemView = booksBO.getItemLookUp(isbn, "ISBN13");
+		
+		// 2. itemView에 product를 담음 (존재한다면)
+		
+		
+		// 3. 모델에 담음
+		model.addAttribute("itemView", itemView);
+		
+		return "books/detail";
+	} //-- 도서 상세 페이지
 	
 }

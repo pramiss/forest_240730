@@ -26,7 +26,9 @@
 				</div>
 				
 				<div>
-					<img alt="책 이미지" th:src="${item.cover}">
+					<a th:href="|/books/detail/${item.isbn13}|">
+						<img alt="책 이미지" th:src="${item.cover}">
+					</a>
 				</div>
 				
 				<div class="item-content">

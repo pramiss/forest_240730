@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/mainLayout}">
+
+
+<!-- mainLayout : contents -->
+<section layout:fragment="contents" class="contents">
+	<div class="books-list">
+		<div class="bg-light p-5">
+			<div class="d-flex justify-content-between">
+				<small th:text="|장르 : ${itemView.categoryName}|"></small>
+				<small th:text="|isbn : ${itemView.isbn13}|"></small>
+			</div>
+			<div class="d-flex mt-4">
+				<img alt="알리딘 제공 도서 이미지" th:src="${itemView.cover}">
+				<div class="ml-5">
+					<h3 th:text="${itemView.title}" class="ff-gr font-weight-bold">책 제목</h3>		
+					<div th:text="|${itemView.author} · ${itemView.publisher}|">지은이, 출판사</div>		
+					<!-- 가격 -->
+					<div class="y-center mt-3">
+						<div class="flex-grow-1"></div>
+						<h6 class="mb-0 mr-2">신품도서:</h6>
+						<span th:text="${#numbers.formatInteger(itemView.priceStandard, 3, 'COMMA') + '원'}" class="price-standard"></span>
+						<span class="mx-1">&#8594;</span>
+						<a th:href="${itemView.link}" target="_blank">
+							<span th:text="${#numbers.formatInteger(itemView.priceSales, 3, 'COMMA') + '원'}"></span>
+						</a>
+					</div>
+					<div class="y-center mt-2">
+						<div class="flex-grow-1"></div>
+						<h6 class="mb-0 mr-2">중고도서:</h6>
+					</div> <!-- 가격 -->		
+				</div>
+			</div>
+
+		</div>
+		
+	</div><!-- 책 리스트 컨테이너 -->
+</section>
+
+<!-- mainLayout : script -->
+<script layout:fragment="script">
+	$(document).ready(function() {
+
+
+		
+		
+	}); //-- ready
+</script>
+
+
+</html>
