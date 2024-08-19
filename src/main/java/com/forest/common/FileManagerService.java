@@ -16,8 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 public class FileManagerService {
 	
 	// 파일경로 - 로컬서버
-//	public static final String FILE_UPLOAD_PATH = "C:\\github\\Marondal\\7_forest\\clone\\src\\main\\resources\\images/"; // 노트북
-	public static final String FILE_UPLOAD_PATH = "C:\\github\\Marondal\\7_forest\\workspace\\forest\\src\\main\\resources\\images/"; // 데스크탑
+	public static final String FILE_UPLOAD_PATH = "C:\\github\\Marondal\\7_forest\\clone\\src\\main\\resources\\images/"; // 노트북
+//	public static final String FILE_UPLOAD_PATH = "C:\\github\\Marondal\\7_forest\\workspace\\forest\\src\\main\\resources\\images/"; // 데스크탑
 	
 	// 파일 추가
 	public String uploadFile(MultipartFile file, String isbn) {

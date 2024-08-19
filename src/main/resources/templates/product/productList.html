@@ -6,13 +6,13 @@
 
 
 <!-- mainLayout : contents -->
-<section layout:fragment="contents" class="contents">
+<section layout:fragment="contents" class="contents bg-light">
 	<div class="books-list">
 		<!-- 타이틀 -->
 		<h2 class="my-5 mx-3 ff-gr font-weight-bold">중고도서</h2>
 		
 		<div class="product-container">
-			<div th:each="productView : ${productViewList}" class="product-card">
+			<div th:each="productView : ${productViewList}" class="product-card bg-white">
 				<div class="product-img-box">
 					<img alt="상품 이미지" th:src="${productView.product.imageUrl}" class="product-img">
 				</div>
@@ -22,13 +22,13 @@
 					<span class="badge badge-success" th:text="|장바구니|"></span>
 					<span class="badge badge-info ml-1" th:text="|좋아요|"></span>
 				</div>
-				<h5 th:text="${#strings.abbreviate(productView.book.title, 19)}" class="font-weight-bold mt-3 mb-0"></h5>
+				<h5 th:text="${#strings.abbreviate(productView.book.title, 18)}" class="font-weight-bold mt-3 mb-0"></h5>
 				<div>
 					<small th:text="${#strings.substringBefore(productView.book.author, '(')}"></small>
 					<small th:text="| · ${productView.book.publisher}|"></small>
 				</div>
-				<div class="product-price mt-4 rounded">
-					중고 가격: <a th:text="${#numbers.formatInteger(productView.product.price, 3, 'COMMA') + '원'}" href="#" class="font-weight-bold"></a>
+				<div class="product-price mt-4">
+					중고 가격: <a th:text="${#numbers.formatInteger(productView.product.price, 3, 'COMMA') + '원'}" href="#" class="product-price-price"></a>
 				</div>
 			</div>
 		</div>

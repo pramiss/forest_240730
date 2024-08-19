@@ -129,7 +129,7 @@ public class BooksController {
 		
 		
 		// 3. 모델에 담음
-		model.addAttribute("itemView", itemView);
+		model.addAttribute("item", itemView);
 		
 		return "books/detail";
 	} //-- 도서 상세 페이지

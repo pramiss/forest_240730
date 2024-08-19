@@ -34,7 +34,11 @@
 				<div class="item-content">
 					<!-- 카테고리, 제목, 저자/출판사 -->
 					<div th:text="${item.categoryName}" class="item-category-name"></div>
-					<h4 th:text="${item.title}" class="font-weight-bold mt-3 ff-gr">책제목</h4>
+					<div class="mt-3">
+						<a th:text="${item.title}" th:href="|/books/detail/${item.isbn13}|" class="item-title">
+							책제목
+						</a>
+					</div>
 					<div class="mt-2">
 						<small th:text="|${item.author} · ${item.publisher} · ${#temporals.format(item.pubDate, 'Y.MM.dd')}|"></small>
 					</div>

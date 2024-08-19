@@ -145,6 +145,11 @@ public class BooksBO {
 		// aladinView의 item의 각각 요소들 -> itemViewList에 매핑
 		ItemView itemView = modelMapper.map(aladinView.getItem().get(0), ItemView.class);
 
+		// (customerReviewRank 가공)
+		double customerReviewRank = itemView.getCustomerReviewRank();
+		customerReviewRank /= 2;
+		itemView.setCustomerReviewRank(customerReviewRank);
+		
 		return itemView;
 	} //-- 상품 조회 API
 }

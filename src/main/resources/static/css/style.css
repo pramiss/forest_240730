@@ -180,6 +180,15 @@ footer {
 	display: flex;
 	border-bottom: 1px solid var(--grey);
 }
+.item-title {
+	font-family: 'GowunBatang-Regular';
+	font-weight: bold;
+	font-size: 1.5rem;
+	color: var(--dark);
+}
+.item-title:hover {
+	color: var(--dark);
+}
 .item-content {
 	margin-left: 40px;
 }
@@ -390,12 +399,31 @@ footer {
 	text-align: center;
 	background: var(--light-grey);
 	border-radius: .25rem;
+	transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+	cursor: pointer;
+}
+.product-price:hover {
+	background: var(--grey);
+}
+.product-price-price, .product-price-price:hover {
+	color: var(--red);
+	font-weight: bold;
 }
 .badge-grey {
 	font-size: 14px;
 	background: var(--grey);
 }
 
+/* 도서 상세 페이지 */
+.rating-icon2 {
+	width: 16px;
+	margin-right: 1px;
+}
+.rating-number {
+	font-size: 18px;
+	font-weight: bold;
+	margin: .1rem 0 0 .3rem;
+}
 /* 관리자 페이지 */
 .admin-page {
 	width: 80%;
