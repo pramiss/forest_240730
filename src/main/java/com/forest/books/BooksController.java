@@ -116,7 +116,12 @@ public class BooksController {
 		return "books/search";
 	} //-- 검색 페이지
 	
-	// 도서 상세 페이지 (REST Api)
+	/**
+	 * 도서 상세 페이지 (REST Api)
+	 * @param isbn
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/books/detail/{isbn}")
 	public String detailBooks(
 			@PathVariable(name = "isbn") String isbn,
@@ -124,9 +129,6 @@ public class BooksController {
 		
 		// 1. 알라딘 API로 도서 상세 정보를 가져옴
 		ItemView itemView = booksBO.getItemLookUp(isbn, "ISBN13");
-		
-		// 2. itemView에 product를 담음 (존재한다면)
-		
 		
 		// 3. 모델에 담음
 		model.addAttribute("item", itemView);

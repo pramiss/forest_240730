@@ -28,7 +28,7 @@
 					<small th:text="| · ${productView.book.publisher}|"></small>
 				</div>
 				<div class="product-price mt-4">
-					중고 가격: <a th:text="${#numbers.formatInteger(productView.product.price, 3, 'COMMA') + '원'}" href="#" class="product-price-price"></a>
+					<div>중고 가격: <a th:text="${#numbers.formatInteger(productView.product.price, 3, 'COMMA') + '원'}" href="#" class="product-price-price"></a></div>
 				</div>
 			</div>
 		</div>

@@ -40,7 +40,7 @@ public class ProductBO {
 	
 	// 상품리스트 조회 (by Isbn, 여러건일 수 있음)
 	public List<ProductEntity> getProductListByIsbn(String isbn) {
-		return productRepository.findByIsbn(isbn);
+		return productRepository.findByIsbnOrderByPriceDesc(isbn);
 	} //-- 상품 조회 (by Isbn, 여러건일 수 있음)
 	
 	// 상품view 리스트 조회 (전체)
@@ -49,7 +49,7 @@ public class ProductBO {
 		List<ProductView> productViewList = new ArrayList<>();
 		
 		// 1. 모든 product를 list로 가져온다. (select)
-		List<ProductEntity> productList = productRepository.findAll();
+		List<ProductEntity> productList = productRepository.findAllByOrderByIsbnDesc();
 		
 		// 2. 모든 book을 list로 가져온다. (select)
 		List<BookEntity> bookList = bookBO.getBookList();

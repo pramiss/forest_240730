@@ -10,6 +10,8 @@ import org.springframework.web.util.HtmlUtils;
 
 import com.forest.books.domain.AladinView;
 import com.forest.books.domain.ItemView;
+import com.forest.product.bo.ProductBO;
+import com.forest.product.entity.ProductEntity;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,15 +19,22 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class BooksBO {
 
+	private final ProductBO productBO;
 	private final WebClient webClient;
 	private final ModelMapper modelMapper;
 	
-	public BooksBO(WebClient webClient) {
+	public BooksBO(WebClient webClient, ProductBO productBO) {
 		this.webClient = webClient;
 		this.modelMapper = new ModelMapper();
+		this.productBO = productBO;
 	}
 	
-	// 알라딘 : 상품 리스트 API
+	/**
+	 * 알라딘 : 상품 리스트 API
+	 * @param queryType
+	 * @param page
+	 * @return
+	 */
 	public List<ItemView> getItemList(String queryType, String page) {
 		// requestUri : Bestseller ItemNewSpecial ItemNewAll
 		String requestUri = String.format(
@@ -47,12 +56,12 @@ public class BooksBO {
 						
 			// 1. title 가공
 			String title = item.getTitle();
-			title = title.split("-")[0];
+			title = HtmlUtils.htmlUnescape(title.split("-")[0]);
 			item.setTitle(title);
 			
 			// 2. author 가공
 			String author = item.getAuthor();
-			author = author.split("\\(")[0];
+			author = HtmlUtils.htmlUnescape(author.split("\\(")[0]);
 			item.setAuthor(author);
 			
 			// 3. customerReviewRank 가공
@@ -72,7 +81,13 @@ public class BooksBO {
         return itemViewList;
 	} //-- 상품 리스트 API
 	
-	// 알라딘 : 상품 검색 API
+	/**
+	 * 알라딘 : 상품 검색 API 
+	 * @param query
+	 * @param queryType
+	 * @param page
+	 * @return
+	 */
 	public List<ItemView> getItemSearch(String query, String queryType, String page) {
 		// requestUri : 10 item 씩 가져옴
 		String requestUri = String.format(
@@ -94,15 +109,15 @@ public class BooksBO {
 		
  		// itemViewList 가공
 		for (ItemView item : itemViewList) {
-									
+
 			// 1. title 가공
 			String title = item.getTitle();
-			title = title.split("-")[0];
+			title = HtmlUtils.htmlUnescape(title.split("-")[0]);
 			item.setTitle(title);
 			
 			// 2. author 가공
 			String author = item.getAuthor();
-			author = author.split("\\(")[0];
+			author = HtmlUtils.htmlUnescape(author.split("\\(")[0]);
 			item.setAuthor(author);
 			
 			// 3. customerReviewRank 가공
@@ -122,7 +137,12 @@ public class BooksBO {
         return itemViewList;
 	} //-- 상품 검색 API
 	
-	// 알라딘 : 상품 조회 API, 결과: ItemView or null
+	/**
+	 * 알라딘 : 상품 조회 API, 결과: ItemView or null
+	 * @param itemId
+	 * @param itemIdType
+	 * @return
+	 */
 	public ItemView getItemLookUp(String itemId, String itemIdType) { // isbn, itemIdType=ISBN13(고정)
 		String requestUri = String.format(
 						"http://www.aladin.co.kr/ttb/api/ItemLookUp.aspx?ttbkey=ttbkkang565081035001&itemIdType=%s&ItemId=%s&output=js&Version=20131101&Cover=Big"
@@ -142,13 +162,29 @@ public class BooksBO {
 			return null;
 		}
 		
-		// aladinView의 item의 각각 요소들 -> itemViewList에 매핑
+		// 1. aladinView의 item의 각각 요소들 -> itemViewList에 매핑
 		ItemView itemView = modelMapper.map(aladinView.getItem().get(0), ItemView.class);
 
 		// (customerReviewRank 가공)
 		double customerReviewRank = itemView.getCustomerReviewRank();
 		customerReviewRank /= 2;
 		itemView.setCustomerReviewRank(customerReviewRank);
+		
+		// (title 가공)
+		String title = HtmlUtils.htmlUnescape(itemView.getTitle()); // entity to String
+		itemView.setTitle(title);
+		
+		// (author 가공)
+		String author = HtmlUtils.htmlUnescape(itemView.getAuthor()); // entity to String
+		itemView.setAuthor(author);
+		
+		// (description 가공)
+		String description = HtmlUtils.htmlUnescape(itemView.getDescription()); // entity to String
+		itemView.setDescription(description);
+		
+		// 2. itemView에 List<productEntity>를 담는다.
+		List<ProductEntity> productList = productBO.getProductListByIsbn(itemView.getIsbn13());
+		itemView.setProductList(productList);
 		
 		return itemView;
 	} //-- 상품 조회 API
