@@ -397,6 +397,7 @@ footer {
 	width: 30%;
 	margin: 2rem 1.66666%;
 	padding: 0.9rem;
+	cursor: pointer;
 }
 .product-img-box {
 	width: 100%;
@@ -411,10 +412,6 @@ footer {
 	background: var(--light-grey);
 	border-radius: .25rem;
 	transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	cursor: pointer;
-}
-.product-price:hover {
-	background: var(--grey);
 }
 .product-price-price, .product-price-price:hover {
 	color: var(--red);

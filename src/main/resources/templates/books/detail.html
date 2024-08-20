@@ -35,19 +35,17 @@
 							<div th:if="${2 * item.customerReviewRank % 2} == 1">
 								<img alt="half-star" src="/img/star-half-icon.png" class="rating-icon2">
 							</div>
-							<div th:if="${5 - item.customerReviewRank > 0.5}">
+							<div th:if="${5 - item.customerReviewRank > 0.5}" class="d-flex">
 								<div th:each="num : ${#numbers.sequence(1, 5 - item.customerReviewRank)}">
 									<img alt="full-star" src="/img/star-empty-icon.png" class="rating-icon2">
 								</div>
 							</div>
+							<div th:text="${item.customerReviewRank}" class="rating-number"></div>
 						</div>
 						<!-- 별점이 없는 경우 -->
 						<div th:unless="${item.customerReviewRank > 0}" class="d-flex">
-							<div th:each="num : ${#numbers.sequence(1, 5)}">
-								<img alt="empty-star" src="/img/star-empty-icon.png" class="rating-icon2">
-							</div>
+							<div th:text="|아직 별점이 없어요.|" class="rating-number"></div>
 						</div>
-						<div th:text="${item.customerReviewRank}" class="rating-number"></div>
 					</div><!-- 유저 레이팅 -->
 					
 					<div class="text-center">
@@ -70,7 +68,7 @@
 									<span>준비중이에요.</span>
 								</th:block>
 								<th:block th:unless="${#lists.isEmpty(item.productList)}" th:each="product : ${item.productList}">
-									<a href="#" class="buy-product-btn">
+									<a th:href="|/product/detail/${product.id}|" class="buy-product-btn">
 										<span th:text="${#numbers.formatInteger(product.price, 3, 'COMMA') + '원'}">1000원</span>
 										<span th:text="|(${product.bookStatus})|"></span>
 									</a><br>

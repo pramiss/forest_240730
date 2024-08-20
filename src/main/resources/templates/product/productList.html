@@ -12,7 +12,7 @@
 		<h2 class="my-5 mx-3 ff-gr font-weight-bold">중고도서</h2>
 		
 		<div class="product-container">
-			<div th:each="productView : ${productViewList}" class="product-card bg-white">
+			<div th:each="productView : ${productViewList}" class="product-card bg-white" th:data-product-id="${productView.product.id}">
 				<div class="product-img-box">
 					<img alt="상품 이미지" th:src="${productView.product.imageUrl}" class="product-img">
 				</div>
@@ -28,7 +28,7 @@
 					<small th:text="| · ${productView.book.publisher}|"></small>
 				</div>
 				<div class="product-price mt-4">
-					<div>중고 가격: <a th:text="${#numbers.formatInteger(productView.product.price, 3, 'COMMA') + '원'}" href="#" class="product-price-price"></a></div>
+					<div>중고 가격: <span th:text="${#numbers.formatInteger(productView.product.price, 3, 'COMMA') + '원'}" class="product-price-price"></span></div>
 				</div>
 			</div>
 		</div>
@@ -39,6 +39,12 @@
 <script layout:fragment="script">
 	$(document).ready(function() {
  
+		// product card
+		$('.product-card').on('click', function(e) {
+
+			let productId = $(this).data('product-id');
+			location.href = "/product/detail/" + productId;			
+		}); //-- product card
 		
 	}); //-- ready
 </script>

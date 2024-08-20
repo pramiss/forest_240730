@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.HtmlUtils;
 
 import com.forest.book.entity.BookEntity;
 import com.forest.book.repository.BookRepository;
@@ -22,7 +23,19 @@ public class BookBO {
 		this.bookRepository = bookRepository;
 	}
 	
-	// 도서 조회
+	/**
+	 * 도서 조회 (단건)
+	 * @param isbn
+	 * @return
+	 */
+	public BookEntity getBook(String isbn) {
+		return bookRepository.findById(isbn).orElse(null);
+	} //-- 도서 조회 (단건)
+	
+	/**
+	 * 도서 조회 (여러건) 
+	 * @return
+	 */
 	public List<BookEntity> getBookList() {
 		return bookRepository.findAll();
 	} //-- 도서 조회
@@ -43,7 +56,8 @@ public class BookBO {
 		
 		// 2. 도서 정보 추가
 		log.info("***** 도서 추가 ISBN");
-		
+
+		// (pubDate 가공)
 		String pubDateString = (String)book.get("pubDate");
 		LocalDate pubDate = LocalDate.parse(pubDateString, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		

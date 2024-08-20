@@ -50,12 +50,12 @@ public class ProductController {
 			@PathVariable(name = "productId") int productId,
 			Model model) {
 		
-		// 1. 알라딘 API로 도서 상세 정보를 가져옴
-		ItemView itemView = booksBO.getItemLookUp(isbn, "ISBN13");
+		// 1. 상품 상세 정보를 가져옴
+		ProductView productView = productBO.getProductView(productId);
 		
-		// 3. 모델에 담음
-		model.addAttribute("item", itemView);
+		// 2. 모델에 담음
+		model.addAttribute("productView", productView);
 		
-		return "books/detail";
+		return "product/detail";
 	} //-- 도서 상세 페이지
 }

@@ -42,6 +42,17 @@ public class ProductBO {
 	public List<ProductEntity> getProductListByIsbn(String isbn) {
 		return productRepository.findByIsbnOrderByPriceDesc(isbn);
 	} //-- 상품 조회 (by Isbn, 여러건일 수 있음)
+
+	// 상품view 조회 (by productId, 단건)
+	public ProductView getProductView(int productId) {
+		ProductView productView = new ProductView();
+		ProductEntity product = productRepository.findById(productId).orElse(null);
+		
+		productView.setProduct(product); // ProductView - product
+		productView.setBook(bookBO.getBook(product.getIsbn())); // ProductView - book
+		
+		return productView;
+	} //-- 상품view 조회
 	
 	// 상품view 리스트 조회 (전체)
 	public List<ProductView> getProductViewList() {
