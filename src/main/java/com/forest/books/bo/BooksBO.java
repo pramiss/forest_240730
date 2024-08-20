@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.HtmlUtils;
 
+import com.forest.book.entity.BookEntity;
 import com.forest.books.domain.AladinView;
 import com.forest.books.domain.ItemView;
 import com.forest.product.bo.ProductBO;
@@ -51,7 +52,7 @@ public class BooksBO {
 		// aladinView의 item의 각각 요소들 -> itemViewList에 매핑
 		List<ItemView> itemViewList = modelMapper.map(aladinView.getItem(), new TypeToken<List<ItemView>>() {}.getType());
 
- 		// itemViewList 가공
+		// itemViewList 가공
 		for (ItemView item : itemViewList) {
 						
 			// 1. title 가공
@@ -76,6 +77,10 @@ public class BooksBO {
 				description = description.substring(0, 100) + "...";
 			}
 			item.setDescription(description);
+			
+			// 2) 해당하는 List<product>가 있는지 찾기
+			List<ProductEntity> productList = productBO.getProductListByIsbn(item.getIsbn13());
+			item.setProductList(productList);
 		}
 		
         return itemViewList;

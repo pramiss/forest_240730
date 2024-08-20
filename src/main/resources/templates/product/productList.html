@@ -16,11 +16,12 @@
 				<div class="product-img-box">
 					<img alt="상품 이미지" th:src="${productView.product.imageUrl}" class="product-img">
 				</div>
-				<div class="d-flex mt-2">
-					<span class="badge badge-grey" th:text="${productView.product.bookStatus}"></span>
+				<div th:with="percentage= (1 - ${productView.product.price} / ${productView.book.priceSales}) * 100" class="d-flex mt-2">
+					<span class="badge badge-secondary fs-14 mr-1" th:text="${productView.product.bookStatus}"></span>
+					<span class="badge badge-success fs-14 mr-1" th:if="${percentage} > 0" th:text="|${#numbers.formatDecimal(percentage, 2, 0)}% 이상 할인|"></span>
+					<span class="badge badge-warning fs-14 mr-1" th:unless="${percentage} > 0" th:text="|리미티드|"></span>
 					<div class="flex-grow-1"></div>
-					<span class="badge badge-success" th:text="|장바구니|"></span>
-					<span class="badge badge-info ml-1" th:text="|좋아요|"></span>
+					<span class="badge badge-info fs-14 ml-1" th:text="|좋아요|"></span>
 				</div>
 				<h5 th:text="${#strings.abbreviate(productView.book.title, 18)}" class="font-weight-bold mt-3 mb-0"></h5>
 				<div>

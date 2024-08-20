@@ -10,56 +10,84 @@
 	<div class="books-list x-center">
 		<div class="books-detail">
 		
-			<!-- 상단 정보 -->
-			<div class="d-flex text-dark-grey">
-				<small th:text="|isbn : ${productView.product.isbn}|"></small>
-			</div>
-			
 			<!-- 주 내용 -->
-			<div class="d-flex mt-2">
-				<div>
-					<img width="200" alt="상품 도서 이미지" th:src="|${productView.product.imageUrl}|">
+			<div>
+				<!-- 상품 이미지, 가격정보 -->
+				<div class="d-flex">
+					<!-- 상품 이미지 박스 -->
+					<div class="col-6">
+						<div class="d-flex text-dark-grey">
+							<small th:text="|isbn : ${productView.product.isbn}|"></small>
+						</div>
+						<img width="100%" alt="상품 도서 이미지" th:src="|${productView.product.imageUrl}|">
+					</div>
+					
+					<!-- 가격 정보 박스 -->
+					<div class="col-6 mt-3 product-right-box">
+						
+						<div th:with="percentage= (1 - ${productView.product.price} / ${productView.book.priceSales}) * 100">
+							<span class="badge badge-dark p-1" th:text="${productView.product.bookStatus}">Light</span>
+							<span class="badge badge-danger p-1" th:text="${productView.product.saleStatus}"></span>
+							<span class="badge badge-success p-1" th:if="${percentage} > 0" th:text="|${#numbers.formatDecimal(percentage, 2, 0)}% 이상 할인|"></span>
+							<span class="badge badge-warning p-1" th:unless="${percentage} > 0" th:text="|리미티드|"></span>
+						</div>
+					
+						<!-- 장르 -->
+						<div class="border rounded mt-2 p-2">
+							<div>
+								<small th:text="|${productView.book.categoryName}|"></small>
+							</div>
+							
+							<!-- 유저 레이팅 -->
+							<div class="item-rating d-flex">
+								<!-- 별점이 있는 경우 -->
+								<div th:if="${productView.book.customerReviewRank > 0}" class="d-flex">
+									<div th:each="num : ${#numbers.sequence(1, productView.book.customerReviewRank)}">
+										<img alt="full-star" src="/img/star-full-icon.png" class="rating-icon2">
+									</div>
+									<div th:if="${2 * productView.book.customerReviewRank % 2} == 1">
+										<img alt="half-star" src="/img/star-half-icon.png" class="rating-icon2">
+									</div>
+									<div th:if="${5 - productView.book.customerReviewRank > 0.5}" class="d-flex">
+										<div th:each="num : ${#numbers.sequence(1, 5 - productView.book.customerReviewRank)}">
+											<img alt="full-star" src="/img/star-empty-icon.png" class="rating-icon2">
+										</div>
+									</div>
+								</div>
+								<!-- 별점이 없는 경우 -->
+								<div th:unless="${productView.book.customerReviewRank > 0}" class="d-flex">
+									<div th:each="num : ${#numbers.sequence(1, 5)}">
+										<img alt="empty-star" src="/img/star-empty-icon.png" class="rating-icon2">
+									</div>
+								</div>
+								<div th:text="${productView.book.customerReviewRank}" class="rating-number"></div>
+							</div><!-- 유저 레이팅 -->
+						</div>
+						
+						<!-- 도서 내용 -->
+						<div class="mt-3">
+							<h5 th:text="${productView.book.title}" class="ff-gr font-weight-bold">책 제목</h5>		
+							<div th:text="|${productView.book.author}|" class="fs-small">지은이, 출판사</div>
+							<div th:text="|${productView.book.publisher} · ${#temporals.format(productView.book.pubDate, 'Y.MM.dd 출간')}|" class="fs-small">출판일</div>		
+						</div>
+						
+						
+						<div class="w-100 product-buy-box">
+							<!-- 가격 -->
+							<div class="mt-2 y-center justify-content-end">
+								<h5 th:text="${#numbers.formatInteger(productView.product.price, 3, 'COMMA') + '원'}" class="font-weight-bold mb-0"></h5>
+								<button class="btn btn-outline-danger ml-2 px-2 py-1">Buy Now</button>
+							</div>
+							
+							<!-- 좋아요, 장바구니 -->
+							<div class="d-flex justify-content-end mt-3">
+								<button class="btn btn-outline-success fs-large col-8">장바구니</button>
+								<button class="btn btn-outline-primary col-2 ml-1">좋</button>
+							</div>
+						</div>
+					</div> <!-- 가격 정보 박스 -->
 				</div>
 				
-				<div class="ml-4 pt-1 flex-grow-1">
-					<h3 th:text="${productView.book.title}" class="ff-gr font-weight-bold text-center mb-3">책 제목</h3>		
-					<div th:text="|${productView.book.author} · ${productView.book.publisher} · ${#temporals.format(productView.book.pubDate, 'Y년 MM월 dd일')}|" class="text-center pb-3 border-bottom">지은이, 출판사</div>		
-					
-					<!-- 유저 레이팅 -->
-					<div class="item-rating x-center mt-3">
-						<!-- 별점이 있는 경우 -->
-						<div th:if="${productView.book.customerReviewRank > 0}" class="d-flex">
-							<div th:each="num : ${#numbers.sequence(1, productView.book.customerReviewRank)}">
-								<img alt="full-star" src="/img/star-full-icon.png" class="rating-icon2">
-							</div>
-							<div th:if="${2 * productView.book.customerReviewRank % 2} == 1">
-								<img alt="half-star" src="/img/star-half-icon.png" class="rating-icon2">
-							</div>
-							<div th:if="${5 - productView.book.customerReviewRank > 0.5}" class="d-flex">
-								<div th:each="num : ${#numbers.sequence(1, 5 - productView.book.customerReviewRank)}">
-									<img alt="full-star" src="/img/star-empty-icon.png" class="rating-icon2">
-								</div>
-							</div>
-						</div>
-						<!-- 별점이 없는 경우 -->
-						<div th:unless="${productView.book.customerReviewRank > 0}" class="d-flex">
-							<div th:each="num : ${#numbers.sequence(1, 5)}">
-								<img alt="empty-star" src="/img/star-empty-icon.png" class="rating-icon2">
-							</div>
-						</div>
-						<div th:text="${productView.book.customerReviewRank}" class="rating-number"></div>
-					</div><!-- 유저 레이팅 -->
-					
-					<div class="text-center">
-						<small th:text="|${productView.book.categoryName}|"></small>
-					</div>
-						
-					<!-- 가격 -->
-					<div class="d-flex justify-content-around mt-4 font-weight-bold">
-		
-
-					</div> <!-- 가격 -->		
-				</div>
 			</div> <!-- 주 내용 -->
 			
 			<!-- 설명 -->

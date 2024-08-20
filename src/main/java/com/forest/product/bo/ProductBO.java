@@ -33,7 +33,7 @@ public class ProductBO {
 		this.bookBO = bookBO;
 	}
 
-	// 상품리스트 가져오기 (전체)
+	// 상품리스트 가져오기 (전체, id순서)
 	public List<ProductEntity> getProductList() {
 		return productRepository.findAllByOrderByIdDesc();
 	} //-- 상품리스트 가져오기

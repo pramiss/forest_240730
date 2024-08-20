@@ -21,8 +21,6 @@
   --royal-blue: #4169E1;
   --doge-blue: #1E90FF;
 
-  --btn-blue: #D8EFD3;
-  --btn-blue-hover: #95D2B3;
   --btn-red: #B83B5E;
   
   --green: #28a745;
@@ -43,6 +41,15 @@ a, a:hover {
 /* 공용 */
 .line-height-wide {
 	line-height: 2;
+}
+.fs-small {
+	font-size: 0.9rem
+}
+.fs-large {
+	font-size: 1.2rem
+}
+.fs-14 {
+	font-size: 14px;
 }
 .fs-17 {
 	font-size: 17px;
@@ -194,7 +201,7 @@ footer {
 .item-title {
 	font-family: 'GowunBatang-Regular';
 	font-weight: bold;
-	font-size: 1.5rem;
+	font-size: 1.3rem;
 	color: var(--dark);
 }
 .item-title:hover {
@@ -223,6 +230,7 @@ footer {
 	display: flex;
 	flex-direction: column;
 	text-align: right;
+	align-items: flex-end;
 }
 .bestseller-page-btn {
 	display: inline-block;
@@ -417,10 +425,7 @@ footer {
 	color: var(--red);
 	font-weight: bold;
 }
-.badge-grey {
-	font-size: 14px;
-	background: var(--grey);
-}
+
 
 /* 도서 상세 페이지 */
 .books-detail {
@@ -436,9 +441,19 @@ footer {
 	font-weight: bold;
 	margin: .1rem 0 0 .3rem;
 }
+.detail-info-box {
+	min-height: 300px;
+	position: relative;
+	flex-grow: 1;
+}
+.detail-buy-box {
+	width: 100%;
+	position: absolute;
+	bottom: 0px;
+}
 .buy-new-btn {
 	height: 89px;
-	background: var(--btn-blue);
+	background: var(--royal-blue);
 	border-radius: .4rem;
 	font-size: 18px;
 	text-align: center;
@@ -448,15 +463,27 @@ footer {
 .buy-product {
 	font-size: 18px;
 	text-align: center;
-	padding: 1rem;
+	padding: .5rem 1rem;
 }
 .buy-product-btn, .buy-product-btn:hover {
 	background: var(--btn-red);
 	border-radius: .4rem;
 	color: white;
 	font-size: 16px;
-	padding: .3rem .3rem;
+	padding: .3rem;
 }
+
+
+/* 상품 상세 페이지 */
+.product-right-box {
+	position: relative;
+	min-height: 340px;
+}
+.product-buy-box {
+	position: absolute;
+	bottom: 0px;
+}
+
 /* 관리자 페이지 */
 .admin-page {
 	width: 80%;

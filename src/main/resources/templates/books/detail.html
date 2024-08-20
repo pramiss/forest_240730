@@ -21,8 +21,8 @@
 					<img alt="알리딘 제공 도서 이미지" th:src="${item.cover}">
 				</div>
 				
-				<div class="ml-4 pt-1 flex-grow-1">
-					<h3 th:text="${item.title}" class="ff-gr font-weight-bold text-center mb-3">책 제목</h3>		
+				<div class="ml-4 pt-1 detail-info-box">
+					<h3 th:text="${#strings.abbreviate(item.title, 48)}" class="ff-gr font-weight-bold text-center mb-3">책 제목</h3>		
 					<div th:text="|${item.author} · ${item.publisher} · ${#temporals.format(item.pubDate, 'Y년 MM월 dd일')}|" class="text-center pb-3 border-bottom">지은이, 출판사</div>		
 					
 					<!-- 유저 레이팅 -->
@@ -53,11 +53,11 @@
 					</div>
 					
 					<!-- 가격 -->
-					<div class="d-flex justify-content-around mt-4 font-weight-bold">
+					<div class="detail-buy-box d-flex justify-content-around font-weight-bold">
 						<div class="buy-new-btn">
-							<a th:href="${item.link}" target="_blank">
+							<a th:href="${item.link}" class="text-white" target="_blank">
 								<span class="d-inline-block mb-1 fs-17">신품도서</span><br>
-								<span th:text="${#numbers.formatInteger(item.priceStandard, 3, 'COMMA') + '원'}" class="price-standard"></span>
+								<span th:text="${#numbers.formatInteger(item.priceStandard, 3, 'COMMA') + '원'}" class="price-standard text-white"></span>
 								<span class="mx-1">&#8594;</span>
 								<span th:text="${#numbers.formatInteger(item.priceSales, 3, 'COMMA') + '원'}"></span>
 							</a>
