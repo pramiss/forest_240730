@@ -22,11 +22,11 @@
 				</div>
 				
 				<div class="ml-4 pt-1 detail-info-box">
-					<h3 th:text="${#strings.abbreviate(item.title, 48)}" class="ff-gr font-weight-bold text-center mb-3">책 제목</h3>		
-					<div th:text="|${item.author} · ${item.publisher} · ${#temporals.format(item.pubDate, 'Y년 MM월 dd일')}|" class="text-center pb-3 border-bottom">지은이, 출판사</div>		
+					<h5 th:text="${#strings.abbreviate(item.title, 48)}" class="ff-gr font-weight-bold text-center mb-3">책 제목</h5>		
+					<div th:text="|${item.author} · ${item.publisher} · ${#temporals.format(item.pubDate, 'Y년 MM월 dd일')}|" class="text-center pb-3 border-bottom fs-small">지은이, 출판사</div>		
 					
 					<!-- 유저 레이팅 -->
-					<div class="item-rating x-center mt-3">
+					<div class="item-rating x-center mt-2">
 						<!-- 별점이 있는 경우 -->
 						<div th:if="${item.customerReviewRank > 0}" class="d-flex">
 							<div th:each="num : ${#numbers.sequence(1, item.customerReviewRank)}">
@@ -44,7 +44,7 @@
 						</div>
 						<!-- 별점이 없는 경우 -->
 						<div th:unless="${item.customerReviewRank > 0}" class="d-flex">
-							<div th:text="|아직 별점이 없어요.|" class="rating-number"></div>
+							<div th:text="|(아직 별점이 없어요)|" ></div>
 						</div>
 					</div><!-- 유저 레이팅 -->
 					

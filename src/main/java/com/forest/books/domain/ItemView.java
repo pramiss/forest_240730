@@ -41,7 +41,7 @@ public class ItemView {
 	// TODO: 중고도서 정보 - 있는지 없는지, 중고가, 해당 중고도서 상세 링크
 	private List<ProductEntity> productList; // 여러 개일 수 있음
 	
-	// TODO: 좋아요
+	// TODO: 좋아요 - (로그인 된) 유저에 대해서만.
 	
 	// TODO: 장바구니
 	

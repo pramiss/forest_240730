@@ -226,12 +226,6 @@ footer {
 	color: var(--dark-grey);
 	font-size: 13px;
 }
-.item-purchase {
-	display: flex;
-	flex-direction: column;
-	text-align: right;
-	align-items: flex-end;
-}
 .bestseller-page-btn {
 	display: inline-block;
 	width: 70px;
@@ -276,6 +270,24 @@ footer {
 	border-bottom: 3px solid var(--grey);
 	padding-right: 1px;
 }
+
+/* 가격버튼 */
+.item-purchase {
+	display: flex;
+	flex-direction: column;
+	text-align: right;
+	align-items: flex-end;
+	position: relative;
+}
+.price-btn-box {
+	position: absolute;
+	bottom: 0px;
+}
+.price-btn {
+	min-width: 60%;
+	height: 60px;
+}
+
 
 /* 신간 페이지 */
 .new-page-btn {
@@ -433,7 +445,7 @@ footer {
 	padding: 4rem 2rem;
 }
 .rating-icon2 {
-	width: 16px;
+	width: 15px;
 	margin-right: 1px;
 }
 .rating-number {
@@ -442,7 +454,7 @@ footer {
 	margin: .1rem 0 0 .3rem;
 }
 .detail-info-box {
-	min-height: 300px;
+	min-height: 280px;
 	position: relative;
 	flex-grow: 1;
 }
@@ -453,7 +465,7 @@ footer {
 }
 .buy-new-btn {
 	height: 89px;
-	background: var(--royal-blue);
+	background: var(--green);
 	border-radius: .4rem;
 	font-size: 18px;
 	text-align: center;
@@ -475,6 +487,10 @@ footer {
 
 
 /* 상품 상세 페이지 */
+.product-detail {
+	width: 85%;
+	padding: 4rem 2rem;
+}
 .product-right-box {
 	position: relative;
 	min-height: 340px;
@@ -482,6 +498,13 @@ footer {
 .product-buy-box {
 	position: absolute;
 	bottom: 0px;
+	right: 15px;
+}
+
+/* 좋아요 */
+.like-icon-sm {
+	width: 30px;
+	cursor: pointer;
 }
 
 /* 관리자 페이지 */

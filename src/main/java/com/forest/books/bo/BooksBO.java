@@ -31,7 +31,7 @@ public class BooksBO {
 	}
 	
 	/**
-	 * 알라딘 : 상품 리스트 API
+	 * 알라딘 : 상품 리스트 API (베스트셀러, 신간)
 	 * @param queryType
 	 * @param page
 	 * @return
@@ -87,7 +87,7 @@ public class BooksBO {
 	} //-- 상품 리스트 API
 	
 	/**
-	 * 알라딘 : 상품 검색 API 
+	 * 알라딘 : 상품 검색 API (검색결과)
 	 * @param query
 	 * @param queryType
 	 * @param page
@@ -137,13 +137,17 @@ public class BooksBO {
 				description = description.substring(0, 100) + "...";
 			}
 			item.setDescription(description);
+			
+			// 2) 해당하는 List<product>가 있는지 찾기
+			List<ProductEntity> productList = productBO.getProductListByIsbn(item.getIsbn13());
+			item.setProductList(productList);
 		}
 		
         return itemViewList;
 	} //-- 상품 검색 API
 	
 	/**
-	 * 알라딘 : 상품 조회 API, 결과: ItemView or null
+	 * 알라딘 : 상품 조회 API (단건), 결과: ItemView or null
 	 * @param itemId
 	 * @param itemIdType
 	 * @return

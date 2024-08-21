@@ -4,7 +4,6 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/mainLayout}">
 
-
 <!-- mainLayout : contents -->
 <section layout:fragment="contents" class="contents">
 	<div class="books-list">
@@ -74,31 +73,33 @@
 				<div class="flex-grow-1"></div>
 				
 				<div class="item-purchase col-4">
-					<div>좋아요</div>
-					<div>장바구니</div>
+					<div th:data-isbn="${item.isbn13}">
+						<img alt="좋아요" src="/img/heart-icon.png" class="like-icon-sm">
+						<img alt="좋아요" src="/img/heart-filled-icon.png" class="like-icon-sm d-none">
+					</div>
 					
 					<!-- 가격 -->
-					<div class="btn btn-outline-primary w-75">
-						<div class="d-flex justify-content-end">
-							<h6 class="mb-0">신품도서</h6>
+					<div class="price-btn-box">
+						<div th:unless="${#lists.isEmpty(item.productList)}" th:with="product = ${item.productList[#lists.size(item.productList) - 1]}" th:data-product-id="${product.id}" class="btn btn-outline-danger price-btn product-price-btn">
+							<div class="d-flex justify-content-end">
+								<h6 class="mb-0">중고도서(최저가)</h6>
+							</div> <!--	 가격 -->
+							<div class="d-flex justify-content-end">
+								<span th:text="${#numbers.formatInteger(product.price, 3, 'COMMA') + '원'}" class="font-weight-bold ff-gr"></span>
+							</div>
 						</div>
-						<div class="d-flex justify-content-end">
-							<span th:text="${#numbers.formatInteger(item.priceStandard, 3, 'COMMA') + '원'}" class="price-standard"></span>
-							<span class="mx-1">&#8594;</span>
-							<a th:href="${item.link}" target="_blank">
+						<div class="btn btn-outline-success price-btn new-price-btn mt-2" th:data-link="${item.link}">
+							<div class="d-flex justify-content-end">
+								<h6 class="mb-0">신품도서</h6>
+							</div>
+							<div class="d-flex justify-content-end">
+								<span th:text="${#numbers.formatInteger(item.priceStandard, 3, 'COMMA') + '원'}" class="price-standard"></span>
+								<span class="mx-1">&#8594;</span>
 								<span th:text="${#numbers.formatInteger(item.priceSales, 3, 'COMMA') + '원'}" class="font-weight-bold ff-gr"></span>
-							</a>
+							</div>
 						</div>
-					</div>
-					<div class="btn btn-outline-danger w-75">
-						<div class="d-flex justify-content-end">
-							<h6 class="mb-0">중고도서(최저가)</h6>
-						</div> <!-- 가격 -->
-						<div th:unless="${#lists.isEmpty(item.productList)}" th:each="product : ${item.productList}" class="d-flex justify-content-end">
-							<span th:text="${#numbers.formatInteger(product.price, 3, 'COMMA') + '원'}" class="font-weight-bold ff-gr"></span>
-						</div>
-					</div>
-				</div>
+					</div> <!-- price-btn-box -->
+				</div><!-- item-purchase -->
 			</div>
 		</div><!-- bookList 반복문 -->
 		
@@ -116,6 +117,7 @@
 <!-- mainLayout : script -->
 <script layout:fragment="script">
 	$(document).ready(function() {
+		
 		// bestseller-page-btn-focus load
 		$('.bestseller-page-btn').each(function() {
 			let page = $(this).data('page-num');
@@ -132,6 +134,46 @@
 			let page = $(this).data('page-num');
 			location.href = "/books/bestseller?page=" + page;
 		}) //-- 베스트셀러 페이지 버튼 
+		
+		// 신간 가격 버튼 - 알라딘 페이지로 이동
+		$('.new-price-btn').on('click', function(e) {
+			let link = $(this).data('link');
+			window.open(link);
+		}); //-- 신간 가격 버튼 - 알라딘 페이지로 이동
+		
+		// 상품 가격 버튼 - 최저가 상품 상세 페이지로 이동
+		$('.product-price-btn').on('click', function(e) {
+			let link = "/product/detail/" + $(this).data('product-id');
+			window.open(link);
+		}); //-- 상품 가격 버튼 - 최저가 상품 상세 페이지로 이동
+		
+		// 좋아요 버튼
+		$('.like-icon-sm').on('click', function(e) {
+			let isbn = $(this).parent().data('isbn');
+//			console.log(isbn);
+
+			$.ajax({
+				type:"get"
+				, url:"/like/" + isbn // REST Api방식은 data가 여기서 포함됨
+				, context: this
+				, success:function(data) {
+					if (data.code == 200) {
+						$(this).addClass('d-none');
+						$(this).siblings().removeClass('d-none');
+					} else if (data.code == 403) {
+						alert(data.error_message);
+					}
+				}
+				, error:function(error) {
+					alert("AJAX ERROR : 좋아요 오류");
+				}
+				
+			}); //-- ajax
+
+			
+			
+		}); //-- 좋아요 버튼
+		
 		
 	}); //-- ready
 </script>
