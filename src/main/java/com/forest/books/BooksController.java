@@ -1,5 +1,6 @@
 package com.forest.books;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -10,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.forest.books.bo.BooksBO;
 import com.forest.books.domain.ItemView;
+import com.forest.like.entity.LikeEntity;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -41,12 +44,27 @@ public class BooksController {
 	@GetMapping("/books/bestseller")
 	public String bestseller(
 			@RequestParam(value = "page", required = false, defaultValue = "1") String page,
+			HttpSession session,
 			Model model) {
+
 		// log.info("%%%" + page);
-		
 		String queryType = "Bestseller";
 		
+		// itemView - item, productList, like
 		List<ItemView> itemViewList = booksBO.getItemList(queryType, page);
+		
+		// likeIsbnList
+		Integer userId = (Integer)session.getAttribute("userId");
+		List<String> likeIsbnList = new ArrayList<>();
+		
+		if (userId != null) {
+			// 로그인 유저의 좋아요 리스트
+			List<LikeEntity> likeEntityList = booksBO.getLikeListByUserId(userId);
+			for (LikeEntity likeEntity : likeEntityList) {
+				likeIsbnList.add(likeEntity.getId().getIsbn());
+			}
+		} // 로그인 상태가 아닌 경우에는 조회X
+		model.addAttribute("likeIsbnList", likeIsbnList);
 		
 		model.addAttribute("pageIndex", page);
 		model.addAttribute("itemList", itemViewList);
@@ -65,9 +83,23 @@ public class BooksController {
 	public String newBooks(
 			@RequestParam(value = "queryType", required = false, defaultValue = "ItemNewSpecial") String queryType,
 			@RequestParam(value = "page", required = false, defaultValue = "1") String page,
+			HttpSession session,
 			Model model) {
 		
 		List<ItemView> itemViewList = booksBO.getItemList(queryType, page);
+		
+		// likeIsbnList
+		Integer userId = (Integer)session.getAttribute("userId");
+		List<String> likeIsbnList = new ArrayList<>();
+		
+		if (userId != null) {
+			// 로그인 유저의 좋아요 리스트
+			List<LikeEntity> likeEntityList = booksBO.getLikeListByUserId(userId);
+			for (LikeEntity likeEntity : likeEntityList) {
+				likeIsbnList.add(likeEntity.getId().getIsbn());
+			}
+		} // 로그인 상태가 아닌 경우에는 조회X
+		model.addAttribute("likeIsbnList", likeIsbnList);
 		
 		model.addAttribute("queryType", queryType);
 		model.addAttribute("pageIndex", page);
@@ -89,9 +121,23 @@ public class BooksController {
 			@RequestParam("query") String query,
 			@RequestParam(value = "queryType", required = false, defaultValue = "Keyword") String queryType,
 			@RequestParam(value = "page", required = false, defaultValue = "1") String page,
+			HttpSession session,
 			Model model) {
 		
 		List<ItemView> itemViewList = booksBO.getItemSearch(query, queryType, page);
+		
+		// likeIsbnList
+		Integer userId = (Integer)session.getAttribute("userId");
+		List<String> likeIsbnList = new ArrayList<>();
+		
+		if (userId != null) {
+			// 로그인 유저의 좋아요 리스트
+			List<LikeEntity> likeEntityList = booksBO.getLikeListByUserId(userId);
+			for (LikeEntity likeEntity : likeEntityList) {
+				likeIsbnList.add(likeEntity.getId().getIsbn());
+			}
+		} // 로그인 상태가 아닌 경우에는 조회X
+		model.addAttribute("likeIsbnList", likeIsbnList);
 		
 		// model에 담기
 		model.addAttribute("query", query);
@@ -125,12 +171,23 @@ public class BooksController {
 	@GetMapping("/books/detail/{isbn}")
 	public String detailBooks(
 			@PathVariable(name = "isbn") String isbn,
+			HttpSession session,
 			Model model) {
 		
 		// 1. 알라딘 API로 도서 상세 정보를 가져옴
 		ItemView itemView = booksBO.getItemLookUp(isbn, "ISBN13");
 		
+		// 2. 좋아요 여부 확인
+		Integer userId = (Integer)session.getAttribute("userId");
+		boolean isLiked = false;
+		
+		if (userId != null) {
+			// 로그인 유저의 좋아요 리스트
+			isLiked = booksBO.isLikeById(userId, isbn);
+		}
+		
 		// 3. 모델에 담음
+		model.addAttribute("isLiked", isLiked);
 		model.addAttribute("item", itemView);
 		
 		return "books/detail";

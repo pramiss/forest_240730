@@ -38,11 +38,6 @@ public class ItemView {
 	private double customerReviewRank; // 회원 리뷰 평점(별점 평균) : 0~10점(별0.5개당 1점)
 	private Integer bestRank; // (베스트셀러인 경우만 노출) 베스트셀러 순위 정보 - 정수
 	
-	// TODO: 중고도서 정보 - 있는지 없는지, 중고가, 해당 중고도서 상세 링크
+	// 중고도서 정보 - 있는지 없는지, 중고가, 해당 중고도서 상세 링크
 	private List<ProductEntity> productList; // 여러 개일 수 있음
-	
-	// TODO: 좋아요 - (로그인 된) 유저에 대해서만.
-	
-	// TODO: 장바구니
-	
 }

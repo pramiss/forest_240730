@@ -12,6 +12,7 @@ import com.forest.book.bo.BookBO;
 import com.forest.book.entity.BookEntity;
 import com.forest.book.repository.BookRepository;
 import com.forest.common.FileManagerService;
+import com.forest.like.bo.LikeBO;
 import com.forest.product.entity.ProductEntity;
 import com.forest.product.entity.ProductView;
 import com.forest.product.repository.ProductRepository;
@@ -22,15 +23,17 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class ProductBO {
 	
+	private final LikeBO likeBO;
 	private final BookBO bookBO;
 	private final ProductRepository productRepository;
 	private final FileManagerService fileManagerService;
 	
 	public ProductBO(ProductRepository productRepository, 
-			FileManagerService fileManagerService, BookBO bookBO) {
+			FileManagerService fileManagerService, BookBO bookBO, LikeBO likeBO) {
 		this.productRepository = productRepository;
 		this.fileManagerService = fileManagerService;
 		this.bookBO = bookBO;
+		this.likeBO = likeBO;
 	}
 
 	// 상품리스트 가져오기 (전체, id순서)
@@ -149,4 +152,9 @@ public class ProductBO {
 		
 		return isbn;
 	} //-- 상품 삭제
+	
+	// 유저, 책의 좋아요 여부 확인 (단건, boolean)
+	public boolean isLikeById(int userId, String isbn) {
+		return likeBO.isLikeById(userId, isbn);
+	}
 }

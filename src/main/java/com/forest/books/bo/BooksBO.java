@@ -8,9 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.HtmlUtils;
 
-import com.forest.book.entity.BookEntity;
 import com.forest.books.domain.AladinView;
 import com.forest.books.domain.ItemView;
+import com.forest.like.bo.LikeBO;
+import com.forest.like.entity.LikeEntity;
 import com.forest.product.bo.ProductBO;
 import com.forest.product.entity.ProductEntity;
 
@@ -20,14 +21,16 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class BooksBO {
 
+	private final LikeBO likeBO;
 	private final ProductBO productBO;
 	private final WebClient webClient;
 	private final ModelMapper modelMapper;
 	
-	public BooksBO(WebClient webClient, ProductBO productBO) {
+	public BooksBO(WebClient webClient, ProductBO productBO, LikeBO likeBO) {
 		this.webClient = webClient;
 		this.modelMapper = new ModelMapper();
 		this.productBO = productBO;
+		this.likeBO = likeBO;
 	}
 	
 	/**
@@ -197,4 +200,14 @@ public class BooksBO {
 		
 		return itemView;
 	} //-- 상품 조회 API
+	
+	// 유저의 좋아요 리스트를 가져옴 (여러건, 리스트)
+	public List<LikeEntity> getLikeListByUserId(int userId) {
+		return likeBO.getLikeListByUserId(userId);
+	} //-- 유저의 좋아요 리스트를 가져옴
+	
+	// 유저, 책의 좋아요 여부 확인 (단건, boolean)
+	public boolean isLikeById(int userId, String isbn) {
+		return likeBO.isLikeById(userId, isbn);
+	}
 }

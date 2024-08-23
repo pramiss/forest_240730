@@ -76,13 +76,22 @@
 							<!-- 가격 -->
 							<div class="mt-2 y-center justify-content-end">
 								<h5 th:text="${#numbers.formatInteger(productView.product.price, 3, 'COMMA') + '원'}" class="font-weight-bold mb-0"></h5>
-								<button class="btn btn-outline-danger ml-2 px-2 py-1">Buy Now</button>
+								<button class="btn btn-outline-danger ml-2 px-2 py-1 font-weight-bold">Buy Now</button>
 							</div>
 							
 							<!-- 좋아요, 장바구니 -->
 							<div class="d-flex justify-content-end mt-3">
-								<button class="btn btn-outline-success fs-large col-8">장바구니</button>
-								<button class="btn btn-outline-primary col-2 ml-1">좋</button>
+								<button class="btn btn-outline-success fs-large col-8 mr-3">장바구니</button>
+								
+								<!-- 좋아요 -->
+								<div th:if="${isLiked}" th:data-isbn="${productView.product.isbn}" class="like-icon-btn">
+									<img alt="좋아요" width="30" src="/img/heart-filled-icon.png">
+									<img alt="좋아요" width="30" src="/img/heart-icon.png" class="d-none">
+								</div>
+								<div th:unless="${isLiked}" th:data-isbn="${productView.product.isbn}" class="like-icon-btn">
+									<img alt="좋아요" width="30" src="/img/heart-filled-icon.png" class="d-none">
+									<img alt="좋아요" width="30" src="/img/heart-icon.png">
+								</div>
 							</div>
 						</div>
 					</div> <!-- 가격 정보 박스 -->
@@ -100,6 +109,30 @@
 <!-- mainLayout : script -->
 <script layout:fragment="script">
 	$(document).ready(function() {
+		
+		// 좋아요 버튼
+		$('.like-icon-btn').on('click', function(e) {
+			let isbn = $(this).data('isbn');
+
+			let child = $(this).children('.d-none');
+			
+			$.ajax({
+				type:"get"
+				, url:"/like/" + isbn // REST Api방식은 data가 여기서 포함됨
+				, context: this
+				, success:function(data) {
+					if (data.code == 200) {
+						$(child).removeClass('d-none');
+						$(child).siblings().addClass('d-none');
+					} else if (data.code == 403) {
+						alert(data.error_message);
+					}
+				}
+				, error:function(error) {
+					alert("AJAX ERROR : 좋아요 오류");
+				}
+			}); //-- ajax
+		}); //-- 좋아요 버튼
 		
 	}); //-- ready
 </script>

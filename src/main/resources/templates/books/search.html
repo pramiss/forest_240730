@@ -83,7 +83,15 @@
 				<div class="flex-grow-1"></div>
 				
 				<div class="item-purchase col-4">
-					<div>좋아요</div>
+					<!-- 좋아요 -->
+					<div th:if="${#lists.contains(likeIsbnList, item.isbn13)}" th:data-isbn="${item.isbn13}">
+						<img alt="좋아요" src="/img/heart-filled-icon.png" class="like-icon-sm">
+						<img alt="좋아요" src="/img/heart-icon.png" class="like-icon-sm d-none">
+					</div>
+					<div th:unless="${#lists.contains(likeIsbnList, item.isbn13)}" th:data-isbn="${item.isbn13}">
+						<img alt="좋아요" src="/img/heart-filled-icon.png" class="like-icon-sm d-none">
+						<img alt="좋아요" src="/img/heart-icon.png" class="like-icon-sm">
+					</div>
 					
 					<!-- 가격 -->
 					<div class="price-btn-box">
@@ -207,6 +215,28 @@
 			let link = "/product/detail/" + $(this).data('product-id');
 			window.open(link);
 		}); //-- 상품 가격 버튼 - 최저가 상품 상세 페이지로 이동
+		
+		// 좋아요 버튼
+		$('.like-icon-sm').on('click', function(e) {
+			let isbn = $(this).parent().data('isbn');
+
+			$.ajax({
+				type:"get"
+				, url:"/like/" + isbn // REST Api방식은 data가 여기서 포함됨
+				, context: this
+				, success:function(data) {
+					if (data.code == 200) {
+						$(this).addClass('d-none');
+						$(this).siblings().removeClass('d-none');
+					} else if (data.code == 403) {
+						alert(data.error_message);
+					}
+				}
+				, error:function(error) {
+					alert("AJAX ERROR : 좋아요 오류");
+				}
+			}); //-- ajax
+		}); //-- 좋아요 버튼
 		
 	}); //-- ready
 </script>

@@ -11,12 +11,22 @@
 		<div class="books-detail">
 			
 			<!-- 상단 정보 -->
-			<div class="d-flex text-dark-grey">
+			<div class="d-flex justify-content-between text-dark-grey">
 				<small th:text="|isbn : ${item.isbn13}|"></small>
+				
+				<!-- 좋아요 -->
+				<div th:if="${isLiked}" th:data-isbn="${item.isbn13}">
+					<img alt="좋아요" src="/img/heart-filled-icon.png" class="like-icon-sm">
+					<img alt="좋아요" src="/img/heart-icon.png" class="like-icon-sm d-none">
+				</div>
+				<div th:unless="${isLiked}" th:data-isbn="${item.isbn13}">
+					<img alt="좋아요" src="/img/heart-filled-icon.png" class="like-icon-sm d-none">
+					<img alt="좋아요" src="/img/heart-icon.png" class="like-icon-sm">
+				</div>
 			</div>
 			
 			<!-- 주 내용 -->
-			<div class="d-flex mt-2">
+			<div class="d-flex">
 				<div>
 					<img alt="알리딘 제공 도서 이미지" th:src="${item.cover}">
 				</div>
@@ -91,7 +101,27 @@
 <script layout:fragment="script">
 	$(document).ready(function() {
 
+		// 좋아요 버튼
+		$('.like-icon-sm').on('click', function(e) {
+			let isbn = $(this).parent().data('isbn');
 
+			$.ajax({
+				type:"get"
+				, url:"/like/" + isbn // REST Api방식은 data가 여기서 포함됨
+				, context: this
+				, success:function(data) {
+					if (data.code == 200) {
+						$(this).addClass('d-none');
+						$(this).siblings().removeClass('d-none');
+					} else if (data.code == 403) {
+						alert(data.error_message);
+					}
+				}
+				, error:function(error) {
+					alert("AJAX ERROR : 좋아요 오류");
+				}
+			}); //-- ajax
+		}); //-- 좋아요 버튼
 		
 		
 	}); //-- ready

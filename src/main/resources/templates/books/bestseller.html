@@ -73,9 +73,15 @@
 				<div class="flex-grow-1"></div>
 				
 				<div class="item-purchase col-4">
-					<div th:data-isbn="${item.isbn13}">
-						<img alt="좋아요" src="/img/heart-icon.png" class="like-icon-sm">
+				
+					<!-- 좋아요 -->
+					<div th:if="${#lists.contains(likeIsbnList, item.isbn13)}" th:data-isbn="${item.isbn13}">
+						<img alt="좋아요" src="/img/heart-filled-icon.png" class="like-icon-sm">
+						<img alt="좋아요" src="/img/heart-icon.png" class="like-icon-sm d-none">
+					</div>
+					<div th:unless="${#lists.contains(likeIsbnList, item.isbn13)}" th:data-isbn="${item.isbn13}">
 						<img alt="좋아요" src="/img/heart-filled-icon.png" class="like-icon-sm d-none">
+						<img alt="좋아요" src="/img/heart-icon.png" class="like-icon-sm">
 					</div>
 					
 					<!-- 가격 -->
@@ -150,7 +156,6 @@
 		// 좋아요 버튼
 		$('.like-icon-sm').on('click', function(e) {
 			let isbn = $(this).parent().data('isbn');
-//			console.log(isbn);
 
 			$.ajax({
 				type:"get"
@@ -167,13 +172,8 @@
 				, error:function(error) {
 					alert("AJAX ERROR : 좋아요 오류");
 				}
-				
 			}); //-- ajax
-
-			
-			
 		}); //-- 좋아요 버튼
-		
 		
 	}); //-- ready
 </script>

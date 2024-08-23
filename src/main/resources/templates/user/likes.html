@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/mainLayout}">
+
+<!-- mainLayout : contents -->
+<section layout:fragment="contents" class="contents">
+	<div class="like-list">
+		
+		<h3 class="mt-5 mb-4 mx-3">내가 좋아요한 도서들</h3>
+		
+		<table class="table">
+			<thead class="thead-light">
+				<tr class="fs-small text-center">
+					<th class="col-7">상품정보</th>
+					<th class="col-2">신품가격</th>
+					<th class="col-2">중고가격</th>
+					<th class="col-1"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="item : ${itemList}">
+					<td class="d-flex"> <!-- 상품 정보 -->
+						<div>
+							<a th:href="|/books/detail/${item.isbn13}|">
+								<img width="70" alt="책 이미지" th:src="${item.cover}">
+							</a>
+						</div>
+						<div class="item-content y-center">
+							<div>
+								<a th:text="${item.title}" th:href="|/books/detail/${item.isbn13}|" class="item-title">
+									책제목
+								</a>
+								<div th:text="|${item.author}|" class="fs-smaller"></div>
+							</div>
+						</div>
+					</td>
+					<td> <!-- 신품 가격 -->
+						<div class="new-price-btn absolute-center cursor" th:data-link="${item.link}">
+							<div th:text="${#numbers.formatInteger(item.priceSales, 3, 'COMMA') + '원'}" class="fs-small text-center font-weight-bold"></div>
+						</div>
+					</td>
+					<td> <!-- 중고 가격 -->
+						<div class="fs-small d-flex flex-column absolute-center cursor">
+							<th:block th:if="${#lists.isEmpty(item.productList)}">
+								<span>재고없음</span>
+							</th:block>
+							<th:block th:unless="${#lists.isEmpty(item.productList)}" th:each="product : ${item.productList}">
+								<a th:href="|/product/detail/${product.id}|" class="text-center mb-1">
+									<span th:text="${#numbers.formatInteger(product.price, 3, 'COMMA') + '원'}" class="font-weight-bold">1000원</span>
+								</a>
+							</th:block>
+						</div>
+					</td>
+					<td> <!-- 좋아요 -->
+						<div th:data-isbn="${item.isbn13}" class="absolute-center">
+							<img alt="좋아요" src="/img/heart-filled-icon.png" class="like-icon-sm">
+							<img alt="좋아요" src="/img/heart-icon.png" class="like-icon-sm d-none">
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		
+	</div><!-- 책 리스트 컨테이너 -->
+</section>
+
+<!-- mainLayout : script -->
+<script layout:fragment="script">
+	$(document).ready(function() {
+		
+		// 신간 가격 버튼 - 알라딘 페이지로 이동
+		$('.new-price-btn').on('click', function(e) {
+			let link = $(this).data('link');
+			window.open(link);
+		}); //-- 신간 가격 버튼 - 알라딘 페이지로 이동
+		
+		// 좋아요 버튼
+		$('.like-icon-sm').on('click', function(e) {
+			let isbn = $(this).parent().data('isbn');
+
+			$.ajax({
+				type:"get"
+				, url:"/like/" + isbn // REST Api방식은 data가 여기서 포함됨
+				, context: this
+				, success:function(data) {
+					if (data.code == 200) {
+						$(this).addClass('d-none');
+						$(this).siblings().removeClass('d-none');
+					} else if (data.code == 403) {
+						alert(data.error_message);
+					}
+				}
+				, error:function(error) {
+					alert("AJAX ERROR : 좋아요 오류");
+				}
+			}); //-- ajax
+		}); //-- 좋아요 버튼
+		
+	}); //-- ready
+</script>
+
+
+</html>

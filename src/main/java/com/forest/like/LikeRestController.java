@@ -7,15 +7,30 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.forest.like.bo.LikeBO;
+
 import jakarta.servlet.http.HttpSession;
 
 @RestController
 public class LikeRestController {
+	
+	private final LikeBO likeBO;
+	
+	public LikeRestController(LikeBO likeBO) {
+		this.likeBO = likeBO;
+	}
 
+	/**
+	 * like 토글 API
+	 * @param isbn
+	 * @param session
+	 * @return
+	 */
 	@GetMapping("/like/{isbn}")
 	public Map<String, Object> likeToggle(
 			@PathVariable(name = "isbn") String isbn,
 			HttpSession session) {
+		
 		// 1. 로그인 검사
 		Integer userId = (Integer)session.getAttribute("userId");
 		Map<String, Object> result = new HashMap<>();
@@ -27,6 +42,7 @@ public class LikeRestController {
 		}
 		
 		// 2. BO에서 좋아요 토글
+		likeBO.likeToggle(userId, isbn);
 		
 		// 3. 결과 리턴
 		result.put("code", 200);

@@ -8,9 +8,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.forest.books.domain.ItemView;
 import com.forest.product.bo.ProductBO;
 import com.forest.product.entity.ProductView;
+
+import jakarta.servlet.http.HttpSession;
 
 @RequestMapping("/product")
 @Controller
@@ -48,12 +49,23 @@ public class ProductController {
 	@GetMapping("/detail/{productId}")
 	public String detailBooks(
 			@PathVariable(name = "productId") int productId,
+			HttpSession session,
 			Model model) {
 		
 		// 1. 상품 상세 정보를 가져옴
 		ProductView productView = productBO.getProductView(productId);
 		
-		// 2. 모델에 담음
+		// 2. 좋아요 여부 확인
+		Integer userId = (Integer)session.getAttribute("userId");
+		boolean isLiked = false;
+		
+		if (userId != null) {
+			// 로그인 유저의 좋아요 리스트
+			isLiked = productBO.isLikeById(userId, productView.getProduct().getIsbn());
+		}
+		
+		// 3. 모델에 담음
+		model.addAttribute("isLiked", isLiked);
 		model.addAttribute("productView", productView);
 		
 		return "product/detail";

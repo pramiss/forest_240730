@@ -10,7 +10,6 @@
 
 /* 변수 설정 */
 :root {
-
   --dark: #212529;
   --grey: #dee2e6;
   --light-grey: #F6F8FA;
@@ -23,6 +22,7 @@
 
   --btn-red: #B83B5E;
   
+  --blue: #007bff;
   --green: #28a745;
   --yellow: #ffc107;
   --red: #dc3545;
@@ -39,11 +39,24 @@ a, a:hover {
 }
 
 /* 공용 */
+.absolute-center {
+	/* 상하좌우 정중앙 정렬하기 */
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+.cursor {
+	cursor: pointer;
+}
 .line-height-wide {
 	line-height: 2;
 }
 .fs-small {
 	font-size: 0.9rem
+}
+.fs-smaller {
+	font-size: 0.8rem
 }
 .fs-large {
 	font-size: 1.2rem
@@ -500,11 +513,37 @@ footer {
 	bottom: 0px;
 	right: 15px;
 }
+.product-buy-box .btn {
+    border: 2px solid;
+}
 
 /* 좋아요 */
 .like-icon-sm {
 	width: 30px;
 	cursor: pointer;
+}
+.like-icon-btn {
+	padding: .375rem .475rem;
+	border: 2px solid var(--blue);
+	border-radius: .25rem;
+	cursor: pointer;
+}
+
+/* 좋아요 목록 */
+.like-list {
+	width: 850px;
+}
+.like-list .item-title {
+	font-family: 'GowunBatang-Regular';
+	font-weight: bold;
+	font-size: 1rem;
+	color: var(--dark);
+}
+.like-list td {
+	position: relative;
+}
+.like-list .like-icon-sm {
+	width: 25px;
 }
 
 /* 관리자 페이지 */
