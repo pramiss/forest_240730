@@ -430,6 +430,7 @@ footer {
 	width: 30%;
 	margin: 2rem 1.66666%;
 	padding: 0.9rem;
+    position: relative;
 	cursor: pointer;
 }
 .product-img-box {
@@ -451,6 +452,17 @@ footer {
 	font-weight: bold;
 }
 
+.product-sold {
+    width: 100%;
+    height: 100%;
+    background: rgba(256, 256, 256, 0.8);
+    
+    position: absolute;
+    top: 0;
+    left: 0;
+    
+    padding-top: 100px;
+}
 
 /* 도서 상세 페이지 */
 .books-detail {
@@ -498,6 +510,19 @@ footer {
 	padding: .3rem;
 }
 
+.product-sold-detail {
+    width: 100%;
+    height: 100%;
+    background: rgba(256, 256, 256, 0.8);
+    
+    position: absolute;
+    top: 0;
+    left: 0;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 /* 상품 상세 페이지 */
 .product-detail {
@@ -513,9 +538,6 @@ footer {
 	bottom: 0px;
 	right: 15px;
 }
-.product-buy-box .btn {
-    border: 2px solid;
-}
 
 /* 좋아요 */
 .like-icon-sm {
@@ -524,7 +546,7 @@ footer {
 }
 .like-icon-btn {
 	padding: .375rem .475rem;
-	border: 2px solid var(--blue);
+	border: 1px solid var(--blue);
 	border-radius: .25rem;
 	cursor: pointer;
 }

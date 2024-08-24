@@ -1,19 +1,15 @@
 package com.forest.user;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.forest.books.bo.BooksBO;
 import com.forest.books.domain.ItemView;
-import com.forest.like.entity.LikeEntity;
+import com.forest.product.entity.ProductView;
 import com.forest.user.bo.UserBO;
 import com.forest.user.domain.User;
 
@@ -29,7 +25,12 @@ public class UserController {
 	    this.userBO = userBO;
 	} 
 	
-	// 좋아요 목록 페이지
+	/**
+	 * 좋아요 목록 페이지
+	 * @param session
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/likes")
 	public String userLikes(HttpSession session, Model model) {
 		
@@ -51,6 +52,33 @@ public class UserController {
 		// 좋아요 목록 페이지로 이동
 		return "user/likes";
 	} //-- 좋아요 목록 페이지
+	
+    /**
+     * 장바구니 페이지
+     * @param session
+     * @param model
+     * @return
+     */
+    @GetMapping("/cart")
+    public String userCart(HttpSession session, Model model) {
+        
+        // 현재 세션 유저의 장바구니를 불러옴 (최종적으로 필요한 것 : productId 리스트)
+        int userId = (int) session.getAttribute("userId");
+        List<Integer> productIdList = userBO.getCartListByUserId(userId).stream()
+                                            .map(cartEntity -> cartEntity.getCartId().getProductId())
+                                            .collect(Collectors.toList());
+        
+        // productId 리스트 -> ProductView 리스트
+        List<ProductView> ProductViewList = productIdList.stream()
+                                            .map(productId -> userBO.getProductViewByProductId(productId))
+                                            .collect(Collectors.toList());
+        
+        // List<ItemView>를 Model에 담는다.
+        model.addAttribute("ProductViewList", ProductViewList);
+
+        // 장바구니 목록 페이지로 이동
+        return "user/cart";
+    }
 	
 	/**
 	 * 회원정보상세 페이지

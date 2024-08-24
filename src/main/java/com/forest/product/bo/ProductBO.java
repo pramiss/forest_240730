@@ -63,7 +63,7 @@ public class ProductBO {
 		List<ProductView> productViewList = new ArrayList<>();
 		
 		// 1. 모든 product를 list로 가져온다. (select)
-		List<ProductEntity> productList = productRepository.findAllByOrderByIsbnDesc();
+        List<ProductEntity> productList = productRepository.findAllByOrderBySaleStatusDescIsbnDesc();
 		
 		// 2. 모든 book을 list로 가져온다. (select)
 		List<BookEntity> bookList = bookBO.getBookList();
@@ -152,6 +152,12 @@ public class ProductBO {
 		
 		return isbn;
 	} //-- 상품 삭제
+	
+    // 상품의 판매상태 확인 (판매중, 판매완료)
+    public String getProdcutSaleStatus(int productId) {
+        ProductEntity productEntity = productRepository.findById(productId).orElse(null);
+        return productEntity.getSaleStatus();
+    }
 	
 	// 유저, 책의 좋아요 여부 확인 (단건, boolean)
 	public boolean isLikeById(int userId, String isbn) {
