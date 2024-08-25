@@ -6,61 +6,144 @@
 
 <!-- mainLayout : contents -->
 <section layout:fragment="contents" class="contents">
-	<div class="like-list">
+	<div class="cart-list">
 		
 		<h3 class="mt-5 mb-4 mx-3">내가 좋아요한 도서들</h3>
 		
-		<table class="table">
-			<thead class="thead-light">
-				<tr class="fs-small text-center">
-					<th class="col-7">상품정보</th>
-					<th class="col-2">신품가격</th>
-					<th class="col-2">중고가격</th>
-					<th class="col-1"></th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:each="productView : ${ProductViewList}">
-					<td class="d-flex"> <!-- 상품 정보 -->
-						<div>
-							<a th:href="|/product/detail/${productView.product.id}|">
-								<img width="70" alt="책 이미지" th:src="${productView.product.imageUrl}">
-							</a>
-						</div>
-						<div class="item-content y-center">
-							<div>
-								<a th:text="${productView.book.title}" th:href="|/product/detail/${productView.product.id}|" class="item-title">
-									책제목
-								</a>
-								<div th:text="|${productView.book.author}|" class="fs-smaller"></div>
-							</div>
-						</div>
-					</td>
-					<td> <!-- 신품 가격 -->
-						
-					</td>
-					<td> <!-- 중고 가격 -->
-						<div class="fs-small d-flex flex-column absolute-center cursor">
-							<a th:href="|/product/detail/${productView.product.id}|" class="text-center mb-1">
-								<span th:text="${#numbers.formatInteger(productView.product.price, 3, 'COMMA') + '원'}" class="font-weight-bold">1000원</span>
-							</a>
-						</div>
-					</td>
-					<td> <!-- 좋아요 -->
-						
-					</td>
-				</tr>
-			</tbody>
-		</table>
-		
+		<div class="d-flex">
+			<div class="col-9">
+				<table class="table">
+					<thead class="thead-light">
+						<tr class="fs-small text-center">
+							<th class="col-7">상품정보</th>
+							<th class="col-2">상태</th>
+							<th class="col-2">가격</th>
+							<th class="col-1">선택</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="productView : ${ProductViewList}">
+							<td class="d-flex"> <!-- 상품 정보 -->
+								<div>
+									<a th:href="|/product/detail/${productView.product.id}|">
+										<img width="70" alt="책 이미지" th:src="${productView.product.imageUrl}">
+									</a>
+								</div>
+								<div class="item-content y-center">
+									<div>
+										<a th:text="${productView.book.title}" th:href="|/product/detail/${productView.product.id}|" class="item-title">
+											책제목
+										</a>
+										<div th:text="|${productView.book.author}|" class="fs-smaller"></div>
+									</div>
+								</div>
+							</td>
+							<td class="position-relative"> <!-- 책 상태 -->
+								<div class="absolute-center">
+									<div th:text="${productView.product.bookStatus}"></div>
+								</div>
+							</td>
+							<td> <!-- 중고 가격 -->
+								<div class="d-flex flex-column align-items-center mt-2">
+									<div th:with="percentage= (1 - ${productView.product.price} / ${productView.book.priceSales}) * 100">
+										<span class="badge badge-success p-1" th:if="${percentage} > 0" th:text="|${#numbers.formatDecimal(percentage, 2, 0)}% 이상 할인|"></span>
+										<span class="badge badge-warning p-1" th:unless="${percentage} > 0" th:text="|리미티드|"></span>
+									</div>
+									<div class="mt-1">
+										<a th:href="|/product/detail/${productView.product.id}|" class="text-center mb-1">
+											<span th:text="${#numbers.formatInteger(productView.product.price, 3, 'COMMA') + '원'}" class="font-weight-bold fs-large">1000원</span>
+										</a>
+									</div>
+								</div>
+							</td>
+							<td class="position-relative"> <!-- 체크 -->
+								<div class="absolute-center cart-check-off" th:data-price="${productView.product.price}">
+									<svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-check-circle text-grey" viewBox="0 0 16 16">
+									  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+									  <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
+									</svg>
+								</div>
+								<div class="absolute-center cart-check-on d-none" th:data-price="${productView.product.price}" th:data-product-id="${productView.product.id}">
+									<svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-check-circle-fill text-royal-blue" viewBox="0 0 16 16">
+									  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+									</svg>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				
+				<div class="d-flex justify-content-end">
+					<button type="button" id="deleteBtn" class="btn btn-light">삭제</button>
+				</div>
+			</div>
+			
+			<div class="col-3 cart-info-box">
+				<div class="d-flex justify-content-between">
+			    	<div>결제 예정 금액</div>
+			    	<div class="cart-total-price">
+				    	<!-- 결제 예정 금액 -->
+				    </div>
+			    </div>
+			    
+			    <button type="button" id="orderBtn" class="btn btn-secondary w-100 mt-3">주문하기</button>
+			</div>
+		</div>
 	</div><!-- 책 리스트 컨테이너 -->
 </section>
 
 <!-- mainLayout : script -->
 <script layout:fragment="script">
 	$(document).ready(function() {
+		
+		// 장바구니 체크 버튼
+		let totalPrice = 0;
+		$('.cart-total-price').html('<div class="font-weight-bold fs-large">' + totalPrice.toLocaleString() + '원</div>');
+		
+		$('.cart-check-off').on('click', function(e) {
+			$(this).addClass('d-none');
+			$(this).siblings('.cart-check-on').removeClass('d-none');
+			
+			totalPrice = totalPrice + $(this).data('price');
+		    $('.cart-total-price').html('<div class="font-weight-bold fs-large">' + totalPrice.toLocaleString() + '원</div>');
+		});
+		
+		$('.cart-check-on').on('click', function(e) {
+			$(this).addClass('d-none');
+			$(this).siblings('.cart-check-off').removeClass('d-none');
+			
+			totalPrice = totalPrice + $(this).data('price');
+		    $('.cart-total-price').html('<div class="font-weight-bold fs-large">' + totalPrice.toLocaleString() + '원</div>');
+		});
 
+		// 장바구니에서 삭제
+		$('#deleteBtn').on('click', function(e) {
+			
+			let productIdList = $('.cart-check-on').filter(':not(.d-none)').map(function() {
+				return $(this).data('product-id');
+			}).get();
 
+			if (productIdList.length < 1) { // 빈 배열의 경우.
+				return;
+			}
+			
+			$.ajax({
+				type:"delete"
+				, url:"/cart/" + productIdList // REST api로 구현
+				, success:function(data) {
+					if (data.code == 200) {
+						alert("삭제되었습니다.");	
+					} else if (data.code == 403) {
+						alert(data.error_message);
+					}
+					location.reload();
+				}
+				, error:function(e) {
+					alert("AJAX ERROR : 삭제 실패");
+				}
+			}); //-- ajax
+			
+		}); //-- 장바구니에서 삭제
 		
 	}); //-- ready
 </script>

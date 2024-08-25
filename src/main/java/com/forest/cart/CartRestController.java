@@ -1,8 +1,10 @@
 package com.forest.cart;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -60,4 +62,29 @@ public class CartRestController {
 		result.put("result", "성공");
 		return result;
 	} //-- 장바구니 추가 API
+	
+	// 장바구니 삭제 API (리스트로 한꺼번에 삭제)
+	@DeleteMapping("/cart/{productIdList}")
+	public Map<String, Object> deleteCartList(
+			@PathVariable(name = "productIdList") List<Integer> productIdList,
+			HttpSession session) {
+		
+		// 로그인 검사
+		Integer userId = (Integer)session.getAttribute("userId");
+		Map<String, Object> result = new HashMap<>();
+		
+		if (userId == null) {
+			result.put("code", 403);
+			result.put("error_message", "로그인이 필요합니다.");
+			return result;
+		}
+
+		// cartBO를 통해 해당하는 productId 목록 삭제
+		cartBO.deleteCartList(userId, productIdList);
+		
+		// 성공 후 리턴
+		result.put("code", 200);
+		result.put("result", "성공");
+		return result;
+	} //-- 장바구니 삭제 API
 }

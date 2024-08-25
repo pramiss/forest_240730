@@ -70,6 +70,12 @@ a, a:hover {
 .text-dark-grey {
 	color: var(--dark-grey);
 }
+.text-grey {
+	color: var(--grey);
+}
+.text-royal-blue {
+	color: var(--royal-blue);
+}
 .ff-gr {
 	font-family: 'GowunBatang-Regular';
 }
@@ -566,6 +572,28 @@ footer {
 }
 .like-list .like-icon-sm {
 	width: 25px;
+}
+
+/* 장바구니 페이지 */
+.cart-list {
+	width: 1200px;
+}
+.cart-check-off {
+	cursor: pointer;
+}
+.cart-check-on {
+	cursor: pointer;
+}
+.cart-info-box {
+	height: 150px;
+	border: 1px solid var(--grey);
+	border-radius: .5rem;
+	
+	padding: 2rem;
+}
+#orderBtn {
+	background: var(--royal-blue);
+	font-size: 1.1rem;	
 }
 
 /* 관리자 페이지 */

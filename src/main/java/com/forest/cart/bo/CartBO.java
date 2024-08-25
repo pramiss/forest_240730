@@ -54,4 +54,15 @@ public class CartBO {
 		return true;
 	} //-- 장바구니 추가
 
+	// 장바구니 삭제
+	public void deleteCartList(int userId, List<Integer> productIdList) {
+		
+		for(Integer productId : productIdList) {
+			CartId cartId = new CartId(userId, productId);
+			CartEntity cartEntity = CartEntity.builder().cartId(cartId).build();
+			cartRepository.delete(cartEntity);
+		}
+		
+	} //-- 장바구니 삭제
+	
 }
