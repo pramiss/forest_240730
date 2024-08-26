@@ -585,15 +585,34 @@ footer {
 	cursor: pointer;
 }
 .cart-info-box {
-	height: 150px;
 	border: 1px solid var(--grey);
 	border-radius: .5rem;
 	
 	padding: 2rem;
 }
-#orderBtn {
+.order-btn {
+	color: white;
 	background: var(--royal-blue);
-	font-size: 1.1rem;	
+	font-size: 1.1rem;
+	width: 100%;
+}
+.remove-form {
+	width: 120px;	
+	text-align: right;
+	color: var(--dark);
+	font-size: 1.1rem;
+	font-weight: bold;
+	border: 0;
+	padding: 0;
+}
+.remove-form-item {
+	width: 120px;	
+	text-align: right;
+	color: var(--dark);
+	font-size: 1rem;
+	font-weight: bold;
+	border: 0;
+	padding: 0;
 }
 
 /* 관리자 페이지 */

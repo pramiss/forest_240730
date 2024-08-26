@@ -42,7 +42,7 @@ public class BooksBO {
 	public List<ItemView> getItemList(String queryType, String page) {
 		// requestUri : Bestseller ItemNewSpecial ItemNewAll
 		String requestUri = String.format(
-						"https://www.aladin.co.kr/ttb/api/ItemList.aspx?ttbkey=ttbkkang565081035001&QueryType=%s&MaxResults=20&start=%s&SearchTarget=Book&output=js&Version=20131101&cover=MidBig"
+						"http://www.aladin.co.kr/ttb/api/ItemList.aspx?ttbkey=ttbkkang565081035001&QueryType=%s&MaxResults=20&start=%s&SearchTarget=Book&output=js&Version=20131101&cover=MidBig"
 						, queryType, page);
 		
 		// 알라딘 api로 상품 리스트 결과(key="item", "startIndex")를 받아옴 (AladinView에 존재하는 field만 자동매핑)
