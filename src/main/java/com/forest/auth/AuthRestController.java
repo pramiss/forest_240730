@@ -57,6 +57,9 @@ public class AuthRestController {
 		session.setAttribute("userId", user.getId());
 		session.setAttribute("userLoginId", user.getLoginId());
 		session.setAttribute("userName", user.getName());
+		session.setAttribute("userAddress", user.getAddress());
+		session.setAttribute("userPhoneNumber", user.getPhoneNumber());
+		session.setAttribute("userEmail", user.getEmail());
 		
 		result.put("code", 200);
 		result.put("result", "성공");

@@ -615,6 +615,34 @@ footer {
 	padding: 0;
 }
 
+/* 주문 페이지 */
+.order-list {
+	width: 700px;
+	padding: 40px 0;
+}
+.order-list-img {
+	overflow-x: scroll;
+	display: flex;
+}
+.order-info {
+	width: 600px;
+}
+.order-info th {
+	padding: 10px 15px;
+	vertical-align : top;
+	width: 25%;
+}
+.order-info td {
+	padding: 10px 15px;
+	vertical-align : top;
+	width: 75%;
+}
+.order-list-products {
+	height: 60px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
 /* 관리자 페이지 */
 .admin-page {
 	width: 80%;

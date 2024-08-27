@@ -89,12 +89,12 @@
 					<!-- 총 결제 금액 -->
 					<div class="form-group border-top pt-3 y-center justify-content-between">
 						<div>결제 금액</div>
-			    		<div id="totalPrice" class="remove-form">dsfsd</div>
+			    		<div id="totalPrice" class="remove-form">0원</div>
 					</div>
 					
 					<form method="post" action="/order/check-out">
-						<input type="text" name="orderProductList" id="orderProductList" class="" readonly="readonly">
-				    	<input type="text" name="orderPrice" id="orderPrice" value="0" class="" readonly="readonly">
+						<input type="text" name="orderProductList" id="orderProductList" class="d-none" readonly="readonly">
+				    	<input type="text" name="orderPrice" id="orderPrice" value="0" class="d-none" readonly="readonly">
 				    	<button type="submit" class="btn order-btn mt-3">주문하기</button>
 				    </form>
 		    	</div>
@@ -192,6 +192,16 @@
 			
 		}); //-- 장바구니에서 삭제
 		
+		// 주문하기 버튼
+		$('form').on('submit', function(e){
+			
+			if ($('#orderPrice').val() == 0) {
+				e.preventDefault();
+				return false;
+			}
+			
+		}); //-- 주문하기 버튼
+
 		
 	}); //-- ready
 </script>

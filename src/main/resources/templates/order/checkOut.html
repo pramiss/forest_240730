@@ -6,117 +6,101 @@
 
 <!-- subLayout : contents -->
 <section layout:fragment="contents" class="contents">
-	<div class="info-box">
-		<div class="info-form-box mt-3">
-			<form method="post" action="/user/update">
-				
-				<input type="text" name="loginId" id="loginId" class="form-control" th:value="${user.loginId}" disabled>
-				<input type="password" name="currentPassword" id="currentPassword" class="form-control mt-1" placeholder="현재 비밀번호">
-				<div id="checkCurrentPassword" class="small-red-text ml-1 d-none">
-					현재 비밀번호를 입력해주세요.
-				</div>
-				<div id="checkCurrentPasswordConfirm" class="small-red-text ml-1 d-none">
-					현재 비밀번호가 일치하지 않습니다.
-				</div>
-				
-				<input type="password" name="newPassword" id="newPassword" class="form-control mt-3" placeholder="새 비밀번호">
-				<input type="password" name="passwordConfirm" id="passwordConfirm" class="form-control mt-1" placeholder="비밀번호 확인">
-				<div id="checkPasswordConfirm" class="small-red-text ml-1 d-none">
-					비밀번호가 일치하지 않습니다.
-				</div>
-
-				<input type="text" name="name" id="name" class="form-control mt-4" placeholder="이름" th:value="${user.name}">
-				<div id="checkName" class="small-red-text ml-1 d-none">
-					이름을 입력해주세요.
-				</div>
-				
-				<input type="text" name="phoneNumber" id="phoneNumber" class="form-control mt-1" placeholder="휴대폰 번호 (숫자만 입력)" th:value="${user.phoneNumber}">
-				<div id="checkPhoneNumber" class="small-red-text ml-1 d-none">
-					휴대전화 11자리를 입력해주세요.
-				</div>
-				
-				<input type="text" name="email" id="email" class="form-control mt-1" placeholder="이메일 (선택)" th:value="${user.email}">
-				<input type="text" name="address" id="address" class="form-control mt-1" placeholder="주소 (선택)" th:value="${user.address}">				
-
-				<div class="x-center mt-4">
-					<button type="submit" id="changeBtn" class="btn">정보수정</button>
-				</div>
-			</form>
+	
+	<div class="order-list">
+		<div class="order-list-img">
+			<div th:each="productView : ${productViewList}" class="mx-2">
+				<img width="200" alt="상품 이미지" th:src="${productView.product.imageUrl}">
+			</div>
 		</div>
-		
-	</div> <!-- 회원정보상세 박스 -->
+		<div class="x-center py-4">
+			<table class="order-info">
+				<tr>
+					<th>주문자명</th>
+					<td>
+						<div id="userId" th:text="${session.userName}" th:data-user-id="${session.userId}"></div>
+					</td>
+				</tr>
+				<tr>
+					<th>연락처</th>
+					<td>
+						<input id="userPhoneNumber" type="text" th:value="${session.userPhoneNumber}" class="form-control" placeholder="휴대폰 번호를 입력해주세요.">
+					</td>
+				</tr>
+				<tr>
+					<th>주소</th>
+					<td>
+						<div id="userAddress" th:if="${session.userAddress} != null" th:text="${session.userAddress}"></div>
+						<div th:unless="${session.userAddress} != null">
+							<input type="text" id="userAddress" class="form-control" placeholder="주소를 입력해주세요.">
+						</div>
+					</td>
+					
+				</tr>
+				<tr>
+					<th>상품명</th>
+					<td>
+						<div class="order-list-products">
+							<div th:each="productView : ${productViewList}">
+								<span th:text="${productView.book.title}"></span>
+							</div>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th>결제 예정 금액</th>
+					<td>
+						<div th:text="${#numbers.formatInteger(price, 3, 'COMMA') + '원'}"></div>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="x-center mt-4">
+			<button id="purchaseBtn" type="button" class="btn btn-danger w-25">결제하기</button>
+		</div>
+	</div>
+	
 </section>
 
 <!-- subLayout : script -->
 <script layout:fragment="script">
 	$(document).ready(function() {
-		
-		// 정보수정
-		$('form').on('submit', function(e) {
-			e.preventDefault();
-			
-			$('#checkCurrentPassword').addClass('d-none');
-			$('#checkCurrentPasswordConfirm').addClass('d-none');
-			$('#checkPasswordConfirm').addClass('d-none');
-			$('#checkName').addClass('d-none');
-			$('#checkPhoneNumber').addClass('d-none');
-			
-			let currentPassword = $('#currentPassword').val();
-			let newPassword = $('#newPassword').val();
-			let passwordConfirm = $('#passwordConfirm').val();
-			let name = $('#name').val().trim();
-			let phoneNumber = $('#phoneNumber').val().trim();
-			let email = $('#email').val().trim();
-			let address = $('#address').val().trim();
-			
-			// validation
-			let checkOk = true;
-			
-			if (!currentPassword) {
-				$('#checkCurrentPassword').removeClass('d-none');
-				checkOk = false;
-			}
-			if (newPassword != passwordConfirm) {
-				$('#checkPasswordConfirm').removeClass('d-none');
-				checkOk = false;
-			}
-			if (!name) {
-				$('#checkName').removeClass('d-none');
-				checkOk = false;
-			}
-			if (phoneNumber.length != 11) {
-				$('#checkPhoneNumber').removeClass('d-none');
-				checkOk = false;
-			}
-			if (checkOk == false) {
-				return false;
-			}
-			
-			// AJAX
-			let url = $(this).attr('action');
-			let params = $(this).serialize();
 
-			console.log(url);
-			console.log(params);
+		// 휴대전화 자동 하이픈 추가
+		let userPhoneNumber = $('#userPhoneNumber').val()
+							.replace(/[^0-9]/g, '')
+		     				.replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3")
+		     				.replace(/(\-{1,2})$/g, "");
+		$('#userPhoneNumber').val(userPhoneNumber);
+		
+		$('#userPhoneNumber').on('input', function(){
+
+			let phoneNumber = $(this).val();
 			
-			$.ajax({
-				type:"put"
-				, url:url
-				, data:params
-				, success:function(data) {
-					if (data.code == 200) {
-						alert("수정되었습니다.");
-						location.reload();
-					} else if (data.code == 401) {
-						$('#checkCurrentPasswordConfirm').removeClass('d-none');
-					}
-				}
-				, error:function(e) {
-					alert("AJAX ERROR : 회원 정보 수정 실패");
-				}
-			}); //-- ajax
+			// 휴대폰 글자 수 제한
+			if (phoneNumber.length > 13) {
+				phoneNumber = phoneNumber.substring(0, 13);
+			}
 			
-		}) //-- 회원정보수정
+			phoneNumber = phoneNumber
+							.replace(/[^0-9]/g, '')
+		     				.replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3")
+		     				.replace(/(\-{1,2})$/g, "");
+			
+			$(this).val(phoneNumber);
+		});
+		
+		// 결제 버튼
+		$('#purchaseBtn').on('click', function(e) {
+
+			// validation: phoneNumber, address
+			
+			// 넘겨야할 데이터
+			// order : userId, totalPrice, address, phoneNumber, status
+			// orderProduct : productId(여러개), orderId는 이 시점에는 없어서 order 생성 후 다시 받아와야함
+			
+		});
+		
 		
 	}) //-- ready
 </script>
