@@ -30,9 +30,8 @@
 				<tr>
 					<th>주소</th>
 					<td>
-						<div id="userAddress" th:if="${session.userAddress} != null" th:text="${session.userAddress}"></div>
-						<div th:unless="${session.userAddress} != null">
-							<input type="text" id="userAddress" class="form-control" placeholder="주소를 입력해주세요.">
+						<div>
+							<input type="text" id="userAddress" class="form-control" th:value="${session.userAddress}" placeholder="주소를 입력해주세요.">
 						</div>
 					</td>
 					
@@ -42,7 +41,7 @@
 					<td>
 						<div class="order-list-products">
 							<div th:each="productView : ${productViewList}">
-								<span th:text="${productView.book.title}"></span>
+								<span th:text="${productView.book.title}" th:data-product-title="${productView.book.title}" th:data-product-id="${productView.product.id}"></span>
 							</div>
 						</div>
 					</td>
@@ -50,7 +49,7 @@
 				<tr>
 					<th>결제 예정 금액</th>
 					<td>
-						<div th:text="${#numbers.formatInteger(price, 3, 'COMMA') + '원'}"></div>
+						<div id="totalPrice" th:text="${#numbers.formatInteger(price, 3, 'COMMA') + '원'}" th:data-price="${price}"></div>
 					</td>
 				</tr>
 			</table>
@@ -91,13 +90,91 @@
 		});
 		
 		// 결제 버튼
-		$('#purchaseBtn').on('click', function(e) {
+		$('#purchaseBtn').on('click', async function(e) {
 
-			// validation: phoneNumber, address
-			
 			// 넘겨야할 데이터
-			// order : userId, totalPrice, address, phoneNumber, status
-			// orderProduct : productId(여러개), orderId는 이 시점에는 없어서 order 생성 후 다시 받아와야함
+			// order : paymentId(pk), userId, totalPrice, address, phoneNumber -- status(배송상태)는 서버에서 일괄 변경
+			let paymentId = `payment-${crypto.randomUUID()}`;
+			let userId = $('#userId').data('user-id');
+			let totalPrice = $('#totalPrice').data('price');
+			let address = $('#userAddress').val();
+			let phoneNumber = $('#userPhoneNumber').val().replaceAll("-", "");
+			
+			// orderProduct : productId(여러개) -- orderId는 이 시점에는 없어서 order 생성 후 다시 받아와야함
+			let productIdList = $('.order-list-products span').map(function() {
+				return $(this).data('product-id');
+			}).get();
+			
+			// 이건 넘기지는 않음, 결제창 정보 용도
+			let productTitleString;
+			let productTitleList = $('.order-list-products span').map(function() {
+				return $(this).data('product-title');
+			}).get();
+			
+			if (productTitleList.length > 1) {
+				productTitleString = "(" + productTitleList[0] + ") 외 " + (productTitleList.length - 1) +"건"
+			} else {
+				productTitleString = productTitleList[0]
+			}
+			
+			
+			console.log(userId);
+			console.log(totalPrice);
+			console.log(address);
+			console.log(phoneNumber);
+			console.log(productIdList);
+			console.log(productTitleString);
+			console.log(paymentId);
+			
+			// validation: phoneNumber, address
+			if (phoneNumber.length != 11) {
+				alert("올바른 휴대전화 번호를 입력해주세요.");
+				return;
+			}
+			if (!address) {
+				alert("주소를 입력해주세요.");
+				return;
+			}
+			
+			// 결제 수행
+			const response = await PortOne.requestPayment({
+				// Store ID 설정
+				storeId: "store-1b3819e1-087f-4615-b879-889ac31f30f3",
+				// 채널 키 설정
+				channelKey: "channel-key-192ee619-4324-46ce-9d34-10acc3f0227e",
+				paymentId: paymentId,
+				orderName: productTitleString,
+				totalAmount: totalPrice,
+				currency: "CURRENCY_KRW",
+				payMethod: "CARD",
+			});
+
+			console.log("response.paymentId:", response.paymentId);
+			console.log("response.code:", response.code);
+			
+			// 결제 실패 (code: 오류코드, message: 오류정보)
+			if (response.code != null) {
+				console.log(response.message);
+				return;
+			}
+			
+			// 결제 성공 (code: undefined, message: undefined)
+			// DB 저장
+			$.ajax({
+				type:"post"
+				, url:"/order/confirmation"
+				, data:{}
+				, success:function(data) {
+					if (data.code == 200) {
+						alert("성공");
+					}
+				}
+				, error:function(e) {
+					alert("AJAX ERROR : 결제 실패");
+				}
+				
+			}); //-- ajax
+			
 			
 		});
 		
