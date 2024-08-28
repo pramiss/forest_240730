@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.forest.admin.bo.AdminBO;
 import com.forest.books.domain.ItemView;
+import com.forest.order.domain.OrderView;
 import com.forest.product.entity.ProductEntity;
 
 @RequestMapping("/admin")
@@ -58,5 +59,20 @@ public class AdminController {
 		model.addAttribute("item", itemView);
 		
 		return "admin/bookDetailAdmin";
+	}
+	
+	// 주문목록 페이지
+	@GetMapping("/order-list")
+	public String orderList(Model model) {
+		
+//		// 모든 OrderView 가져오기
+		List<OrderView> orderViewList = adminBO.getOrderViewList();
+//		
+		// product 리스트를 받아옴 + model에 추가
+		List<ProductEntity> productList = adminBO.getProductList();
+		model.addAttribute("productList", productList);
+				
+		// 페이지로.
+		return "admin/orderList";
 	}
 }

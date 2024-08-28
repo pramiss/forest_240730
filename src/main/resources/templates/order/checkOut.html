@@ -93,14 +93,14 @@
 		$('#purchaseBtn').on('click', async function(e) {
 
 			// 넘겨야할 데이터
-			// order : paymentId(pk), userId, totalPrice, address, phoneNumber -- status(배송상태)는 서버에서 일괄 변경
+			// order : paymentId, userId, totalPrice, address, phoneNumber -- status(배송상태)는 서버에서 일괄 변경
 			let paymentId = `payment-${crypto.randomUUID()}`;
 			let userId = $('#userId').data('user-id');
 			let totalPrice = $('#totalPrice').data('price');
 			let address = $('#userAddress').val();
 			let phoneNumber = $('#userPhoneNumber').val().replaceAll("-", "");
 			
-			// orderProduct : productId(여러개) -- orderId는 이 시점에는 없어서 order 생성 후 다시 받아와야함
+			// orderProduct : paymentId, productId(여러개)
 			let productIdList = $('.order-list-products span').map(function() {
 				return $(this).data('product-id');
 			}).get();
@@ -116,15 +116,6 @@
 			} else {
 				productTitleString = productTitleList[0]
 			}
-			
-			
-			console.log(userId);
-			console.log(totalPrice);
-			console.log(address);
-			console.log(phoneNumber);
-			console.log(productIdList);
-			console.log(productTitleString);
-			console.log(paymentId);
 			
 			// validation: phoneNumber, address
 			if (phoneNumber.length != 11) {
@@ -150,7 +141,6 @@
 			});
 
 			console.log("response.paymentId:", response.paymentId);
-			console.log("response.code:", response.code);
 			
 			// 결제 실패 (code: 오류코드, message: 오류정보)
 			if (response.code != null) {
@@ -158,12 +148,23 @@
 				return;
 			}
 			
+
+			console.log(paymentId);
+			console.log(userId);
+			console.log(totalPrice);
+			console.log(address);
+			console.log(phoneNumber);
+			console.log(productIdList);
+			
+			
 			// 결제 성공 (code: undefined, message: undefined)
 			// DB 저장
 			$.ajax({
 				type:"post"
 				, url:"/order/confirmation"
-				, data:{}
+				// order : paymentId, userId, totalPrice, address, phoneNumber -- status(배송상태)는 서버에서 일괄 변경
+				// orderProduct : paymentId, productId(여러개)
+				, data:{"paymentId":paymentId, "userId":userId, "totalPrice":totalPrice, "address":address, "phoneNumber":phoneNumber, "productIdList":productIdList}
 				, success:function(data) {
 					if (data.code == 200) {
 						alert("성공");

@@ -127,7 +127,19 @@ public class ProductBO {
 			productRepository.save(updatedProduct);
 		}
 		
-	} // 상품 업데이트
+	} // 상품 업데이트 (리스트)
+	
+	public void updateSaleStatus(int productId) {
+		// 1. find
+		ProductEntity product = productRepository.findById(productId).orElse(null);
+		
+		// 2. setter(builder)
+		ProductEntity updatedProduct =
+				product.toBuilder().saleStatus("판매완료").build();
+		
+		// 3. save
+		productRepository.save(updatedProduct);
+	} //-- 상품 1개를 "판매중" -> "판매완료"로 변경
 	
 	// 상품 삭제 (삭제한 상품의 isbn 리턴)
 	public String deleteProduct(int productId) {

@@ -1,5 +1,6 @@
 package com.forest.admin.bo;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -9,20 +10,25 @@ import org.springframework.web.multipart.MultipartFile;
 import com.forest.book.bo.BookBO;
 import com.forest.books.bo.BooksBO;
 import com.forest.books.domain.ItemView;
+import com.forest.order.bo.OrderBO;
+import com.forest.order.domain.Order;
+import com.forest.order.domain.OrderView;
 import com.forest.product.bo.ProductBO;
 import com.forest.product.entity.ProductEntity;
 
 @Service
 public class AdminBO {
 
+	private OrderBO orderBO;
 	private BooksBO booksBO;
 	private ProductBO productBO;
 	private BookBO bookBO;
 	
-	public AdminBO(BooksBO booksBO, ProductBO productBO, BookBO bookBO) {
+	public AdminBO(BooksBO booksBO, ProductBO productBO, BookBO bookBO, OrderBO orderBO) {
 		this.booksBO = booksBO;
 		this.productBO = productBO;
 		this.bookBO = bookBO;
+		this.orderBO = orderBO;
 	}
 	
 	/**
@@ -90,4 +96,17 @@ public class AdminBO {
 		}
 	
 	} //-- 상품(도서) 삭제
+	
+	// 모든 OrderView 가져오기
+	public List<OrderView> getOrderViewList() {
+		
+		List<OrderView> orderViewList = new ArrayList<>();
+		
+		// 1. 전체 order 가져오기
+		List<Order> orderList = orderBO.getOrderListByIdDesc();
+		
+		// 2. order에 해당하는 orderProuct들 가져오기
+		
+		return orderViewList;
+	}
 }
