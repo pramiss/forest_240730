@@ -30,7 +30,7 @@ public class BooksController {
 	 * 메인 페이지
 	 * @return
 	 */
-	@GetMapping("/")
+	
 	public String mainPage() {
 		return "books/main";
 	}
@@ -41,7 +41,7 @@ public class BooksController {
 	 * @param model
 	 * @return
 	 */
-	@GetMapping("/books/bestseller")
+	@GetMapping({"/", "/books/bestseller"})
 	public String bestseller(
 			@RequestParam(value = "page", required = false, defaultValue = "1") String page,
 			HttpSession session,

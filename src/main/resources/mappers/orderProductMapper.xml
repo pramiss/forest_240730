@@ -3,6 +3,18 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
 <mapper namespace="com.forest.order.mapper.OrderProductMapper">
+	<select id="selectOrderProductListByPaymentId" parameterType="String" resultType="com.forest.order.domain.OrderProduct">
+		SELECT
+			`id`
+			, `paymentId`
+			, `productId`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`order_product`
+		WHERE
+			`paymentId` = #{paymentId}
+	</select>
 	<insert id="insertOrderProduct" parameterType="map">
 		INSERT INTO `order_product`
 		(
@@ -17,6 +29,6 @@
 			, #{productId}
 			, NOW()
 			, NOW()
-		);
+		)
 	</insert>
 </mapper>

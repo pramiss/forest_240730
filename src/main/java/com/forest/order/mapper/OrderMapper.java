@@ -20,4 +20,9 @@ public interface OrderMapper {
 			@Param("totalPrice") int totalPrice,
 			@Param("address") String address,
 			@Param("phoneNumber") String phoneNumber);
+	
+	// update
+	public void updateOrderStatus(
+			@Param("orderId") int orderId, 
+			@Param("status") String status);
 }

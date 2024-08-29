@@ -648,3 +648,6 @@ footer {
 	width: 80%;
 	margin: 40px 0;
 }
+.admin-payment-id {
+	overflow-x: scroll;
+}

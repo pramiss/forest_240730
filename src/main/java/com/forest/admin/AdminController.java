@@ -65,13 +65,10 @@ public class AdminController {
 	@GetMapping("/order-list")
 	public String orderList(Model model) {
 		
-//		// 모든 OrderView 가져오기
+		// 모든 OrderView 가져오기
 		List<OrderView> orderViewList = adminBO.getOrderViewList();
-//		
-		// product 리스트를 받아옴 + model에 추가
-		List<ProductEntity> productList = adminBO.getProductList();
-		model.addAttribute("productList", productList);
-				
+		model.addAttribute("orderViewList", orderViewList);
+		
 		// 페이지로.
 		return "admin/orderList";
 	}

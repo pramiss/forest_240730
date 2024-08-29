@@ -1,6 +1,6 @@
 package com.forest.order.domain;
 
-import java.util.List;
+import java.util.Map;
 
 import lombok.Data;
 import lombok.ToString;
@@ -10,5 +10,5 @@ import lombok.ToString;
 public class OrderView {
 
 	private Order order; // 주문 (1개)
-	private List<OrderProduct> orderProductList; // 해당 주문의 상품 (여러개 가능)
+	private Map<Integer, String> productIdName; // 해당 주문의 {productId:productName}
 }

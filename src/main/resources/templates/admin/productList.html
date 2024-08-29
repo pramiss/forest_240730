@@ -41,7 +41,7 @@
 					</td>
 					<td th:text="${product.isbn}">isbn13</td>
 					<td th:text="${product.price}">중고가격</td>
-					<th th:text="${product.bookStatus}">책 상태</th>
+					<td th:text="${product.bookStatus}">책 상태</td>
 					<td>
 						<select class="sale-status" th:data-sale-status="${product.saleStatus}" th:data-product-id="${product.id}">
 							<th:block th:if="${product.saleStatus} == '판매중'">

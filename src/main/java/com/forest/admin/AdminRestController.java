@@ -91,6 +91,22 @@ public class AdminRestController {
 		return result;
 	} //-- 상품 업데이트
 	
+	// 주문(order) 업데이트
+	@PutMapping("/update-order")
+	public Map<String, Object> updateOrder(
+			@RequestParam("orderId") int orderId,
+			@RequestParam("status") String status) {
+		
+		// order의 배송 상태 변경
+		adminBO.updateOrderStatus(orderId, status);
+		
+		// return
+		Map<String, Object> result = new HashMap<>();
+		result.put("code", 200);
+		result.put("result", "성공");
+		return result;
+	}
+	
 	// 상품 삭제 API
 	@DeleteMapping("/delete-product")
 	public Map<String, Object> deleteProduct(

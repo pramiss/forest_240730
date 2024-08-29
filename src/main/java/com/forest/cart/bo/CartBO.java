@@ -1,6 +1,5 @@
 package com.forest.cart.bo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -9,7 +8,6 @@ import com.forest.cart.entity.CartEntity;
 import com.forest.cart.entity.CartId;
 import com.forest.cart.repository.CartRepository;
 import com.forest.product.bo.ProductBO;
-import com.forest.product.entity.ProductView;
 
 @Service
 public class CartBO {
@@ -22,20 +20,20 @@ public class CartBO {
 		this.productBO = productBO;
 	}
 	
-	// 장바구니 조회 by Id (단건 CartEntity or null)
+	// select : 장바구니 조회 by Id (단건 CartEntity or null)
 	public CartEntity getCartById(int userId, int productId) {
 		
 		CartId cartId = new CartId(userId, productId);
 		return cartRepository.findById(cartId).orElse(null);
 	}
 	
-	// 장바구니 조회 (여러건 by UserId)
+	// select : 유저의 장바구니 조회 (여러건 by UserId)
 	public List<CartEntity> getCartListByUserId(int userId) {
 		
 		return cartRepository.findAllByCartIdUserId(userId);
 	}
 	
-	// 장바구니 추가 (성공: true, 실패: false)
+	// insert : 장바구니 추가 (성공: true, 실패: false)
 	public boolean addCart(int userId, int productId) {
 		
 		// Product가 판매중인 상태인지 확인
@@ -56,7 +54,13 @@ public class CartBO {
 		return true;
 	} //-- 장바구니 추가
 
-	// 장바구니 삭제
+	// delete : 장바구니 삭제 by productId (판매된 상품은 전부 장바구니에서 삭제)
+	public void deleteCartByProductId(int productId) {
+		List<CartEntity> cartEntityList = cartRepository.findAllByCartIdProductId(productId);
+		cartRepository.deleteAll(cartEntityList);
+	}
+	
+	// delete : 장바구니 삭제 by userId, productIdList
 	public void deleteCartList(int userId, List<Integer> productIdList) {
 		
 		for(Integer productId : productIdList) {

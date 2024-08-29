@@ -63,6 +63,7 @@ public class UserBO {
 	
     // User의 List<Cart> 조회
     public List<CartEntity> getCartListByUserId(int userId) {
+    	
         return cartBO.getCartListByUserId(userId);
     }
 	

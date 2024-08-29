@@ -42,4 +42,11 @@
 			, NOW()
 		);
 	</insert>
+	<update id="updateOrderStatus" parameterType="map">
+		UPDATE `order`
+		SET 
+			`status` = #{status} 
+		WHERE
+			`id` = #{orderId}
+	</update>
 </mapper>

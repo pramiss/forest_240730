@@ -10,4 +10,5 @@ import com.forest.cart.entity.CartId;
 public interface CartRepository extends JpaRepository<CartEntity, CartId> {
 
 	public List<CartEntity> findAllByCartIdUserId(int userId);
+	public List<CartEntity> findAllByCartIdProductId(int productId);
 }

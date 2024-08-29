@@ -19,51 +19,59 @@
 	</div>
 	
 	<div class="admin-page">
-		<h2 class="text-center">중고도서 목록</h2>
+		<h2 class="text-center">주문 목록</h2>
 		<table class="table">
   			<thead>
 			    <tr>
-					<th>중고도서 id</th>
-					<th>책 이미지</th>
-					<th>isbn13</th>
-					<th>중고가격</th>
-					<th>책 상태</th>
-					<th>판매상태</th>
-					<th>삭제</th>
+					<th>주문번호</th>
+					<th>주문상품(리스트)</th>
+					<th>주문자</th>
+					<th>결제금액</th>
+					<th>배송상태</th>
 			    </tr>
   			</thead>
   			<tbody>
   				<!-- 반복 -->
-				<tr th:each="product : ${productList}">
-					<td th:text="${product.id}">중고도서 id</td>
+				<tr th:each="orderView : ${orderViewList}">
 					<td>
-						<img alt="책이미지" th:src="${product.imageUrl}" width="150">
-					</td>
-					<td th:text="${product.isbn}">isbn13</td>
-					<td th:text="${product.price}">중고가격</td>
-					<th th:text="${product.bookStatus}">책 상태</th>
-					<td>
-						<select class="sale-status" th:data-sale-status="${product.saleStatus}" th:data-product-id="${product.id}">
-							<th:block th:if="${product.saleStatus} == '판매중'">
-								<option value="판매중" selected="selected">판매중</option>
-								<option value="판매완료">판매완료</option>
-							</th:block>
-							<th:block th:if="${product.saleStatus} == '판매완료'">
-								<option value="판매중">판매중</option>
-								<option value="판매완료" selected="selected">판매완료</option>
-							</th:block>
-						</select>
+						<div th:text="${orderView.order.id}"></div>
 					</td>
 					<td>
-						<input type="checkbox" th:data-product-id="${product.id}" class="delete-checkbox">
+						<div th:each="product : ${orderView.productIdName}">
+							<div th:text="|${product.key} : ${product.value}|"></div>
+						</div>
+					</td>
+					<td>
+						<div th:text="${orderView.order.userId}"></div>
+					</td>
+					<td>
+						<div th:text="${orderView.order.totalPrice}"></div>
+					</td>
+					<td>
+						<div th:with="status = ${orderView.order.status}">
+							<select>
+								<th:block th:if="${status} == '상품준비중'">
+									<option value="상품준비중" selected="selected">상품준비중</option>
+									<option value="배송중">배송중</option>
+									<option value="배송완료">배송완료</option>
+								</th:block>
+								<th:block th:if="${status} == '배송중'">
+									<option value="상품준비중">상품준비중</option>
+									<option value="배송중" selected="selected">배송중</option>
+									<option value="배송완료">배송완료</option>
+								</th:block>
+								<th:block th:if="${status} == '배송완료'">
+									<option value="상품준비중">상품준비중</option>
+									<option value="배송중">배송중</option>
+									<option value="배송완료" selected="selected">배송완료</option>
+								</th:block>
+							</select>
+							<button class="modifyBtn" th:data-order-id="${orderView.order.id}" th:data-status="${orderView.order.status}">수정</button>
+						</div>
 					</td>
 				</tr>
 			</tbody>
 		</table>
-		<div class="d-flex justify-content-end">
-			<button type="button" id="modifyBtn" class="btn btn-success">수정하기</button>
-			<button type="button" id="deleteBtn" class="btn btn-danger ml-3">삭제하기</button>
-		</div>
 	</div>
 </section>
 
@@ -71,78 +79,33 @@
 <script layout:fragment="script">
 	$(document).ready(function() {
 
-		// 판매상태 수정 버튼
-		$('#modifyBtn').on('click', function(e) {
-
-			// 수정된 판매상태 받아오기
-			let saleStatusObject = {};
+		// 배송 상태 수정 버튼
+		$('.modifyBtn').on('click', function(e) {
+			let modifyStatus = $(this).siblings('select').val();
+			let currentStatus = $(this).data('status');
+			let orderId = $(this).data('order-id');
 			
-			$('.sale-status').each(function() { // 상태가 변경될 경우만 수정
-				if ($(this).val() != $(this).data('sale-status')) {
-					saleStatusObject[$(this).data('product-id')] = $(this).val();
-					console.log($(this).data('product-id'));
-				}
-			});
-			
-			if (Object.keys(saleStatusObject).length < 1) {
+			if (modifyStatus == currentStatus) {
 				return;
 			}
 			
-			// API 호출
-			let saleStatusString = JSON.stringify(saleStatusObject);
-			
+			// ajax - order의 배송상태 수정
 			$.ajax({
 				type:"put"
-				, url:"/admin/update-product"
-				, data:{"saleStatusString":saleStatusString}
+				, url:"/admin/update-order"
+				, data:{"orderId":orderId, "status":modifyStatus}
 				, success:function(data) {
-					if (data.code == 200) {
+					if(data.code == 200) {
 						alert("수정되었습니다.");
-						location.href = "/admin/product-list";
+						location.reload();
 					}
 				}
 				, error:function(e) {
-					alert("AJAX ERROR : 업데이트 실패");
-				}
-			});
-			
-		}); //-- 판매상태 수정 버튼
-		
-		// 상품 삭제 버튼
-		$('#deleteBtn').on('click', function() {
-
-			// 삭제할 상품 리스트 가져오기
-			let productIdList = [];
-			
-			$('.delete-checkbox:checked').each(function() {
-				productIdList.push($(this).data("product-id"));
-			});
-			
-			if (productIdList.length < 1) {
-				console.log('he');
-				return;
-			}
-			
-			// 상품 삭제 API
-			$.ajax({
-				type:"delete"
-				, url:"/admin/delete-product"
-				, data:{"productIdList":productIdList}
-				, success:function(data) {
-					if (data.code == 200) {
-						alert("삭제되었습니다.");
-						location.href = "/admin/product-list";
-					} else {
-						alert(data.error_message);
-					}
-				}
-				, error:function(e) {
-					alert("AJAX ERROR : 삭제 실패");
+					alert("AJAX ERROR : 주문 수정 실패");
 				}
 			}); //-- ajax
-			
-		}); //-- 상품 삭제 버튼
-		
+		});
+
 		
 	}) //-- ready
 </script>
