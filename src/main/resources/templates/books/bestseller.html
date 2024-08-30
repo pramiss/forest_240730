@@ -8,7 +8,23 @@
 <section layout:fragment="contents" class="contents">
 	<div class="books-list">
 		<!-- 타이틀 -->
-		<h1 class="my-5 mx-3 ff-gr font-weight-bold">주간 베스트셀러</h1>
+		<div class="d-flex justify-content-between my-5">
+			<h1 class="mx-3 ff-gr font-weight-bold">최신 주간 베스트셀러</h1>
+			<div class="y-center">
+				<select id="bestsellerYear" class="border-0 ml-1">
+					<option th:each="year : ${#numbers.sequence(1999, 2024)}" th:text="|${year}년|" th:value="${year}"></option>
+				</select>
+				<select id="bestsellerMonth" class="border-0 ml-1">
+					<option th:each="month : ${#numbers.sequence(1, 12)}" th:text="|${month}월|" th:value="${month}"></option>
+				</select>
+				<select id="bestsellerWeek" class="border-0 ml-1">
+					<option th:each="week : ${#numbers.sequence(1, 5)}" th:text="|${week}주 |" th:value="${week}"></option>
+				</select>
+				<span id="bestsellerSearchBtn" class="ml-2">
+					<img alt="주간검색이미지" src="/img/search-icon.png" class="search-icon">
+				</span>
+			</div>
+		</div>
 		
 		<!-- 1~10 버튼 : 상단 -->
 		<div class="x-center pb-4">
@@ -174,6 +190,18 @@
 				}
 			}); //-- ajax
 		}); //-- 좋아요 버튼
+		
+		// 다른 주간 베스트셀러 검색
+		$('#bestsellerSearchBtn').on('click', function(e) {
+
+			let year = $('#bestsellerYear').val();
+			let month = $('#bestsellerMonth').val();
+			let week = $('#bestsellerWeek').val();
+			
+			console.log(year);
+			console.log(month);
+			console.log(week);
+		}); //-- 다른 주간 베스트셀러 검색
 		
 	}); //-- ready
 </script>

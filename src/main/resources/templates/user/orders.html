@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/mainLayout}">
+
+<!-- mainLayout : contents -->
+<section layout:fragment="contents" class="contents">
+	<div class="like-list">
+		
+		<h3 class="mt-5 mb-4 mx-3">주문 목록</h3>
+		
+		<table class="table">
+			<thead class="thead-light">
+				<tr class="fs-small text-center">
+					<th class="col-1">주문번호</th>
+					<th class="col-6">상품</th>
+					<th class="col-2">결제가격</th>
+					<th class="col-2">배송상태</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="orderView : ${orderViewList}" class="text-center">
+					<td> 
+						<div th:text="${orderView.order.id}"></div>
+					</td>
+					<td class="text-left"> 
+						<div th:each="product : ${orderView.productIdName}">
+							<div th:text="|${product.value}|"></div>
+						</div>
+					</td>
+					<td> 
+						<div th:text="${#numbers.formatInteger(orderView.order.totalPrice, 3, 'COMMA') + '원'}"></div>
+					</td>
+					<td>
+						<div th:text="${orderView.order.status}"></div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		
+	</div><!-- 책 리스트 컨테이너 -->
+</section>
+
+<!-- mainLayout : script -->
+<script layout:fragment="script">
+	$(document).ready(function() {
+		
+
+
+	}); //-- ready
+</script>
+
+
+</html>

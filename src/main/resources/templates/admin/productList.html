@@ -44,14 +44,8 @@
 					<td th:text="${product.bookStatus}">책 상태</td>
 					<td>
 						<select class="sale-status" th:data-sale-status="${product.saleStatus}" th:data-product-id="${product.id}">
-							<th:block th:if="${product.saleStatus} == '판매중'">
-								<option value="판매중" selected="selected">판매중</option>
-								<option value="판매완료">판매완료</option>
-							</th:block>
-							<th:block th:if="${product.saleStatus} == '판매완료'">
-								<option value="판매중">판매중</option>
-								<option value="판매완료" selected="selected">판매완료</option>
-							</th:block>
+							<option value="판매중" th:selected="${product.saleStatus} == '판매중'">판매중</option>
+							<option value="판매완료" th:selected="${product.saleStatus} == '판매완료'">판매완료</option>
 						</select>
 					</td>
 					<td>

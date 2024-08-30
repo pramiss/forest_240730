@@ -12,6 +12,7 @@ public interface OrderMapper {
 
 	// select
 	public List<Order> selectOrderListByIdDesc();
+	public List<Order> selectOrderListByUserIdByIdDesc(int userId);
 	
 	// insert
 	public void insertOrder(

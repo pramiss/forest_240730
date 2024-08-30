@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.forest.books.domain.ItemView;
+import com.forest.order.domain.OrderView;
 import com.forest.product.entity.ProductView;
 import com.forest.user.bo.UserBO;
 import com.forest.user.domain.User;
@@ -24,6 +25,23 @@ public class UserController {
 	public UserController(UserBO userBO) {
 	    this.userBO = userBO;
 	} 
+	
+	/**
+	 * 회원정보상세 페이지
+	 * @param session
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("/info")
+	public String userInfo(HttpSession session, Model model) {
+		Integer userId = (Integer)session.getAttribute("userId");
+
+		// 유저 아이디로 user를 가져온 후 model에 담기
+		User user = userBO.getUserById(userId);
+		model.addAttribute("user", user);
+		
+		return "user/info";
+	} //-- 회원상세 페이지
 	
 	/**
 	 * 좋아요 목록 페이지
@@ -81,21 +99,20 @@ public class UserController {
     }
 	
 	/**
-	 * 회원정보상세 페이지
+	 * 주문목록 페이지
 	 * @param session
 	 * @param model
 	 * @return
 	 */
-	@GetMapping("/info")
-	public String userInfo(HttpSession session, Model model) {
-		Integer userId = (Integer)session.getAttribute("userId");
-
-		// 유저 아이디로 user를 가져온 후 model에 담기
-		User user = userBO.getUserById(userId);
-		model.addAttribute("user", user);
-		
-		return "user/info";
-	} //-- 회원상세 페이지
+    @GetMapping("/orders")
+    public String userOrders(HttpSession session, Model model) {
+    	
+    	// 유저의 주문 목록(List<OrderView>)를 가지고 온다.
+    	List<OrderView> orderViewList = userBO.getOrderViewListByUserId((Integer)session.getAttribute("userId"));
+    	model.addAttribute("orderViewList", orderViewList);
+    	
+    	return "user/orders";
+    } //-- 주문목록 페이지
 	
 	/**
 	 * 로그아웃 API

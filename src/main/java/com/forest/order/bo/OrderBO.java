@@ -31,6 +31,11 @@ public class OrderBO {
 		return orderMapper.selectOrderListByIdDesc();
 	}
 	
+	// select : 유저에 해당하는 order를 가져온다. - id 내림차순
+	public List<Order> getOrderListByIdDesc(int userId) {
+		return orderMapper.selectOrderListByUserIdByIdDesc(userId);
+	}
+	
 	// select : List<ProductView> 가져오기 - ProductBO
 	public List<ProductView> getProductViewList(List<Integer> productIdList) {
 		

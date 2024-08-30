@@ -50,21 +50,9 @@
 					<td>
 						<div th:with="status = ${orderView.order.status}">
 							<select>
-								<th:block th:if="${status} == '상품준비중'">
-									<option value="상품준비중" selected="selected">상품준비중</option>
-									<option value="배송중">배송중</option>
-									<option value="배송완료">배송완료</option>
-								</th:block>
-								<th:block th:if="${status} == '배송중'">
-									<option value="상품준비중">상품준비중</option>
-									<option value="배송중" selected="selected">배송중</option>
-									<option value="배송완료">배송완료</option>
-								</th:block>
-								<th:block th:if="${status} == '배송완료'">
-									<option value="상품준비중">상품준비중</option>
-									<option value="배송중">배송중</option>
-									<option value="배송완료" selected="selected">배송완료</option>
-								</th:block>
+								<option value="상품준비중" th:selected="${status} == '상품준비중'">상품준비중</option>
+								<option value="배송중" th:selected="${status} == '배송중'">배송중</option>
+								<option value="배송완료" th:selected="${status} == '배송완료'">배송완료</option>
 							</select>
 							<button class="modifyBtn" th:data-order-id="${orderView.order.id}" th:data-status="${orderView.order.status}">수정</button>
 						</div>

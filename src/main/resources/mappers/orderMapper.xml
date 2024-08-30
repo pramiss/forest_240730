@@ -18,6 +18,23 @@
 			`order`
 		ORDER BY `id` DESC
 	</select>
+	<select id="selectOrderListByUserIdByIdDesc" parameterType="int" resultType="com.forest.order.domain.Order">
+		SELECT
+			`id`
+			, `paymentId`
+			, `userId`
+			, `totalPrice`
+			, `address`
+			, `phoneNumber`
+			, `status`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`order`
+		WHERE
+			`userId` = #{userId}
+		ORDER BY `id` DESC
+	</select>
 	<insert id="insertOrder" parameterType="map">
 		INSERT INTO `order`
 		(

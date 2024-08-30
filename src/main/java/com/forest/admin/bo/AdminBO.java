@@ -23,11 +23,11 @@ import com.forest.product.entity.ProductView;
 @Service
 public class AdminBO {
 
-	private OrderBO orderBO;
-	private OrderProductBO orderProductBO;
-	private BooksBO booksBO;
-	private ProductBO productBO;
-	private BookBO bookBO;
+	private final OrderBO orderBO;
+	private final OrderProductBO orderProductBO;
+	private final BooksBO booksBO;
+	private final ProductBO productBO;
+	private final BookBO bookBO;
 	
 	public AdminBO(BooksBO booksBO, ProductBO productBO, BookBO bookBO,
 			OrderBO orderBO, OrderProductBO orderProductBO) {

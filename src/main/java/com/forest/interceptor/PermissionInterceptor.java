@@ -42,7 +42,11 @@ public class PermissionInterceptor implements HandlerInterceptor {
 			}
 		}
 		
-		// TODO 관리자 필수
+		// 관리자(admin) 페이지 (관리자 아이디 번호 : 0)
+		if (uri.startsWith("/admin") && userId != 0) {
+			response.sendRedirect("/");
+			return false;
+		}
 		
 		
 		// 나머지
