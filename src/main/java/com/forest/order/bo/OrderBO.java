@@ -36,6 +36,11 @@ public class OrderBO {
 		return orderMapper.selectOrderListByUserIdByIdDesc(userId);
 	}
 	
+	// select : "배송중"인 order를 모두 가져온다
+	public List<Order> getOrderListByStatus(String status) {
+		return orderMapper.selectOrderListByStatus(status);
+	}
+	
 	// select : List<ProductView> 가져오기 - ProductBO
 	public List<ProductView> getProductViewList(List<Integer> productIdList) {
 		
@@ -58,7 +63,7 @@ public class OrderBO {
 		orderMapper.updateOrderStatus(orderId, status);
 	}
 	
-	// update : Product의 판매상태를 "판매완료"로 바꾼다 - ProductBO
+	// update : order된 상품에 대해 Product의 판매상태를 "판매완료"로 바꾼다 - ProductBO
 	@Transactional
 	public void updateSaleStatus(int productId) {
 		

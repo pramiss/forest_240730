@@ -9,5 +9,6 @@ import lombok.ToString;
 @Data
 public class AladinView {
 	private List<ItemView> item;
+	private String query;
 	private int totalResults;
 }

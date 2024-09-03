@@ -1,7 +1,9 @@
 package com.forest.books.domain;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.forest.product.entity.ProductEntity;
 
@@ -21,6 +23,19 @@ public class ItemView {
 	}
 	public static void setTotalResults(int totalResults) {
 		ItemView.totalResults = totalResults;
+	}
+	
+	// query 정보 (bestseller에서 날짜에 이용됨)
+	private static Map<String, Integer> queryDate = new HashMap<>(); // 총 개수
+	
+	public static Map<String, Integer> getQueryDate() {
+		return queryDate;
+	}
+	
+	public static void setQueryDate(int year, int month, int week) {
+		queryDate.put("year", year);
+		queryDate.put("month", month);
+		queryDate.put("week", week);
 	}
 	
 	// 알라딘 도서 상품 정보

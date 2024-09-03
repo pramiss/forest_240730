@@ -85,7 +85,7 @@ public class UserBO {
  		List<OrderView> orderViewList = new ArrayList<>();
  		
  		// 1. User의 order 리스트 가져오기
- 		List<Order> orderList = orderBO.getOrderListByIdDesc();
+ 		List<Order> orderList = orderBO.getOrderListByIdDesc(userId);
  		
  		// 2. order에 해당하는 orderProuct들 가져오기
  		for (Order order : orderList) {

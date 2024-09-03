@@ -211,6 +211,10 @@ footer {
 .books-list {
 	width: 970px;
 }
+.books-list .search-icon {
+	width: 20px;
+	height: 20px;
+}
 .item-box {
 	margin-top: 60px;
 	padding-bottom: 20px;

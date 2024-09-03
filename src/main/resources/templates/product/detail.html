@@ -77,10 +77,17 @@
 						
 						
 						<div class="w-100 product-buy-box">
-							<!-- 가격 -->
+							<!-- 가격 / 주문하기 -->
 							<div class="mt-2 y-center justify-content-end">
 								<h5 th:text="${#numbers.formatInteger(productView.product.price, 3, 'COMMA') + '원'}" class="font-weight-bold mb-0"></h5>
-								<button class="btn btn-outline-danger ml-2 px-2 py-1">Buy Now</button>
+								<div>
+									<form method="post" action="/order/check-out">
+										<input type="text" name="orderProductList" id="orderProductList" class="d-none" th:value="${productView.product.id}" readonly="readonly">
+								    	<input type="text" name="orderPrice" id="orderPrice" class="d-none" th:value="${productView.product.price}" readonly="readonly">
+								    	<button type="submit" id="buyBtn" class="btn btn-outline-danger ml-2 px-2 py-1" th:data-sale-status="${productView.product.saleStatus}">Buy Now</button>
+								    </form>
+								</div>
+								
 							</div>
 							
 							<!-- 좋아요, 장바구니 -->
@@ -164,6 +171,20 @@
             
         }); //-- 장바구니
 		
+    	// 주문하기 버튼
+		$('form').on('submit', function(e){
+			
+			let saleStatus = $('#buyBtn').data('sale-status');
+			
+			if (saleStatus == '판매완료') {
+				alert("판매 완료된 상품입니다.");
+				e.preventDefault();
+				return false;
+			}
+			
+		}); //-- 주문하기 버튼
+        
+        
 	}); //-- ready
 </script>
 

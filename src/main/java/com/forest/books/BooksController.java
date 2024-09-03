@@ -1,7 +1,10 @@
 package com.forest.books;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,14 +47,25 @@ public class BooksController {
 	@GetMapping({"/", "/books/bestseller"})
 	public String bestseller(
 			@RequestParam(value = "page", required = false, defaultValue = "1") String page,
+			@RequestParam(value = "year", required = false, defaultValue = "0") Integer year,
+			@RequestParam(value = "month", required = false, defaultValue = "0") Integer month,
+			@RequestParam(value = "week", required = false, defaultValue = "0") Integer week,
 			HttpSession session,
 			Model model) {
 
-		// log.info("%%%" + page);
+		// queryType
 		String queryType = "Bestseller";
 		
+		// year, month, page
+		if (year == 0 && month == 0 && week == 0) {
+			LocalDateTime now = LocalDateTime.now();
+			year = now.getYear();
+			month = now.getMonthValue();
+			week = now.getDayOfMonth() / 7 + 1;
+		}
+		
 		// itemView - item, productList, like
-		List<ItemView> itemViewList = booksBO.getItemList(queryType, page);
+		List<ItemView> itemViewList = booksBO.getBestsellerList(queryType, page, year, month, week);
 		
 		// likeIsbnList
 		Integer userId = (Integer)session.getAttribute("userId");
@@ -68,6 +82,10 @@ public class BooksController {
 		
 		model.addAttribute("pageIndex", page);
 		model.addAttribute("itemList", itemViewList);
+		
+		// 베스트셀러 날짜
+		Map<String, Integer> date = ItemView.getQueryDate();
+		model.addAttribute("date", date);
 		
 		return "books/bestseller";
 	} //-- 베스트셀러 페이지
@@ -86,7 +104,7 @@ public class BooksController {
 			HttpSession session,
 			Model model) {
 		
-		List<ItemView> itemViewList = booksBO.getItemList(queryType, page);
+		List<ItemView> itemViewList = booksBO.getItemNewList(queryType, page);
 		
 		// likeIsbnList
 		Integer userId = (Integer)session.getAttribute("userId");

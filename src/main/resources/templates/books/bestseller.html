@@ -9,16 +9,16 @@
 	<div class="books-list">
 		<!-- 타이틀 -->
 		<div class="d-flex justify-content-between my-5">
-			<h1 class="mx-3 ff-gr font-weight-bold">최신 주간 베스트셀러</h1>
+			<h1 class="mx-3 ff-gr font-weight-bold" th:text="|${date.year}년 ${date.month}월 ${date.week}주차 베스트셀러|">최신 주간 베스트셀러</h1>
 			<div class="y-center">
 				<select id="bestsellerYear" class="border-0 ml-1">
-					<option th:each="year : ${#numbers.sequence(1999, 2024)}" th:text="|${year}년|" th:value="${year}"></option>
+					<option th:each="year : ${#numbers.sequence(2024, 2000)}" th:text="|${year}년|" th:value="${year}" th:selected="${date.year} == ${year}"></option>
 				</select>
 				<select id="bestsellerMonth" class="border-0 ml-1">
-					<option th:each="month : ${#numbers.sequence(1, 12)}" th:text="|${month}월|" th:value="${month}"></option>
+					<option th:each="month : ${#numbers.sequence(1, 12)}" th:text="|${month}월|" th:value="${month}"  th:selected="${date.month} == ${month}"></option>
 				</select>
 				<select id="bestsellerWeek" class="border-0 ml-1">
-					<option th:each="week : ${#numbers.sequence(1, 5)}" th:text="|${week}주 |" th:value="${week}"></option>
+					<option th:each="week : ${#numbers.sequence(1, 5)}" th:text="|${week}주 |" th:value="${week}"  th:selected="${date.week} == ${week}"></option>
 				</select>
 				<span id="bestsellerSearchBtn" class="ml-2">
 					<img alt="주간검색이미지" src="/img/search-icon.png" class="search-icon">
@@ -68,7 +68,7 @@
 							<div th:if="${2 * item.customerReviewRank % 2} == 1">
 								<img alt="half-star" src="/img/star-half-icon.png" class="rating-icon">
 							</div>
-							<div th:if="${5 - item.customerReviewRank > 0.5}">
+							<div th:if="${5 - item.customerReviewRank > 0.5}" class="d-flex">
 								<div th:each="num : ${#numbers.sequence(1, 5 - item.customerReviewRank)}">
 									<img alt="full-star" src="/img/star-empty-icon.png" class="rating-icon">
 								</div>
@@ -154,7 +154,11 @@
 		// 베스트셀러 페이지 버튼
 		$('.bestseller-page-btn').on('click', function(e) {
 			let page = $(this).data('page-num');
-			location.href = "/books/bestseller?page=" + page;
+			let year = $('#bestsellerYear').val();
+			let month = $('#bestsellerMonth').val();
+			let week = $('#bestsellerWeek').val();
+			
+			location.href = "/books/bestseller?page=" + page + "&year=" + year + "&month=" + month + "&week=" + week;
 		}) //-- 베스트셀러 페이지 버튼 
 		
 		// 신간 가격 버튼 - 알라딘 페이지로 이동
@@ -198,9 +202,7 @@
 			let month = $('#bestsellerMonth').val();
 			let week = $('#bestsellerWeek').val();
 			
-			console.log(year);
-			console.log(month);
-			console.log(week);
+			location.href = "/books/bestseller?year=" + year + "&month=" + month + "&week=" + week;
 		}); //-- 다른 주간 베스트셀러 검색
 		
 	}); //-- ready
