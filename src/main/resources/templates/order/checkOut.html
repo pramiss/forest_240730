@@ -65,6 +65,11 @@
 <script layout:fragment="script">
 	$(document).ready(function() {
 
+		// 랜덤 UID 생성함수
+		function generateRandomUID() {
+		    return Math.random().toString(36).substr(2, 8);
+		}
+		
 		// 휴대전화 자동 하이픈 추가
 		let userPhoneNumber = $('#userPhoneNumber').val()
 							.replace(/[^0-9]/g, '')
@@ -94,7 +99,7 @@
 
 			// 넘겨야할 데이터
 			// order : paymentId, userId, totalPrice, address, phoneNumber -- status(배송상태)는 서버에서 일괄 변경
-			let paymentId = `payment-${crypto.randomUUID()}`;
+			let paymentId = `payment-${generateRandomUID()}`;
 			let userId = $('#userId').data('user-id');
 			let totalPrice = $('#totalPrice').data('price');
 			let address = $('#userAddress').val();
