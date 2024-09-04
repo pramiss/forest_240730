@@ -42,8 +42,8 @@ public class PermissionInterceptor implements HandlerInterceptor {
 			}
 		}
 		
-		// 관리자(admin) 페이지 (관리자 아이디 번호 : 0)
-		if (uri.startsWith("/admin") && (userId == null || userId != 0)) {
+		// 관리자(admin) 페이지 (관리자 아이디 번호 : 1)
+		if (uri.startsWith("/admin") && (userId == null || userId != 1)) {
 			response.sendRedirect("/");
 			return false;
 		}
