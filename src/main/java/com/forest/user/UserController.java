@@ -44,6 +44,23 @@ public class UserController {
 	} //-- 회원상세 페이지
 	
 	/**
+	 * 카카오 회원정보상세 페이지
+	 * @param session
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("/infoKakao")
+	public String userInfoKakao(HttpSession session, Model model) {
+		String kakaoId = (String)session.getAttribute("userKakaoId");
+
+		// 유저 아이디로 user를 가져온 후 model에 담기
+		User user = userBO.getUserByKakaoId(kakaoId);
+		model.addAttribute("user", user);
+		
+		return "user/infoKakao";
+	} //-- 회원상세 페이지
+	
+	/**
 	 * 좋아요 목록 페이지
 	 * @param session
 	 * @param model

@@ -40,6 +40,8 @@
 			`id`
 			, `loginId`
 			, `password`
+			, `authType`
+			, `kakaoId`
 			, `name`
 			, `phoneNumber`
 			, `email`
@@ -51,6 +53,25 @@
 		WHERE
 			`loginId` = #{loginId}
 			AND `password` = #{password}
+	</select>
+	<select id="selectUserByKakaoId" parameterType="map" resultType="com.forest.user.domain.User">
+		SELECT
+			`id`
+			, `loginId`
+			, `password`
+			, `authType`
+			, `kakaoId`
+			, `name`
+			, `phoneNumber`
+			, `email`
+			, `address`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`user`
+		WHERE
+			`authType` = 'kakao'
+			AND `kakaoId` = #{kakaoId}
 	</select>
 	
 	<insert id="insertUser" parameterType="map">
@@ -75,6 +96,28 @@
 			, NOW()
 		);
 	</insert>
+	<insert id="insertUserKakao" parameterType="map">
+		INSERT INTO `user`
+		(
+			`authType`
+			, `kakaoId`
+			, `name`
+			, `phoneNumber`
+			, `email`
+			, `createdAt`
+			, `updatedAt`
+		)
+		VALUES
+		(
+			'kakao'
+			, #{kakaoId}
+			, #{name}
+			, #{phoneNumber}
+			, #{email}
+			, NOW()
+			, NOW()
+		);
+	</insert>
 
 	<update id="updateUserById" parameterType="map">
 		UPDATE
@@ -88,6 +131,18 @@
 			, `updatedAt` = NOW()
 		WHERE
 			`id` = #{id}
+	</update>
+		<update id="updateKakaoUserByKakaoId" parameterType="map">
+		UPDATE
+			`user`
+		SET
+			`name` = #{name}
+			, `phoneNumber` = #{phoneNumber}
+			, `email` = #{email}
+			, `address` = #{address}
+			, `updatedAt` = NOW()
+		WHERE
+			`kakaoId` = #{kakaoId}
 	</update>
 
 
