@@ -12,6 +12,8 @@ public class User {
 	private int id;
 	private String loginId;
 	private String password;
+	private String authType;
+	private String kakaoId;
 	private String name;
 	private String phoneNumber;
 	private String email;

@@ -16,6 +16,8 @@ public interface UserMapper {
 	public User selectUserByLoginIdAndPassword(
 			@Param("loginId") String loginId, 
 			@Param("password") String password);
+	public User selectUserByKakaoId(String kakaoId);
+	
 	
 	// INSERT
 	public void insertUser(
@@ -23,6 +25,11 @@ public interface UserMapper {
 			@Param("password") String password,
 			@Param("name") String name, 
 			@Param("phoneNumber") String phoneNumber,
+			@Param("email") String email);
+	public void insertUserKakao(
+			@Param("kakaoId") String kakaoId,
+			@Param("name") String name, 
+			@Param("phoneNumber") String phoneNumber, 
 			@Param("email") String email);
 	
 	// UPDATE
@@ -33,6 +40,13 @@ public interface UserMapper {
 			@Param("phoneNumber") String phoneNumber, 
 			@Param("email") String email, 
 			@Param("address") String address);
+	public void updateKakaoUserByKakaoId(
+			@Param("kakaoId") String kakaoId,
+			@Param("name") String name, 
+			@Param("phoneNumber") String phoneNumber, 
+			@Param("email") String email, 
+			@Param("address") String address);
+	
 	
 	public List<User> selectUserListTest();
 }

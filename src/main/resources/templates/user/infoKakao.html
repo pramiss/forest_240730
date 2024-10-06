@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/subLayout}">
+
+<!-- subLayout : contents -->
+<section layout:fragment="contents" class="contents">
+	<div class="info-box">
+		<div class="info-form-box mt-3">
+			<form method="post" action="/user/update/kakao">
+
+				<input type="text" name="name" id="name" class="form-control mt-4" placeholder="이름" th:value="${user.name}">
+				<div id="checkName" class="small-red-text ml-1 d-none">
+					이름을 입력해주세요.
+				</div>
+				
+				<input type="text" name="phoneNumber" id="phoneNumber" class="form-control mt-1" placeholder="휴대폰 번호 (숫자만 입력)" th:value="${user.phoneNumber}">
+				<div id="checkPhoneNumber" class="small-red-text ml-1 d-none">
+					휴대전화 11자리를 입력해주세요.
+				</div>
+				
+				<input type="text" name="email" id="email" class="form-control mt-1" placeholder="이메일 (선택)" th:value="${user.email}">
+				<input type="text" name="address" id="address" class="form-control mt-1" placeholder="주소 (선택)" th:value="${user.address}">				
+
+				<div class="x-center mt-4">
+					<button type="submit" id="changeBtn" class="btn">정보수정</button>
+				</div>
+			</form>
+		</div>
+		
+	</div> <!-- 회원정보상세 박스 -->
+</section>
+
+<!-- subLayout : script -->
+<script layout:fragment="script">
+	$(document).ready(function() {
+		
+		// 정보수정
+		$('form').on('submit', function(e) {
+			e.preventDefault();
+			
+			$('#checkName').addClass('d-none');
+			$('#checkPhoneNumber').addClass('d-none');
+			
+			let name = $('#name').val().trim();
+			let phoneNumber = $('#phoneNumber').val().trim();
+			let email = $('#email').val().trim();
+			let address = $('#address').val().trim();
+			
+			// validation
+			let checkOk = true;
+
+			if (!name) {
+				$('#checkName').removeClass('d-none');
+				checkOk = false;
+			}
+			if (phoneNumber.length != 11) {
+				$('#checkPhoneNumber').removeClass('d-none');
+				checkOk = false;
+			}
+			if (checkOk == false) {
+				return false;
+			}
+			
+			// AJAX
+			let url = $(this).attr('action');
+			let params = $(this).serialize();
+
+			console.log(url);
+			console.log(params);
+			
+			$.ajax({
+				type:"put"
+				, url:url
+				, data:params
+				, success:function(data) {
+					if (data.code == 200) {
+						alert("수정되었습니다.");
+						location.reload();
+					} else if (data.code == 401) {
+						$('#checkCurrentPasswordConfirm').removeClass('d-none');
+					}
+				}
+				, error:function(e) {
+					alert("AJAX ERROR : 회원 정보 수정 실패");
+				}
+			}); //-- ajax
+			
+		}) //-- 회원정보수정
+		
+	}) //-- ready
+</script>
+
+
+</html>

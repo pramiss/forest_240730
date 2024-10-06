@@ -1,5 +1,6 @@
 package com.forest.auth;
 
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,6 +15,7 @@ import com.forest.common.EncryptUtils;
 import com.forest.user.bo.UserBO;
 import com.forest.user.domain.User;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @RequestMapping("/auth")
@@ -56,6 +58,7 @@ public class AuthRestController {
 		// 3. 그런 유저가 존재하면 그 유저 세션에 담기
 		session.setAttribute("userId", user.getId());
 		session.setAttribute("userLoginId", user.getLoginId());
+		session.setAttribute("userAuthType", user.getAuthType());
 		session.setAttribute("userName", user.getName());
 		session.setAttribute("userAddress", user.getAddress());
 		session.setAttribute("userPhoneNumber", user.getPhoneNumber());
@@ -65,7 +68,6 @@ public class AuthRestController {
 		result.put("result", "성공");
 		return result;
 	} //-- 로그인 API
-	
 	
 	/**
 	 * 회원가입 API
@@ -94,6 +96,31 @@ public class AuthRestController {
 		result.put("result", "성공");
 		return result;
 	} //-- 회원가입 API
+	
+	/**
+	 * 카카오 회원가입 API
+	 * @param kakaoId
+	 * @param name
+	 * @param phoneNumber
+	 * @param email
+	 * @return
+	 * @throws NoSuchAlgorithmException
+	 */
+	@PostMapping("/sign-up/kakao")
+	public Map<String, Object> signUpKakao(
+			@RequestParam("kakaoId") String kakaoId,
+			@RequestParam("name") String name,
+			@RequestParam("phoneNumber") String phoneNumber,
+			@RequestParam(value = "email", required = false) String email) throws NoSuchAlgorithmException {
+		
+		userBO.addUserKakao(kakaoId, name, phoneNumber, email);
+		
+		Map<String, Object> result = new HashMap<>();
+		result.put("code", 200);
+		result.put("result", "성공");
+		return result;
+	} //-- 회원가입 API
+	
 	
 	// 아이디 중복확인 API
 	@GetMapping("/is-duplicated-id")

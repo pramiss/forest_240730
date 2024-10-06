@@ -56,15 +56,30 @@ public class UserBO {
 		return userMapper.selectUserByLoginIdAndPassword(loginId, password);
 	}
 	
+	// kakao user 가져오기
+	public User getUserByKakaoId(String kakaoId) {
+		return userMapper.selectUserByKakaoId(kakaoId);
+	}
 	
 	// User 추가
 	public void addUser(String loginId, String password, String name, String phoneNumber, String email) {
 		userMapper.insertUser(loginId, password, name, phoneNumber, email);
 	}
 	
+	// kakao user 추가
+	public void addUserKakao(String kakaoId, String name, String phoneNumber, String email) {
+		userMapper.insertUserKakao(kakaoId, name, phoneNumber, email);
+	}
+	
+	
 	// User 업데이트
 	public void updateUserById(int id, String password, String name, String phoneNumber, String email, String address) {
 		userMapper.updateUserById(id, password, name, phoneNumber, email, address);
+	}
+	
+	// Kakao user 업데이트
+	public void updateKakaoUserByKakaoId(String kakaoId, String name, String phoneNumber, String email, String address) {
+		userMapper.updateKakaoUserByKakaoId(kakaoId, name, phoneNumber, email, address);
 	}
 	
 	// User의 List<LikeEntity> 조회

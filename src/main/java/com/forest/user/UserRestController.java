@@ -76,4 +76,37 @@ public class UserRestController {
 		result.put("result", "성공");
 		return result;
 	} //-- 회원정보수정API
+	
+	/**
+	 * 카카오 회원정보수정 API
+	 * @param currentPassword
+	 * @param newPassword
+	 * @param name
+	 * @param phoneNumber
+	 * @param email
+	 * @param address
+	 * @param session
+	 * @return
+	 * @throws NoSuchAlgorithmException
+	 */
+	@PutMapping("/update/kakao")
+	public Map<String, Object> updateKako(
+			@RequestParam("name") String name,
+			@RequestParam("phoneNumber") String phoneNumber,
+			@RequestParam(value = "email", required = false) String email,
+			@RequestParam(value = "address", required = false) String address,
+			HttpSession session) throws NoSuchAlgorithmException {
+
+		// 현재 session 정보
+		String userKakaoId = (String)session.getAttribute("userKakaoId");
+		
+		// 업데이트
+		userBO.updateKakaoUserByKakaoId(userKakaoId, name, phoneNumber, email, address);
+		
+		// 리턴
+		Map<String, Object> result = new HashMap<>();
+		result.put("code", 200);
+		result.put("result", "성공");
+		return result;
+	} //-- 회원정보수정API
 }

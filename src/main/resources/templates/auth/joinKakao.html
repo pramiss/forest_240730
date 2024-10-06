@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/subLayout}">
+
+<!-- subLayout : contents -->
+<section layout:fragment="contents" class="contents">
+	<div class="join-box">
+		<h2 class="text-center text-warning bg-dark py-2 rounded-pill">Sign up by KaKao</h2>
+		
+		<div class="info-form-box mt-3">
+			<form method="post" action="/auth/sign-up/kakao">
+				
+				<input type="text" name="kakaoId" id="kakaoId" class="d-none" th:value="${kakaoId}">
+				
+				<input type="text" name="name" id="name" class="form-control mt-4" placeholder="이름" th:value="${nickname}">
+				<div id="checkName" class="small-red-text ml-1 d-none">
+					이름을 입력해주세요.
+				</div>
+				
+				<input type="text" name="phoneNumber" id="phoneNumber" class="form-control mt-2" placeholder="휴대폰 번호 (숫자만 입력)">
+				<div id="checkPhoneNumberConfrim" class="d-none ml-1 small-red-text">
+					휴대전화 11자리를 입력해주세요.
+				</div>
+				
+				<input type="text" name="email" id="email" class="form-control mt-2" placeholder="이메일 (선택)">				
+
+				<div class="x-center mt-4">
+					<button type="submit" id="joinBtn" class="bg-dark">회원가입</button>
+				</div>
+			</form>
+		</div>
+		
+	</div> <!-- 회원가입 박스 -->
+</section>
+
+<!-- subLayout : script -->
+<script layout:fragment="script">
+	$(document).ready(function() {
+		
+		// 회원가입
+		$('form').on('submit', function(e) {
+			e.preventDefault();
+			
+			$('#checkName').addClass('d-none');
+			$('#checkPhoneNumberConfrim').addClass('d-none');
+
+			let kakaoId = $('#kakaoId').val();
+			let name = $('#name').val().trim();
+			let phoneNumber = $('#phoneNumber').val().trim();
+			let email = $('#email').val().trim();
+			
+			// validation - 입력
+			let checkOk = true;
+			
+			if (!name) {
+				$('#checkName').removeClass('d-none');
+				checkOk = false;
+			}
+			if (phoneNumber.length != 11) {
+				$('#checkPhoneNumberConfrim').removeClass('d-none');
+				checkOk = false;
+			}
+			if (checkOk == false) {
+				return false;
+			}
+			
+			// AJAX
+			let url = $(this).attr('action');
+			let params = $(this).serialize();
+
+			console.log(params);
+			
+			$.post(url, params)
+			.done(function(data) {
+				if (data.code == 200) {
+					alert("회원가입 되었습니다. 다시 로그인 해주세요.");
+					location.href = "/auth/login";
+				}
+			})
+			.fail(function(e) {
+				alert("AJAX ERROR : 회원가입 실패");
+			}) //-- ajax
+			
+		}) //-- 회원가입
+		
+	}) //-- ready
+</script>
+
+
+</html>
