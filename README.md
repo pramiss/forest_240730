@@ -43,3 +43,22 @@
 | **Database** | `MySQL` `JPA` `MyBatis` |
 | **배포/형상 관리** | `AWS EC2` `GitHub` |
 
+</br>
+</br>
+
+### 📝 기획 및 설계
+
+</br>
+</br>
+
+### ✨ 핵심 개발 내용
+
+#### 메인 페이지 구성
+| 베스트셀러 | 신간 페이지 | 중고 도서 |
+| :---: | :---: | :---: |
+| <img width="200" alt="physical-track-icon" src="https://github.com/user-attachments/assets/e8725370-2390-4efc-95ab-b9e756389531" /> | ㅇㅇ | ㅇㅇ |
+| 화면 설명~~ | 화면 설명~~ | 화면 설명~~ |
+
+
+
+
