@@ -1,3 +1,5 @@
+</br>
+
 <div align="center">
   <!-- logo -->
   <img width="350" height="64" alt="Forest - README" src="https://github.com/user-attachments/assets/3dabf50e-1fa8-41e0-b91b-ba94ccd9a640" />
@@ -53,11 +55,11 @@
 
 ### ✨ 핵심 개발 내용
 
-#### 메인 페이지 구성
-| 베스트셀러 | 신간 페이지 | 중고 도서 |
-| :---: | :---: | :---: |
-| <img width="200" alt="physical-track-icon" src="https://github.com/user-attachments/assets/e8725370-2390-4efc-95ab-b9e756389531" /> | ㅇㅇ | ㅇㅇ |
-| 화면 설명~~ | 화면 설명~~ | 화면 설명~~ |
+#### 로그인 & 회원가입
+| 일반 로그인 | 카카오 로그인 |
+| :---: | :---: |
+| <img width="500" alt="physical-track-icon" src="https://github.com/user-attachments/assets/3dbd3bba-2a2c-45b0-bc58-3c8ba742e76a" /> | <img width="500" alt="physical-track-icon" src="https://github.com/user-attachments/assets/f3fe7930-3593-40bf-ba57-9c99704eca5e" /> |
+| 일반 회원을 위한 사용자 신규 회원가입 및 로그인 절차입니다. | 카카오 계정을 통해 로그인을 할 수 있습니다. |
 
 
 
