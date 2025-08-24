@@ -53,14 +53,23 @@
 </br>
 </br>
 
+### ✨ 알라딘 API
+
 ### ✨ 핵심 개발 내용
 
-#### 로그인 & 회원가입
+#### 1. 로그인 & 회원가입
 | 일반 로그인 | 카카오 로그인 |
 | :---: | :---: |
 | <img width="500" alt="physical-track-icon" src="https://github.com/user-attachments/assets/3dbd3bba-2a2c-45b0-bc58-3c8ba742e76a" /> | <img width="500" alt="physical-track-icon" src="https://github.com/user-attachments/assets/f3fe7930-3593-40bf-ba57-9c99704eca5e" /> |
 | 일반 회원을 위한 사용자 신규 회원가입 및 로그인 절차입니다. | 카카오 계정을 통해 로그인을 할 수 있습니다. |
 
+#### 2. 주요 화면 소개 (TODO)
+| 주요 페이지 | 검색 기능 | 검색 기능 |
+| :---: | :---: | :---: |
+| !! | !! | !! |
+| 일반 회원을 위한 사용자 신규 회원가입 및 로그인 절차입니다. | 카카오 계정을 통해 로그인을 할 수 있습니다. | 카카오 계정을 통해 로그인을 할 수 있습니다. |
 
+#### 3. 좋아요 & 장바구니 (TODO)
 
+#### 4. 관리자 페이지 (TODO)
 
