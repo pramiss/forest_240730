@@ -23,7 +23,7 @@ public class BatchJob {
 	}
 	
 	// 2일마다 "배송중"인 주문을 "배송완료"로 바꾸기
-    @Scheduled(cron = "0 0 0 * * *")
+	@Scheduled(cron = "0 0 0 */2 * *")
 	public void orderStatusTask() {
 		
 		// 1. order 중 "배송중" 인 order들을 모두 가지고 온다. (order id가 필요)
