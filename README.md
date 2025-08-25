@@ -63,9 +63,8 @@
 
 | 도서 정보 |
 | :---: |
-| <img width="800" alt="physical-track-icon" src="https://github.com/user-attachments/assets/b19b276b-2d0a-4f72-8581-6bcbc45d5774" /> |
+| <img width="600" alt="physical-track-icon" src="https://github.com/user-attachments/assets/dc5b0828-64a5-4205-ade4-af99308efa76" /> |
 | 상세 도서 페이지에서 필요한 도서 정보는 알라딘 API를 통해  |
-
 
 
 </br>
