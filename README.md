@@ -53,7 +53,7 @@
 #### 로그인 & 회원가입
 | 일반 로그인 | 카카오 로그인 |
 | :---: | :---: |
-| <img width="500" alt="physical-track-icon" src="https://github.com/user-attachments/assets/3dbd3bba-2a2c-45b0-bc58-3c8ba742e76a" /> | <img width="500" alt="physical-track-icon" src="https://github.com/user-attachments/assets/f3fe7930-3593-40bf-ba57-9c99704eca5e" /> |
+| <img width="500" alt="login-basic" src="https://github.com/user-attachments/assets/3dbd3bba-2a2c-45b0-bc58-3c8ba742e76a" /> | <img width="500" alt="login-kakao" src="https://github.com/user-attachments/assets/f3fe7930-3593-40bf-ba57-9c99704eca5e" /> |
 | 일반 회원을 위한 사용자 신규 회원가입 및 로그인 절차입니다. | 카카오 계정을 통해 로그인을 할 수 있습니다. |
 
 </br>
@@ -61,10 +61,19 @@
 
 #### 도서 정보 🔗 알라딘 API
 
-| 도서 정보 |
+<div align="center">
+
+| 베스트셀러/시간 도서 |
 | :---: |
-| <img width="600" alt="physical-track-icon" src="https://github.com/user-attachments/assets/dc5b0828-64a5-4205-ade4-af99308efa76" /> |
-| 상세 도서 페이지에서 필요한 도서 정보는 알라딘 API를 통해  |
+| <img width="700" alt="aladin-0" src="https://github.com/user-attachments/assets/097379fb-f3a2-4ae6-8778-91bdb3d467cf" /> |
+| 베스트셀러와 신간 도서 목록을 알라딘 Open API를 통해 불러옵니다. </br> 상세 도서 페이지에서는 책의 개요를 보여주고 '신품도서' 항목을 </br> 클릭하면 알라딘 사이트의 해당 도서의 판매 링크로 연결됩니다. |
+
+| 중고 도서 목록 & 좋아요/장바구니 |
+| :---: |
+| <img width="700" alt="aladin-1" src="https://github.com/user-attachments/assets/3a86b66d-8ac0-47eb-9502-c261cc0cd90c" /> |
+| (검색창에서 제목/저자/출판사 검색어로 도서를 찾을 수 있습니다.) </br> 중고 도서가 있는 제품은 해당 상품의 구매 링크로 이동할 수 있습니다. </br> 좋아요/장바구니 기능을 이용해 상품을 저장해두고 구매를 할 수 있습니다. |
+
+</div>
 
 
 </br>
@@ -72,8 +81,11 @@
 
 #### 결제 시스템
 
+<div align="center">
+
 | 결제 프로세스 |
 | :---: |
-| <img width="800" alt="physical-track-icon" src="https://github.com/user-attachments/assets/b19b276b-2d0a-4f72-8581-6bcbc45d5774" /> |
+| <img width="800" alt="payment" src="https://github.com/user-attachments/assets/b19b276b-2d0a-4f72-8581-6bcbc45d5774" /> |
 | PortOne API를 통해 결제를 진행합니다. 사용자의 배송 정보를 받고 주문 정보를 데이터베이스에 저장합니다. </br> 주문된 상품은 자동으로 판매상태가 변경되고 구매불가 상태로 변경됩니다. |
 
+</div>
